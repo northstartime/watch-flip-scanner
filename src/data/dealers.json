@@ -1,0 +1,29 @@
+[
+  {
+    "id": "daniel_mcmahon",
+    "company": "Independent Dealer",
+    "contact": "Daniel McMahon",
+    "platforms": ["MODA"],
+    "dealerScore": 87,
+    "relationship": "Active",
+    "specialties": ["Rolex"],
+    "notes": [
+      "Friendly",
+      "FaceTime offered",
+      "124060 at $11,300"
+    ]
+  },
+  {
+    "id": "howard_time",
+    "company": "Howard Time Co.",
+    "contact": "Howard",
+    "platforms": ["Instagram"],
+    "dealerScore": 91,
+    "relationship": "Active",
+    "specialties": ["Rolex"],
+    "notes": [
+      "Excellent communication",
+      "Long-term relationship"
+    ]
+  }
+]

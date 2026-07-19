@@ -3,6 +3,7 @@ import fs from "fs";
 import { getEbayListings } from "./markets/ebay.js";
 import { evaluateWatch } from "./businessScore.js";
 import { evaluateAuction } from "./auctionIntelligence.js";
+import { getDealers } from "./dealerManager.js";
 import { exec } from "child_process";
 function money(value) {
   return Number(value || 0).toLocaleString("en-US", {
@@ -104,7 +105,8 @@ output += `Reason : ${auction.message}\n\n`;
   output += `Auction Mode:     NOT AN AUCTION\n\n`;
 }
 
-  output += `North Star Score:  ${number(score)}/100\n\n`;
+  output += `North Star Score:  ${number(score)}/1
+  n\n`;
 
   output += "Reasons:\n";
 
@@ -144,6 +146,10 @@ async function main() {
     console.log("       NORTH STAR SCANNER 3.0");
     console.log("========================================");
     console.log("Fetching live eBay listings...\n");
+    const dealers = getDealers();
+
+console.log("===== DEALERS =====");
+console.table(dealers);
 
 const listings = await getEbayListings();
 
