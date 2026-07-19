@@ -11,3 +11,11 @@ export function getDealers() {
   const data = fs.readFileSync(dealersFile, "utf8");
   return JSON.parse(data);
 }
+
+export function getDealer(name) {
+  const dealers = getDealers();
+
+  return dealers.find(
+    dealer => dealer.name.toLowerCase() === name.toLowerCase()
+  );
+}
