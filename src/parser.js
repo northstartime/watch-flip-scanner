@@ -1,7 +1,11 @@
 export function parseListing(listing) {
 
   // Find asking price
- const priceMatch = listing.match(/(?:\$)?([\d,]{4,8})\s*\+?\s*label/i);
+const priceMatch =
+  listing.match(/\basking\s*(?:price\s*)?[:\-]?\s*\$?\s*([\d,]{3,8})\b/i) ||
+  listing.match(/\bprice\s*[:\-]?\s*\$?\s*([\d,]{3,8})\b/i) ||
+  listing.match(/\$?\s*([\d,]{3,8})\s*\+\s*(?:l|label)\b/i) ||
+  listing.match(/^\s*\$?\s*([\d,]{3,8})\s*(?:firm|shipped)\b/im);
 
   // Find reference number
  const referenceMatch =
@@ -24,7 +28,7 @@ export function parseListing(listing) {
 if (/\bDJ\b/i.test(listing)) {
   model = "Datejust";
   if (!brand) brand = "Rolex";
-} else if (/\bSUB\b/i.test(listing)) {
+} else if (/\b(SUB|SUBMARINER)\b/i.test(listing)) {
   model = "Submariner";
   if (!brand) brand = "Rolex";
 } else if (/\bGMT\b/i.test(listing)) {
@@ -43,9 +47,12 @@ const hasPapers = /\bpaper|card\b/i.test(listing);
 const yearMatch = listing.match(/20\d{2}/);
 
 const conditionMatch =
-   listing.match(/(\d(?:\.\d)?\/10)/) 
-    listing.match(/condition[: ]+([^\n]+)/i);
-const isPolished = /polished/i.test(listing);
+  listing.match(/(\d(?:\.\d)?\/10)/) ||
+  listing.match(/condition[: ]+([^\n]+)/i);
+
+const isPolished =
+  /\bpolished\b/i.test(listing) &&
+  !/\bunpolished\b/i.test(listing);
 
 const scrambledSerial = /scrambled/i.test(listing);
 

@@ -17,17 +17,36 @@ function ask(question) {
   });
 }
 
-async function main() {
+export async function main(listingText = null) {
   console.log("\n==============================");
   console.log(" NORTH STAR IMPORT");
   console.log("==============================");
 
-const listing = fs.readFileSync("listing.txt", "utf8");
+const listing =
+  listingText ??
+  fs.readFileSync("listing.txt", "utf8");
+
   console.log("\n==============================");
   console.log(" ORIGINAL LISTING");
   console.log("==============================\n");
 
 const result = parseListing(listing);
+if (result.price == null) {
+  return {
+    brand: result.brand,
+    model: result.model,
+    reference: result.reference,
+    year: result.year,
+    price: null,
+    marketValue: null,
+    projectedProfit: null,
+    maxOffer: null,
+    score: 0,
+    stars: "",
+    decision: "REVIEW",
+    reasons: ["Price not recognized — manual review required"]
+  };
+}
 const marketValue = estimateMarketValue(result.originalListing);
 const spread = marketValue - result.price;
 const sellingFee = marketValue * exit.sellingFeePercent;
@@ -185,8 +204,22 @@ for (const reason of reasons) {
 console.log("Decision: " + decision);
 
 
-
+return {
+  brand: result.brand,
+  model: result.model,
+  reference: result.reference,
+  year: result.year,
+  price: result.price,
+  marketValue,
+  projectedProfit,
+  maxOffer,
+  score,
+  stars,
+  decision,
+  reasons
+};
   rl.close();
 }
 
-main();
+
+
