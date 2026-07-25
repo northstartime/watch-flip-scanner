@@ -119,6 +119,11 @@ if (watch.listingConflict) {
 }
 
 integrityScore = Math.max(0, integrityScore);
+// Apply integrity penalty
+if (integrityScore < 90) score -= 3;
+if (integrityScore < 80) score -= 5;
+if (integrityScore < 70) score -= 8;
+if (integrityScore < 60) score -= 12;
   if (watch.trustedSeller) {
     score += 10;
     reasons.push("Trusted seller");
@@ -212,7 +217,12 @@ integrityScore = Math.max(0, integrityScore);
    */
   let decision = "🔴 PASS";
 
-  if (profit >= 1500 && roi >= 12 && score >= 72) {
+  if (
+  profit >= 1500 &&
+  roi >= 12 &&
+  score >= 72 &&
+watch.hasBoxAndPapers
+) {
     decision = "🟢 BUY NOW";
   } else if (profit >= 1000 && roi >= 10 && score >= 60) {
     decision = "🟡 STRONG WATCH";

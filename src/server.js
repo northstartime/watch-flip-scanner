@@ -1,5 +1,19 @@
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+
 import express from "express";
 import { main } from "./quickEvaluate.js";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const opportunitiesFile = path.join(
+    __dirname,
+    "data",
+    "opportunities.json"
+);
+
 const app = express();
 
 app.use(express.urlencoded({ extended: true }));
@@ -137,8 +151,22 @@ li {
                 <p><strong>Year:</strong> ${evaluation.year ?? "Unknown"}</p>
                 <p><strong>Asking Price:</strong> $${evaluation.price ?? "Unknown"}</p>
                 <p><strong>Market Value:</strong> $${evaluation.marketValue ?? "Unknown"}</p>
-                <p><strong>Projected Profit:</strong> $${evaluation.projectedProfit.toFixed(2)}</p>
-                <p><strong>Maximum Offer:</strong> $${evaluation.maxOffer}</p>
+                <p>
+    <strong>Projected Profit:</strong>
+    ${
+      evaluation.projectedProfit == null
+        ? "Manual review required"
+        : `$${evaluation.projectedProfit.toFixed(2)}`
+    }
+</p>
+     <p>
+    <strong>Maximum Offer:</strong>
+    ${
+      evaluation.maxOffer == null
+        ? "Not calculated"
+        : `$${evaluation.maxOffer}`
+    }
+</p>          
 
                 <h2>
                     North Star Score:

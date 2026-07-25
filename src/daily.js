@@ -1,6 +1,7 @@
 import fs from "fs";
 
 import { getEbayListings } from "./markets/ebay.js";
+import { getModaListings } from "./markets/moda.js";
 import { evaluateWatch } from "./businessScore.js";
 import { evaluateAuction } from "./auctionIntelligence.js";
 import { getDealers } from "./dealerManager.js";
@@ -105,8 +106,7 @@ output += `Reason : ${auction.message}\n\n`;
   output += `Auction Mode:     NOT AN AUCTION\n\n`;
 }
 
-  output += `North Star Score:  ${number(score)}/1
-  n\n`;
+ output += `North Star Score:  ${number(score)}/100\n`;
 
   output += "Reasons:\n";
 
@@ -151,7 +151,19 @@ async function main() {
 console.log("===== DEALERS =====");
 console.table(dealers);
 
-const listings = await getEbayListings();
+// Get listings from each source
+const ebayListings = await getEbayListings();
+
+// Placeholder for future sources
+const modaListings = await getModaListings();
+const dealerListings = [];
+
+// Combine all listings
+const listings = [
+  ...ebayListings,
+  ...modaListings,
+  ...dealerListings
+];
 
 
 console.log(`Listings returned: ${listings.length}`);

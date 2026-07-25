@@ -1,11 +1,24 @@
 export function parseListing(listing) {
 
   // Find asking price
-const priceMatch =
-  listing.match(/\basking\s*(?:price\s*)?[:\-]?\s*\$?\s*([\d,]{3,8})\b/i) ||
-  listing.match(/\bprice\s*[:\-]?\s*\$?\s*([\d,]{3,8})\b/i) ||
-  listing.match(/\$?\s*([\d,]{3,8})\s*\+\s*(?:l|label)\b/i) ||
-  listing.match(/^\s*\$?\s*([\d,]{3,8})\s*(?:firm|shipped)\b/im);
+const pricePatterns = [
+  /\basking\s*(?:price\s*)?[:\-]?\s*\$?\s*([\d,]{3,8})\b/i,
+  /\bprice\s*[:\-]?\s*\$?\s*([\d,]{3,8})\b/i,
+  /\$?\s*([\d,]{3,8})\s*\+\s*(?:l|label)\b/i,
+  /\$?\s*([\d,]{3,8})\s*(?:obo|firm|shipped|net)\b/i,
+  /\$\s*([\d,]{3,8})\b/i
+];
+
+let priceMatch = null;
+
+for (const pattern of pricePatterns) {
+  const match = listing.match(pattern);
+
+  if (match) {
+    priceMatch = match;
+    break;
+  }
+}
 
   // Find reference number
  const referenceMatch =
@@ -25,19 +38,27 @@ const priceMatch =
   // Find model
   let model = null;
 
-if (/\bDJ\b/i.test(listing)) {
+if (/(\bDJ\b|DATEJUST|126300|126334|126333|116234|16234)/i.test(listing)) {
   model = "Datejust";
   if (!brand) brand = "Rolex";
-} else if (/\b(SUB|SUBMARINER)\b/i.test(listing)) {
+
+} else if (/(\bSUB\b|SUBMARINER|124060|126610|116610|16610)/i.test(listing)) {
   model = "Submariner";
   if (!brand) brand = "Rolex";
-} else if (/\bGMT\b/i.test(listing)) {
+
+} else if (/(\bGMT\b|BATMAN|BATGIRL|PEPSI|SPRITE)/i.test(listing)) {
   model = "GMT-Master II";
   if (!brand) brand = "Rolex";
-} else if (/\bEXP\b/i.test(listing)) {
+
+} else if (/(\bEXP\s*II\b|EXPLORER\s*II|226570|216570|POLAR)/i.test(listing)) {
+  model = "Explorer II";
+  if (!brand) brand = "Rolex";
+
+} else if (/(\bEXP\b|EXPLORER|124270|214270)/i.test(listing)) {
   model = "Explorer";
   if (!brand) brand = "Rolex";
-} else if (/\bAK\b/i.test(listing)) {
+
+} else if (/(\bAK\b|AIR.?KING|126900|116900)/i.test(listing)) {
   model = "Air-King";
   if (!brand) brand = "Rolex";
 }

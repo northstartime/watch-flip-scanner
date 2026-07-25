@@ -5,6 +5,12 @@ import { estimateMarketValue, getMarketData } from "../marketValue.js";
 const EBAY_SEARCH_URL =
   "https://api.ebay.com/buy/browse/v1/item_summary/search";
 
+
+const EBAY_ITEM_URL =
+  "https://api.ebay.com/buy/browse/v1/item";
+
+
+
 const SEARCHES = [
   { query: "Rolex 126900", brand: "Rolex" },
   { query: "Rolex 124270", brand: "Rolex" },
@@ -94,7 +100,20 @@ function getShipping(item) {
     shippingOptions[0]?.shippingCost?.value ?? 0
   );
 }
+async function getFullItemDetails(itemId, token) {
+  const response = await axios.get(
+    `${EBAY_ITEM_URL}/${encodeURIComponent(itemId)}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "X-EBAY-C-MARKETPLACE-ID": "EBAY_US",
+      },
+      timeout: 20000,
+    }
+  );
 
+  return response.data;
+}
 function isLikelyCompleteWatch(item) {
   const title = normalizeText(item.title);
 
@@ -133,6 +152,18 @@ function isLikelyCompleteWatch(item) {
 function detectBoxAndPapers(title) {
   const text = normalizeText(title);
 
+  const explicitlyMissing =
+    text.includes("no box") ||
+    text.includes("no original box") ||
+    text.includes("without box") ||
+    text.includes("no papers") ||
+    text.includes("without papers") ||
+    text.includes("watch only");
+
+  if (explicitlyMissing) {
+    return false;
+  }
+
   const boxTerms =
     text.includes("box") ||
     text.includes("full set") ||
@@ -145,6 +176,8 @@ function detectBoxAndPapers(title) {
 
   return boxTerms && paperTerms;
 }
+
+
 
 function detectFullLinks(title) {
   const text = normalizeText(title);
@@ -220,23 +253,34 @@ const estimatedMarketValue =
   if (priceRatio < 0.35) {
     return null;
   }
-  const buyingOptions = Array.isArray(item.buyingOptions)
-  ? item.buyingOptions
+const buyingOptions = Array.isArray(item.buyingOptions)
+  ? item.buyingOptions.map((option) =>
+      String(option).toUpperCase()
+    )
   : [];
 
 const isAuction =
-  buyingOptions.some(
-    (option) => String(option).toUpperCase() === "AUCTION"
-  ) || item.currentBidPrice?.value !== undefined;
+  buyingOptions.includes("AUCTION") ||
+  item.currentBidPrice?.value !== undefined;
+
+const acceptsBestOffer =
+  buyingOptions.includes("BEST_OFFER");
+
+const purchaseType = isAuction
+  ? "AUCTION"
+  : acceptsBestOffer
+    ? "BEST_OFFER"
+    : "FIXED_PRICE";
   return {
     title: item.title || "Untitled eBay listing",
     brand,
     model: item.title || "Unknown model",
 
     buyPrice: price,
-    buyingOption: isAuction ? "AUCTION" : "FIXED_PRICE",
+  buyingOption: purchaseType,
 currentBid: isAuction ? price : undefined,
-auctionType: isAuction ? "auction" : "fixed price",
+auctionType: isAuction ? "auction" : null,
+acceptsBestOffer,
     
 
     marketValue: estimatedMarketValue,
@@ -246,12 +290,12 @@ auctionType: isAuction ? "auction" : "fixed price",
     fees: 300,
     shipping: getShipping(item),
 
-    hasBoxAndPapers: detectBoxAndPapers(item.title),
+  hasBoxAndPapers: false,
     fullLinks: detectFullLinks(item.title),
     trustedSeller: false,
 
     condition: determineCondition(item),
-    source: "eBay Live",
+  source: "eBay",
     url: item.itemWebUrl || "",
     itemId: item.itemId || item.itemWebUrl || "",
 
@@ -308,8 +352,8 @@ export async function getEbayListings() {
           /*
            * Auction listings located in the United States.
            */
-          filter:
-          "buyingOptions:{AUCTION|FIXED_PRICE},itemLocationCountry:US",  
+         filter:
+"buyingOptions:{FIXED_PRICE},itemLocationCountry:US",
         },
 
         timeout: 20000,
@@ -317,6 +361,10 @@ export async function getEbayListings() {
 
       const items =
         response.data?.itemSummaries || [];
+if (items.length > 0 && search.query === "Rolex 126300") {
+  const fullItem = await getFullItemDetails(items[0].itemId, token);
+
+}
 
       console.log(
         `${search.query}: ${items.length} listings`
