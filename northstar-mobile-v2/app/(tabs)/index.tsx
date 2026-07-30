@@ -1,6 +1,11 @@
 import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { Pressable, ScrollView, StyleSheet } from 'react-native';
+import {
+  Image,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+} from 'react-native';
 
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
@@ -15,6 +20,8 @@ type Opportunity = {
   score: number;
   source: string;
   decision: string;
+  url: string;
+image: string;
 };
 
 export default function HomeScreen() {
@@ -38,7 +45,13 @@ export default function HomeScreen() {
       setOpportunities(data);
     } catch (err) {
       console.log(err);
-      alert(`Fetch failed:\n${String(err)}`);
+    console.log('FETCH ERROR:', err);
+
+if (err instanceof Error) {
+  alert(err.message);
+} else {
+  alert(JSON.stringify(err));
+}
     } finally {
       setLoading(false);
     }
@@ -82,8 +95,12 @@ export default function HomeScreen() {
             key={item.id ?? index}
             style={styles.card}
           >
+            <Image
+  source={{ uri: item.image }}
+  style={styles.watchImage}
+/>
             <ThemedText
-              type="defaultSemiBold"
+             
               style={styles.title}
             >
               {item.title}
@@ -141,21 +158,23 @@ export default function HomeScreen() {
             onPress={() =>
   router.push({
     pathname: '/opportunity',
-    params: {
-      title: item.title,
-      price: item.price.toString(),
-      marketValue: item.marketValue.toString(),
-      projectedProfit: item.projectedProfit.toString(),
-      score: item.score.toString(),
-      decision: item.decision,
-      source: item.source,
-    },
+params: {
+  title: item.title,
+  price: item.price.toString(),
+  marketValue: item.marketValue.toString(),
+  projectedProfit: item.projectedProfit.toString(),
+  score: item.score.toString(),
+  decision: item.decision,
+  source: item.source,
+  url: item.url,
+  image: item.image,
+},
   })
 }
             >
-              <ThemedText style={styles.buttonText}>
-                Review with ChatGPT
-              </ThemedText>
+  <ThemedText style={styles.buttonText}>
+  🌐 View Opportunity
+</ThemedText>
             </Pressable>
           </ThemedView>
         ))
@@ -218,7 +237,13 @@ const styles = StyleSheet.create({
     marginTop: 6,
     marginBottom: 6,
   },
-
+watchImage: {
+  width: '100%',
+  height: 220,
+  borderRadius: 12,
+  marginBottom: 14,
+  resizeMode: 'contain',
+},
   button: {
     marginTop: 18,
     backgroundColor: '#C8A44D',

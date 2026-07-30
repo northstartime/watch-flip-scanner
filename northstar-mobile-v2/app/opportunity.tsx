@@ -1,86 +1,88 @@
 import { router, useLocalSearchParams } from 'expo-router';
-import { Pressable, StyleSheet } from 'react-native';
+import {
+  Image,
+  Linking,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+} from 'react-native';
 
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 
 export default function OpportunityScreen() {
-   const {
-  title,
-  price,
-  marketValue,
-  projectedProfit,
-  score,
-  decision,
-  source,
-} = useLocalSearchParams(); 
-  return (
-    <ThemedView style={styles.container}>
+  const {
+    title,
+    price,
+    marketValue,
+    projectedProfit,
+    score,
+    decision,
+    source,
+    url,
+    image,
+  } = useLocalSearchParams();
 
-      <ThemedText type="title">
-        Rolex Explorer II
+  const decisionColor =
+    decision === 'BUY'
+      ? '#4CAF50'
+      : decision === 'HOLD'
+      ? '#FFC107'
+      : '#FF5252';
+
+  return (
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={styles.content}
+      showsVerticalScrollIndicator={false}
+    >
+      {typeof image === 'string' && image.length > 0 && (
+        <Image source={{ uri: image }} style={styles.image} />
+      )}
+
+      <ThemedText type="title" style={styles.title}>
+        {title || 'Unknown Watch'}
       </ThemedText>
 
-      <ThemedText style={styles.buy}>
-        🟢 BUY
+      <ThemedText style={[styles.decision, { color: decisionColor }]}>
+        {decision}
       </ThemedText>
 
       <ThemedView style={styles.card}>
-
-        <ThemedText>
-          Asking Price
-        </ThemedText>
-
+        <ThemedText>Asking Price</ThemedText>
         <ThemedText type="defaultSemiBold">
-          $6,999
+          ${Number(price).toLocaleString()}
         </ThemedText>
 
-        <ThemedText>
-          Market Value
-        </ThemedText>
-
+        <ThemedText style={styles.spacing}>Market Value</ThemedText>
         <ThemedText type="defaultSemiBold">
-          $8,200
+          ${Number(marketValue).toLocaleString()}
         </ThemedText>
 
-        <ThemedText>
-          Projected Profit
+        <ThemedText style={styles.spacing}>Projected Profit</ThemedText>
+        <ThemedText type="defaultSemiBold" style={styles.green}>
+          ${Number(projectedProfit).toLocaleString()}
         </ThemedText>
 
-        <ThemedText
-          type="defaultSemiBold"
-          style={styles.green}
-        >
-          +$866
+        <ThemedText style={styles.spacing}>North Star Score</ThemedText>
+        <ThemedText type="defaultSemiBold" style={styles.green}>
+          {score}
         </ThemedText>
 
-        <ThemedText>
-          North Star Score
-        </ThemedText>
-
-        <ThemedText
-          type="defaultSemiBold"
-          style={styles.green}
-        >
-          ★★★★☆ 86
-        </ThemedText>
-
-        <ThemedText>
-          Source
-        </ThemedText>
-
-        <ThemedText>
-          eBay
-        </ThemedText>
-
+        <ThemedText style={styles.spacing}>Source</ThemedText>
+        <ThemedText>{source}</ThemedText>
       </ThemedView>
 
       <Pressable
-        style={styles.button}
-        onPress={() => router.push('/evaluate')}
+        style={styles.goldButton}
+        onPress={() => {
+          if (typeof url === 'string' && url.length > 0) {
+            Linking.openURL(url);
+          }
+        }}
       >
         <ThemedText style={styles.buttonText}>
-          Review with ChatGPT
+          🌐 Open Original Listing
         </ThemedText>
       </Pressable>
 
@@ -89,21 +91,39 @@ export default function OpportunityScreen() {
         onPress={() => router.back()}
       >
         <ThemedText style={styles.buttonText}>
-          ← Back
+          ← Back to Opportunities
         </ThemedText>
       </Pressable>
-
-    </ThemedView>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-
   container: {
     flex: 1,
     backgroundColor: '#0B0B0B',
+  },
+
+  content: {
     padding: 24,
-    justifyContent: 'center',
+    paddingBottom: 40,
+  },
+
+  image: {
+    width: '100%',
+    height: 220,
+    borderRadius: 16,
+    marginBottom: 20,
+  },
+
+  title: {
+    marginBottom: 8,
+  },
+
+  decision: {
+    fontSize: 26,
+    fontWeight: '700',
+    marginBottom: 20,
   },
 
   card: {
@@ -112,39 +132,35 @@ const styles = StyleSheet.create({
     padding: 20,
     borderWidth: 2,
     borderColor: '#2F6FED',
-    gap: 8,
-    marginVertical: 24,
+    marginBottom: 24,
   },
 
-  buy: {
-    color: '#4CAF50',
-    fontSize: 22,
-    fontWeight: '700',
-    marginTop: 16,
+  spacing: {
+    marginTop: 12,
   },
 
   green: {
     color: '#4CAF50',
   },
 
-  button: {
+  goldButton: {
     backgroundColor: '#C8A44D',
-    padding: 16,
+    paddingVertical: 16,
     borderRadius: 14,
     alignItems: 'center',
-    marginBottom: 14,
+    marginBottom: 12,
   },
 
   backButton: {
     backgroundColor: '#2F6FED',
-    padding: 16,
+    paddingVertical: 16,
     borderRadius: 14,
     alignItems: 'center',
   },
 
   buttonText: {
-    color: 'white',
+    color: '#FFFFFF',
     fontWeight: '700',
+    fontSize: 16,
   },
-
 });
