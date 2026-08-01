@@ -32,15 +32,17 @@ export default function HomeScreen() {
     try {
       setLoading(true);
 
-      const response = await fetch(
-        'http://192.168.86.78:3000/api/opportunities'
-      );
+  const response = await fetch(
+  "https://watch-flip-scanner.onrender.com/api/opportunities"
+);
 
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}`);
       }
 
       const data = await response.json();
+      console.log("DATA:", data);
+console.log("COUNT:", data.length);
 
       setOpportunities(data);
     } catch (err) {
@@ -57,9 +59,9 @@ if (err instanceof Error) {
     }
   }
 
-  useEffect(() => {
-    loadOpportunities();
-  }, []);
+useEffect(() => {
+  loadOpportunities();
+}, []);
 
   return (
     <ScrollView

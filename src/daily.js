@@ -272,13 +272,49 @@ END OF NORTH STAR REPORT
 `;
 
     console.log(report);
+// ------------------------------------
+// Update mobile opportunities
+// ------------------------------------
 
+const mobileOpportunities = opportunities.map(
+  ({ watch, profit, score, decision, roi }) => ({
+    id: watch.id || Date.now() + Math.random(),
+
+    brand: watch.brand,
+    title: watch.title,
+
+    price: watch.buyPrice,
+    marketValue: watch.marketValue,
+    projectedProfit: Math.round(profit),
+
+    score,
+    decision,
+
+    source: watch.source,
+
+    url: watch.url,
+
+    image: watch.image,
+
+    roi: Math.round(roi),
+  })
+);
+
+fs.writeFileSync(
+  "data/opportunities.json",
+  JSON.stringify(mobileOpportunities, null, 2),
+  "utf8"
+);
+
+console.log(`📱 Updated ${mobileOpportunities.length} mobile opportunities.`);
     fs.mkdirSync("reports", { recursive: true });
 
     const reportPath = `reports/daily-report-${today}.txt`;
     fs.writeFileSync(reportPath, report, "utf8");
 
   console.log(`Report saved to: ${reportPath}`);
+
+
 } catch (error) {
     console.error("\nNORTH STAR SCANNER ERROR");
 
@@ -292,4 +328,4 @@ END OF NORTH STAR REPORT
   }
 }
 
-main();
+export { main };

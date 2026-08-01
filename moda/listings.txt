@@ -1,12 +1,26 @@
-Rolex Explorer II
-226570
-Full Set
-Excellent Condition
-Price $9900
-
-===================
-
-Rolex Submariner
-124060
-Box and Card
-Price $10500
+[
+  {
+    "source": "Moda Main",
+    "text": "Looking for a reference check on LVMW Timepieces on a 40k deal.  They ship after I wire. I am sure all is good, just following protocol. Thank you. \n#rwb"
+  },
+  {
+    "source": "Moda Main",
+    "text": "GMT II 126710BLNR “BATGIRL” 2022\nAVAILABLE\n #rwb\nGMT II 126710BLNR “BATGIRL” Black Dial Blue & Black Bezel Stainless Steel Jubilee 40mm 2022\nEx… See more"
+  },
+  {
+    "source": "Moda 10K & Under",
+    "text": "BTLG Navi A23322 -2005\ncomplete\n$4190 + label… See more"
+  },
+  {
+    "source": "Moda 10K & Under",
+    "text": "RLX OP41 - 2022 \ncomplete all links and WT\n$9690 + label… See more"
+  },
+  {
+    "source": "Moda WTB / ISO",
+    "text": "#RWB NTQ 118206 platinum silver diamond dial watch only for price point"
+  },
+  {
+    "source": "Moda WTB / ISO",
+    "text": "Ntq 116233 \n1 black / 1 blue \nBoth oyster \nWatch only okay\n#rwb"
+  }
+]

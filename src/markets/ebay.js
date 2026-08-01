@@ -229,11 +229,16 @@ function determineCondition(item) {
 }
 
 function normalizeListing(item, brand) {
-  const price = getPrice(item);
+const price = getPrice(item);
 
-  if (price < 500) {
+const image =
+  item.image?.imageUrl ||
+  item.thumbnailImages?.[0]?.imageUrl ||
+  "";
+
+if (price < 500) {
     return null;
-  }
+}
 
   if (!isLikelyCompleteWatch(item)) {
     return null;
@@ -297,6 +302,7 @@ acceptsBestOffer,
     condition: determineCondition(item),
   source: "eBay",
     url: item.itemWebUrl || "",
+    image,
     itemId: item.itemId || item.itemWebUrl || "",
 
     sellerUsername:

@@ -1,3 +1,4 @@
+import { main as runScanner } from "./daily.js";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -225,18 +226,24 @@ app.post("/api/evaluate", async (req, res) => {
     }
 
 });
-app.get("/api/opportunities",(req,res)=>{
+app.get("/api/opportunities", async (req, res) => {
+  try {
+    console.log("🔄 Running live scan...");
 
-    if(!fs.existsSync(opportunitiesFile)){
-        return res.json([]);
-    }
+    await runScanner();
 
-    const data=JSON.parse(
-        fs.readFileSync(opportunitiesFile,"utf8")
+    const data = JSON.parse(
+      fs.readFileSync(opportunitiesFile, "utf8")
     );
 
     res.json(data);
 
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      error: "Live scan failed."
+    });
+  }
 });
 
 const PORT = process.env.PORT || 3000;
@@ -245,7 +252,7 @@ app.listen(PORT, () => {
 
     console.log("");
     console.log("⭐ North Star Terminal Running");
-  console.log(`Server running on port ${PORT}`);
+  
     console.log("");
 
 });
