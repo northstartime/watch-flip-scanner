@@ -1,6 +1,19 @@
 [
   {
-    "id": 1785366990957.6292,
+    "id": 1785677517695.5671,
+    "brand": "Rolex",
+    "title": "Dj 126300 Black Stick Dial SS Oyster With Papers 41mm",
+    "price": 9500,
+    "marketValue": 10500,
+    "projectedProfit": 1000,
+    "score": 47,
+    "decision": "👀 POSSIBLE",
+    "source": "Moda",
+    "url": "https://www.facebook.com/groups/Watchtrading",
+    "roi": 11
+  },
+  {
+    "id": 1785677517695.413,
     "brand": "Rolex",
     "title": "1997 Rolex Explorer II 16570 GMT Black Dial 40mm Stainless Steel Wristwatch",
     "price": 6999,
@@ -12,33 +25,5 @@
     "url": "https://www.ebay.com/itm/137564950108?_skw=Rolex+216570&hash=item2007828e5c:g:TkoAAeSw2VhqanCw",
     "image": "https://i.ebayimg.com/images/g/TkoAAeSw2VhqanCw/s-l225.jpg",
     "roi": 13
-  },
-  {
-    "id": 1785366990957.0403,
-    "brand": "Rolex",
-    "title": "Rolex Explorer II Stainless Black Dial 40mm Auto Men's Watch 16570",
-    "price": 6999,
-    "marketValue": 8200,
-    "projectedProfit": 866,
-    "score": 41,
-    "decision": "👀 POSSIBLE",
-    "source": "eBay",
-    "url": "https://www.ebay.com/itm/407075488872?_skw=Rolex+216570&hash=item5ec7970468:g:3CUAAeSwn2JqV8-B",
-    "image": "https://i.ebayimg.com/images/g/3CUAAeSwn2JqV8-B/s-l225.jpg",
-    "roi": 12
-  },
-  {
-    "id": 1785366990957.6907,
-    "brand": "Rolex",
-    "title": "Rolex Explorer 40mm 16570 Black Dial",
-    "price": 7077,
-    "marketValue": 8200,
-    "projectedProfit": 823,
-    "score": 41,
-    "decision": "👀 POSSIBLE",
-    "source": "eBay",
-    "url": "https://www.ebay.com/itm/168570980787?_skw=Rolex+214270&hash=item273f9d09b3:g:f78AAeSw1stqaS6V",
-    "image": "https://i.ebayimg.com/images/g/f78AAeSw1stqaS6V/s-l225.jpg",
-    "roi": 12
   }
 ]

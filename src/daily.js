@@ -1,4 +1,10 @@
+import { execSync } from "child_process";
 import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 import { getEbayListings } from "./markets/ebay.js";
 import { getModaListings } from "./markets/moda.js";
@@ -156,6 +162,12 @@ const ebayListings = await getEbayListings();
 
 // Placeholder for future sources
 const modaListings = await getModaListings();
+
+console.log("\n========== MODA ==========");
+console.log("Moda listings:", modaListings.length);
+console.dir(modaListings, { depth: null });
+console.log("==========================\n");
+
 const dealerListings = [];
 
 // Combine all listings
@@ -170,6 +182,13 @@ console.log(`Listings returned: ${listings.length}`);
     const evaluatedListings = listings
       .map((watch) => {
         const evaluation = evaluateWatch(watch);
+  if (watch.source !== "eBay") {
+    console.log("\n===== MODA WATCH =====");
+    console.dir(watch, { depth: null });
+
+    console.log("\n===== EVALUATION =====");
+    console.dir(evaluation, { depth: null });
+}      
 const auction = evaluateAuction({
   hoursRemaining: watch.hoursRemaining ?? 24,
   bidCount: watch.bidCount ?? 0,
@@ -300,12 +319,17 @@ const mobileOpportunities = opportunities.map(
   })
 );
 
+const opportunitiesPath = path.join(
+  __dirname,
+  "data",
+  "opportunities.json"
+);
+
 fs.writeFileSync(
-  "data/opportunities.json",
+  opportunitiesPath,
   JSON.stringify(mobileOpportunities, null, 2),
   "utf8"
 );
-
 console.log(`📱 Updated ${mobileOpportunities.length} mobile opportunities.`);
     fs.mkdirSync("reports", { recursive: true });
 
@@ -327,5 +351,7 @@ console.log(`📱 Updated ${mobileOpportunities.length} mobile opportunities.`);
     process.exitCode = 1;
   }
 }
+
+main();
 
 export { main };

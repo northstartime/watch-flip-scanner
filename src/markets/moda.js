@@ -5,7 +5,7 @@ export async function getModaListings() {
 
     console.log("Searching Moda...");
 
-    const path = "./moda/listings.txt";
+    const path = "./listing.txt";
 
     if (!fs.existsSync(path)) {
         return [];
@@ -17,10 +17,6 @@ export async function getModaListings() {
         return [];
     }
 
-    const listings = text
-        .split("===================")
-        .map(x => x.trim())
-        .filter(Boolean);
+    return [parseListing(text)];
 
-    return listings.map(parseListing);
 }

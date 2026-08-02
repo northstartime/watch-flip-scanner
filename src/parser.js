@@ -1,3 +1,4 @@
+import { estimateMarketValue } from "./marketValue.js";
 export function parseListing(listing) {
 
   // Find asking price
@@ -91,6 +92,7 @@ const wristSize = braceletMatch
     : null;
 return {
     originalListing: listing,
+    title: listing.split("\n")[0].trim(),
     brand,
     model,
     isPolished,
@@ -102,6 +104,14 @@ wristSize,
    price: priceMatch
   ? Number(priceMatch[1].replace(/,/g, ""))
   : null,
+  buyPrice: priceMatch
+  ? Number(priceMatch[1].replace(/,/g, ""))
+  : null,
+
+source: "Moda",
+url: "https://www.facebook.com/groups/Watchtrading",
+
+marketValue: estimateMarketValue(listing),
     year: yearMatch ? Number(yearMatch[0]) : null,
     hasBox,
     hasPapers,
