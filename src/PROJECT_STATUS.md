@@ -1,4 +1,6 @@
-# North Star Scanner / North Star Terminal
+# North Star Intelligence
+**Version:** 1.0
+**Last Updated:** August 5, 2026
 
 ## Mission
 Build a system that helps identify profitable watch deals faster than other dealers.
@@ -59,22 +61,20 @@ Automatically feed Moda listings into the evaluator.
 
 ---
 
-## Long-Term Vision
+## System Vision
 
 North Star Terminal
 
-Dealer feeds
-↓
-
-North Star Engine
-
-↓
-
-BUY opportunities
-
-↓
-
-Phone
+Dealer Feeds
+(eBay, Moda, etc.)
+        ↓
+North Star Intelligence
+        ↓
+Business Intelligence Engine
+        ↓
+BUY / HOLD / PASS
+        ↓
+Phone Alerts & Dashboard
 
 ---
 
@@ -87,3 +87,9 @@ Every coding session must answer:
 If not...
 
 Don't build it.
+
+---
+
+## Related Documents
+
+- NORTH_STAR_IDEAS.md — Long-term ideas and feature backlog
