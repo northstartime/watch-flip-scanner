@@ -295,8 +295,22 @@ END OF NORTH STAR REPORT
 // Update mobile opportunities
 // ------------------------------------
 
-const mobileOpportunities = opportunities.map(
-  ({ watch, profit, score, decision, roi }) => ({
+const modaCandidates = evaluatedListings
+  .filter(({ watch }) => watch.source === "Moda")
+  .slice(0, 5);
+
+const mobileResults = [
+  ...opportunities,
+  ...modaCandidates.filter(
+    ({ watch }) =>
+      !opportunities.some(
+        ({ watch: opportunityWatch }) =>
+          opportunityWatch.id === watch.id
+      )
+  ),
+];
+  const mobileOpportunities = mobileResults.map(
+({ watch, profit, score, decision, roi }) => ({
     id: watch.id || Date.now() + Math.random(),
 
     brand: watch.brand,

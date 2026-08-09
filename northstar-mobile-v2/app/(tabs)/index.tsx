@@ -1,6 +1,7 @@
 import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
 import {
+  ActivityIndicator,
   Image,
   Pressable,
   ScrollView,
@@ -33,7 +34,7 @@ export default function HomeScreen() {
       setLoading(true);
 
   const response = await fetch(
-  "https://watch-flip-scanner.onrender.com/api/opportunities"
+`http://192.168.1.71:3000/api/opportunities?t=${Date.now()}`
 );
 
       if (!response.ok) {
@@ -80,9 +81,13 @@ useEffect(() => {
         style={styles.refreshButton}
         onPress={loadOpportunities}
       >
-        <ThemedText style={styles.buttonText}>
-          Refresh Opportunities
-        </ThemedText>
+      {loading ? (
+  <ActivityIndicator color="#FFFFFF" />
+) : (
+  <ThemedText style={styles.buttonText}>
+    Refresh Opportunities
+  </ThemedText>
+)}
       </Pressable>
 
       {loading ? (
@@ -113,11 +118,17 @@ useEffect(() => {
             </ThemedText>
 
             <ThemedText>
-              💵 Asking: ${item.price.toLocaleString()}
+           💵 Asking:{' '}
+{item.price == null
+  ? 'Manual Review'
+  : `$${item.price.toLocaleString()}`}
             </ThemedText>
 
             <ThemedText>
-              📈 Market: ${item.marketValue.toLocaleString()}
+           📈 Market:{' '}
+{item.marketValue == null
+  ? 'Manual Review'
+  : `$${item.marketValue.toLocaleString()}`}
             </ThemedText>
 
             <ThemedText
@@ -131,8 +142,10 @@ useEffect(() => {
                 },
               ]}
             >
-              💰 Profit: $
-              {item.projectedProfit.toLocaleString()}
+            💰 Profit:{' '}
+{item.projectedProfit == null
+  ? 'Manual Review'
+  : `$${item.projectedProfit.toLocaleString()}`}
             </ThemedText>
 
             <ThemedText
@@ -162,10 +175,10 @@ useEffect(() => {
     pathname: '/opportunity',
 params: {
   title: item.title,
-  price: item.price.toString(),
-  marketValue: item.marketValue.toString(),
-  projectedProfit: item.projectedProfit.toString(),
-  score: item.score.toString(),
+price: String(item.price ?? 0),
+marketValue: String(item.marketValue ?? 0),
+projectedProfit: String(item.projectedProfit ?? 0),
+score: String(item.score ?? 0),
   decision: item.decision,
   source: item.source,
   url: item.url,

@@ -1,5 +1,8 @@
 import { estimateMarketValue } from "./marketValue.js";
-export function parseListing(listing) {
+export function parseListing(listing, shareLink) {
+  // Extract Facebook URL if present
+const listingUrl =
+  shareLink?.trim() || "https://www.facebook.com/groups/Watchtrading";
 
   // Find asking price
 const pricePatterns = [
@@ -109,7 +112,7 @@ wristSize,
   : null,
 
 source: "Moda",
-url: "https://www.facebook.com/groups/Watchtrading",
+url: listingUrl,
 
 marketValue: estimateMarketValue(listing),
     year: yearMatch ? Number(yearMatch[0]) : null,

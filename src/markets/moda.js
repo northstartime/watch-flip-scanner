@@ -1,22 +1,50 @@
-import fs from "fs";
+import { dumpAccessibilityTree } from "../collectors/modaCollector.js";
 import { parseListing } from "../parser.js";
 
+function isAuctionListing(text) {
+  return /modaauction|start no reserve|minimum increment|top 3 bids are binding|no reserve auction/i.test(
+    text
+  );
+}
+
 export async function getModaListings() {
+  console.log("Searching live Moda listings...");
 
-    console.log("Searching Moda...");
+  const collectedListings = await dumpAccessibilityTree();
 
-    const path = "./listing.txt";
+  return collectedListings.map((item) => {
+    const auction = isAuctionListing(item.listingText);
+    const parsed = parseListing(item.listingText);
 
-    if (!fs.existsSync(path)) {
-        return [];
-    }
+    return {
+      ...parsed,
 
-    const text = fs.readFileSync(path, "utf8").trim();
+      id: item.id,
+      seller: item.seller,
+      source: "Moda",
 
-    if (!text) {
-        return [];
-    }
+      url: item.url,
+      image: item.image,
+      originalListing: item.listingText,
 
-    return [parseListing(text)];
+      buyingOption: auction ? "AUCTION" : "FIXED_PRICE",
+      requiresManualReview: auction,
 
+      price: auction ? 0 : parsed.price,
+      buyPrice: auction ? 0 : parsed.buyPrice,
+      marketValue: auction ? null : parsed.marketValue,
+
+      hasBoxAndPapers:
+        Boolean(parsed.hasBox) && Boolean(parsed.hasPapers),
+
+      fullLinks:
+        /full links|all links|complete bracelet/i.test(
+          item.listingText
+        ),
+
+      trustedSeller: false,
+      fees: 0,
+      shipping: 0,
+    };
+  });
 }

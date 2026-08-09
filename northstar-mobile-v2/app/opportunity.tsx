@@ -1,4 +1,5 @@
 import { router, useLocalSearchParams } from 'expo-router';
+import * as WebBrowser from 'expo-web-browser';
 import {
   Image,
   Linking,
@@ -77,7 +78,11 @@ export default function OpportunityScreen() {
         style={styles.goldButton}
         onPress={() => {
           if (typeof url === 'string' && url.length > 0) {
-            Linking.openURL(url);
+if (source === 'Moda') {
+  Linking.openURL(url);
+} else {
+  WebBrowser.openBrowserAsync(url);
+}
           }
         }}
       >
