@@ -226,12 +226,8 @@ app.post("/api/evaluate", async (req, res) => {
     }
 
 });
-app.get("/api/opportunities", async (req, res) => {
+app.get("/api/opportunities", (req, res) => {
   try {
-    console.log("🔄 Running live scan...");
-
-    await runScanner();
-
     const data = JSON.parse(
       fs.readFileSync(opportunitiesFile, "utf8")
     );
@@ -241,7 +237,7 @@ app.get("/api/opportunities", async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({
-      error: "Live scan failed."
+      error: "Could not load opportunities."
     });
   }
 });

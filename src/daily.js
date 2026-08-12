@@ -213,14 +213,15 @@ const auction = evaluateAuction({
 
         return number(b.profit) - number(a.profit);
       });
-
-    const opportunities = evaluatedListings.filter(
-      ({ score, profit, decision }) =>
-        number(score) >= 60 ||
-        number(profit) >= 1500 ||
-        String(decision).includes("BUY") ||
-        String(decision).includes("POSSIBLE")
-    );
+      
+const opportunities = evaluatedListings.filter(
+  ({ watch, score, profit, decision }) =>
+    watch.source === "Moda" ||
+    number(score) >= 60 ||
+    number(profit) >= 1500 ||
+    String(decision).includes("BUY") ||
+    String(decision).includes("POSSIBLE")
+);
 // Open the top 3 opportunities automatically
 console.log("Opening", opportunities.length, "opportunities...");
 
@@ -365,7 +366,10 @@ console.log(`📱 Updated ${mobileOpportunities.length} mobile opportunities.`);
     process.exitCode = 1;
   }
 }
-
-main();
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  main();
+}
 
 export { main };
+
+

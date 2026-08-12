@@ -34,7 +34,7 @@ export default function HomeScreen() {
       setLoading(true);
 
   const response = await fetch(
-`http://192.168.1.71:3000/api/opportunities?t=${Date.now()}`
+`http://192.168.86.78:3000/api/opportunities?t=${Date.now()}`
 );
 
       if (!response.ok) {
