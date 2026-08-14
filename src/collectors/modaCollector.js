@@ -1,8 +1,47 @@
 import fs from "fs";
 import { chromium } from "playwright";
 
-export async function getLatestModaPage() {
-  console.log("Connecting to North Star Chrome...");
+async function findParentListingArticle(detailPage, postId) {
+  const storyMessages = detailPage.locator(
+    '[data-ad-rendering-role="story_message"]:visible'
+  );
+
+  const messageCount = await storyMessages.count();
+
+  for (let i = 0; i < messageCount; i++) {
+    const storyMessage = storyMessages.nth(i);
+
+    const owner = storyMessage.locator(
+      `xpath=ancestor::div[
+        .//a[
+          contains(@href, "set=gm.${postId}") or
+          contains(@href, "set=pcb.${postId}")
+        ]
+      ][1]`
+    );
+
+    if ((await owner.count()) > 0) {
+      return owner;
+    }
+
+    const canonicalOwner = storyMessage.locator(
+      `xpath=ancestor::div[
+        .//a[
+          contains(@href, "/posts/${postId}") and
+          not(contains(@href, "comment_id"))
+        ]
+      ][1]`
+    );
+
+    if ((await canonicalOwner.count()) > 0) {
+      return canonicalOwner;
+    }
+  }
+
+  return null;
+}
+ export async function getLatestModaPage() {
+console.log("Connecting to North Star Chrome...");
 
   const browser = await chromium.connectOverCDP("http://127.0.0.1:9222");
 
@@ -98,24 +137,55 @@ export async function dumpAccessibilityTree() {
 
       await detailPage.waitForTimeout(2000);
 
-await detailPage.waitForSelector('[role="dialog"], [role="article"]', {
-  timeout: 15000,
-});
+      await detailPage.waitForSelector(
+        '[data-ad-rendering-role="story_message"]:visible',
+        { timeout: 15000 }
+      );
+      const parentPost = await findParentListingArticle(
+        detailPage,
+        postId
+      );
 
-let parentPost = detailPage.locator('[role="dialog"]').first();
+      if (!parentPost) {
+        throw new Error(
+          `No article owns Facebook post ${postId}`
+        );
+      }
 
-if ((await parentPost.count()) === 0) {
-  parentPost = detailPage.locator('[role="article"]').first();
-}
-      parentListingText = await parentPost
-        .innerText()
-        .catch(() => "");
 
-      parentSeller = await parentPost
-        .locator('[data-ad-rendering-role="profile_name"]')
-        .first()
-        .innerText()
-        .catch(() => "Unknown seller");
+         const storyMessage = parentPost
+        .locator(
+          '[data-ad-rendering-role="story_message"], [data-ad-preview="message"]'
+        )
+        .first();
+
+
+
+      parentListingText =
+        (await storyMessage.count()) > 0
+          ? await storyMessage.innerText().catch(() => "")
+          : await parentPost
+              .evaluate((article) => {
+                const cleanArticle = article.cloneNode(true);
+
+                cleanArticle
+                  .querySelectorAll(
+                    '[role="article"][aria-label^="Comment by"], ' +
+                    '[role="article"][aria-label^="Reply by"], ' +
+                    "[data-commentid]"
+                  )
+                  .forEach((comment) => comment.remove());
+
+                return cleanArticle.innerText || cleanArticle.textContent || "";
+              })
+              .catch(() => "");
+
+    parentSeller = await parentPost
+  .locator('a[href*="/groups/"][href*="/user/"]')
+  .filter({ hasText: /\S/ })
+  .first()
+  .innerText()
+  .catch(() => "Unknown seller");
 
       image = await parentPost
         .locator("img")
@@ -127,6 +197,7 @@ if ((await parentPost.count()) === 0) {
       console.log(parentListingText);
       console.log("===== END PARENT LISTING =====\n");
     } catch (error) {
+
       console.log(
         "Could not read parent Moda post:",
         cleanPostUrl,
