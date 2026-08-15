@@ -110,17 +110,20 @@ export async function dumpAccessibilityTree() {
       /\/groups\/\d+\/posts\/\d+/i.test(href)
     );
 
-    const postId =
-      postLink?.match(/\/posts\/(\d+)/i)?.[1] ?? null;
+   const linkMatch =
+  postLink?.match(/\/groups\/(\d+)\/posts\/(\d+)/i) ?? null;
 
-    if (!postId || seenPostIds.has(postId)) {
+const groupId = linkMatch?.[1] ?? null;
+const postId = linkMatch?.[2] ?? null;
+
+  if (!groupId || !postId || seenPostIds.has(`${groupId}:${postId}`)) {
       continue;
     }
 
-    seenPostIds.add(postId);
+  seenPostIds.add(`${groupId}:${postId}`);
 
-    const cleanPostUrl =
-      `https://www.facebook.com/groups/558871041349029/posts/${postId}/`;
+  const cleanPostUrl =
+  `https://www.facebook.com/groups/${groupId}/posts/${postId}/`;
 
     console.log("Opening parent Moda post:", cleanPostUrl);
 
