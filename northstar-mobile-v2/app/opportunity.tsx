@@ -76,15 +76,15 @@ export default function OpportunityScreen() {
 
       <Pressable
         style={styles.goldButton}
-        onPress={() => {
-          if (typeof url === 'string' && url.length > 0) {
-if (source === 'Moda') {
-  Linking.openURL(url);
-} else {
-  WebBrowser.openBrowserAsync(url);
-}
-          }
-        }}
+onPress={() => {
+  if (typeof url === 'string' && url.length > 0) {
+    if (source === 'Moda') {
+      Linking.openURL(url);
+    } else {
+      WebBrowser.openBrowserAsync(url);
+    }
+  }
+}}
       >
         <ThemedText style={styles.buttonText}>
           🌐 Open Original Listing

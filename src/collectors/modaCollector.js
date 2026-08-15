@@ -216,7 +216,7 @@ export async function dumpAccessibilityTree() {
       seller: parentSeller,
       listingText: parentListingText,
       source: "Moda",
-      url: cleanPostUrl,
+url: postLink,
       image,
       capturedAt: new Date().toISOString(),
     });
