@@ -3,4 +3,5 @@ browser-profile/
 src/browser-profile/
 reports/
 *.png
+!northstar-mobile-v2/assets/images/*.png
 .env
