@@ -5,3 +5,5 @@ reports/
 *.png
 !northstar-mobile-v2/assets/images/*.png
 .env
+automation/logs/
+

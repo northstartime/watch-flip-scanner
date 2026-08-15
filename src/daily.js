@@ -376,8 +376,9 @@ try {
   }
 }
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  main();
+  main().finally(() => {
+    process.exit(process.exitCode ?? 0);
+  });
 }
-
 export { main };
 
