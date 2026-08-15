@@ -90,6 +90,7 @@ export async function dumpAccessibilityTree() {
 
   const listings = [];
   const seenPostIds = new Set();
+  const seenListingTexts = new Set();
 
   for (let i = 0; i < count; i++) {
     const post = posts.nth(i);
@@ -216,7 +217,23 @@ await parentPost
     if (!parentListingText) {
       continue;
     }
+const listingKey = parentListingText
+  .replace(/\s+/g, " ")
+  .trim()
+  .toLowerCase();
+const firstListingLine =
+  parentListingText
+    .split("\n")
+    .map((line) => line.trim())
+    .find(Boolean) || "";
+if (
+  /^#\w+(?:\s+#\w+)*$/i.test(firstListingLine) ||
+  seenListingTexts.has(listingKey)
+) {
+  continue;
+}
 
+seenListingTexts.add(listingKey);
     listings.push({
       id: `moda-${postId}`,
       seller: parentSeller,
