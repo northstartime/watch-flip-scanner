@@ -12,49 +12,74 @@ import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 
 type Opportunity = {
-  id: number;
-  brand: string;
+  id: number | string;
+  brand: string | null;
   title: string;
-  price: number;
-  marketValue: number;
-  projectedProfit: number;
+  price: number | null;
+  marketValue: number | null;
+  projectedProfit: number | null;
   score: number;
   source: string;
   decision: string;
   url: string;
-image: string;
+  image: string | null;
 };
+
+type HealthResponse = {
+  ok: boolean;
+  count: number;
+  updatedAt: string | null;
+};
+
+const API_URL = (
+  process.env.EXPO_PUBLIC_NORTH_STAR_API_URL ||
+  'https://watch-flip-scanner.onrender.com'
+).replace(/\/$/, '');
 
 export default function HomeScreen() {
   const [opportunities, setOpportunities] = useState<Opportunity[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [cloudUpdatedAt, setCloudUpdatedAt] = useState<string | null>(null);
 
   async function loadOpportunities() {
     try {
       setLoading(true);
+      setError(null);
 
-  const response = await fetch(
-`http://192.168.86.78:3000/api/opportunities?t=${Date.now()}`
-);
+      const response = await fetch(
+        `${API_URL}/api/opportunities?t=${Date.now()}`,
+        { headers: { Accept: 'application/json' } }
+      );
 
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}`);
       }
 
-      const data = await response.json();
-      console.log("DATA:", data);
-console.log("COUNT:", data.length);
+      const data: Opportunity[] = await response.json();
+
+      if (!Array.isArray(data)) {
+        throw new Error('The cloud returned an invalid opportunities list.');
+      }
 
       setOpportunities(data);
-    } catch (err) {
-      console.log(err);
-    console.log('FETCH ERROR:', err);
 
-if (err instanceof Error) {
-  alert(err.message);
-} else {
-  alert(JSON.stringify(err));
-}
+      const healthResponse = await fetch(
+        `${API_URL}/api/health?t=${Date.now()}`,
+        { headers: { Accept: 'application/json' } }
+      );
+
+      if (healthResponse.ok) {
+        const health: HealthResponse = await healthResponse.json();
+        setCloudUpdatedAt(health.updatedAt);
+      }
+    } catch (err) {
+      console.log('FETCH ERROR:', err);
+      setError(
+        err instanceof Error
+          ? err.message
+          : 'Could not reach the North Star cloud.'
+      );
     } finally {
       setLoading(false);
     }
@@ -77,6 +102,12 @@ useEffect(() => {
         Professional Watch Intelligence
       </ThemedText>
 
+      <ThemedText style={styles.cloudStatus}>
+        {cloudUpdatedAt
+          ? `Cloud updated ${new Date(cloudUpdatedAt).toLocaleString()}`
+          : 'Waiting for the first cloud scan'}
+      </ThemedText>
+
       <Pressable
         style={styles.refreshButton}
         onPress={loadOpportunities}
@@ -92,6 +123,16 @@ useEffect(() => {
 
       {loading ? (
         <ThemedText>Loading...</ThemedText>
+      ) : error ? (
+        <ThemedView style={styles.errorCard}>
+          <ThemedText style={styles.errorTitle}>
+            Cloud connection problem
+          </ThemedText>
+          <ThemedText>{error}</ThemedText>
+          <ThemedText style={styles.errorHelp}>
+            Tap Refresh Opportunities to try again.
+          </ThemedText>
+        </ThemedView>
       ) : opportunities.length === 0 ? (
         <ThemedView style={styles.card}>
           <ThemedText>No opportunities found.</ThemedText>
@@ -102,10 +143,12 @@ useEffect(() => {
             key={item.id ?? index}
             style={styles.card}
           >
-            <Image
-  source={{ uri: item.image }}
-  style={styles.watchImage}
-/>
+            {item.image ? (
+              <Image
+                source={{ uri: item.image }}
+                style={styles.watchImage}
+              />
+            ) : null}
             <ThemedText
              
               style={styles.title}
@@ -136,7 +179,7 @@ useEffect(() => {
                 styles.profit,
                 {
                   color:
-                    item.projectedProfit >= 0
+                    (item.projectedProfit ?? 0) >= 0
                       ? '#4CAF50'
                       : '#FF5252',
                 },
@@ -182,7 +225,7 @@ score: String(item.score ?? 0),
   decision: item.decision,
   source: item.source,
   url: item.url,
-  image: item.image,
+  image: item.image ?? '',
 },
   })
 }
@@ -212,8 +255,14 @@ const styles = StyleSheet.create({
 
   subtitle: {
     marginTop: 8,
+    marginBottom: 6,
+    textAlign: 'center',
+  },
+
+  cloudStatus: {
     marginBottom: 20,
     textAlign: 'center',
+    color: '#9CA3AF',
   },
 
   refreshButton: {
@@ -235,6 +284,27 @@ const styles = StyleSheet.create({
     backgroundColor: '#181818',
     borderColor: '#2F6FED',
     borderWidth: 2,
+  },
+
+  errorCard: {
+    width: '100%',
+    maxWidth: 340,
+    padding: 22,
+    borderRadius: 18,
+    backgroundColor: '#2A1515',
+    borderColor: '#FF5252',
+    borderWidth: 2,
+  },
+
+  errorTitle: {
+    color: '#FF7777',
+    fontWeight: '700',
+    marginBottom: 8,
+  },
+
+  errorHelp: {
+    marginTop: 8,
+    color: '#D1D5DB',
   },
 
   title: {

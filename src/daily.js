@@ -11,6 +11,7 @@ import { getModaListings } from "./markets/moda.js";
 import { evaluateWatch } from "./businessScore.js";
 import { evaluateAuction } from "./auctionIntelligence.js";
 import { getDealers } from "./dealerManager.js";
+import { uploadOpportunities } from "./cloudSync.js";
 import { exec } from "child_process";
 function money(value) {
   return Number(value || 0).toLocaleString("en-US", {
@@ -346,6 +347,14 @@ fs.writeFileSync(
   "utf8"
 );
 console.log(`📱 Updated ${mobileOpportunities.length} mobile opportunities.`);
+
+try {
+  await uploadOpportunities(mobileOpportunities);
+} catch (cloudError) {
+  console.error(`☁️ ${cloudError.message || cloudError}`);
+  process.exitCode = 1;
+}
+
     fs.mkdirSync("reports", { recursive: true });
 
     const reportPath = `reports/daily-report-${today}.txt`;
@@ -371,5 +380,4 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
 }
 
 export { main };
-
 
