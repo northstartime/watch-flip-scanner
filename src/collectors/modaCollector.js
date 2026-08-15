@@ -153,18 +153,24 @@ export async function dumpAccessibilityTree() {
       }
 
 
-         const storyMessage = parentPost
-        .locator(
-          '[data-ad-rendering-role="story_message"], [data-ad-preview="message"]'
-        )
-        .first();
+const storyMessageTexts = await detailPage
+  .locator(
+    '[role="dialog"] [data-ad-rendering-role="story_message"]:visible'
+  )
+  .allInnerTexts()
+  .catch(() => []);
+
+const storyMessageText =
+  storyMessageTexts
+    .map((text) => text.trim())
+    .filter(Boolean)
+    .sort((a, b) => b.length - a.length)[0] || "";
 
 
 
       parentListingText =
-        (await storyMessage.count()) > 0
-          ? await storyMessage.innerText().catch(() => "")
-          : await parentPost
+  storyMessageText ||
+await parentPost
               .evaluate((article) => {
                 const cleanArticle = article.cloneNode(true);
 
