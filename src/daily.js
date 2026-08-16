@@ -348,8 +348,8 @@ const mobileResults = [
     title: watch.title,
 
     price: watch.buyPrice,
-    marketValue: watch.marketValue,
-    projectedProfit: Math.round(profit),
+marketValue: watch.marketValue > 0 ? watch.marketValue : null,
+projectedProfit: watch.marketValue > 0 ? Math.round(profit) : null,
 
     score,
     decision,
@@ -363,7 +363,7 @@ const mobileResults = [
 requiresManualReview: watch.requiresManualReview,
 currentBid: watch.currentBid,
 
-    roi: Math.round(roi),
+   roi: watch.marketValue > 0 ? Math.round(roi) : null,
   })
 );
 

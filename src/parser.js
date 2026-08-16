@@ -25,8 +25,11 @@ for (const pattern of pricePatterns) {
 }
 
   // Find reference number
- const referenceMatch =
-  listing.match(/\b(?:Ref\.?|Reference)\s*(\d{4,6})\b/i) ||
+const referenceMatch =
+listing.match(
+  /\b(?:Ref\.?|Reference)\s*:?\s*([A-Z0-9]+(?:\.[A-Z0-9]+){1,})\b/i
+) ||
+  listing.match(/\b(?:Ref\.?|Reference)\s*:?\s*(\d{4,6})\b/i) ||
   listing.match(/\b(11\d{4}|12\d{4}|21\d{4}|22\d{4})\b/);
 
   // Find brand
@@ -93,9 +96,18 @@ const braceletMatch = listing.match(/(\d+(?:\.\d+)?)\s*inch/i);
 const wristSize = braceletMatch
     ? Number(braceletMatch[1])
     : null;
+    const listingLines = listing
+  .split("\n")
+  .map((line) => line.trim())
+  .filter(Boolean);
+
+const displayTitle =
+  listingLines.find((line) => !/^#\w+/i.test(line)) ||
+  listingLines[0] ||
+  "Unknown listing";
 return {
     originalListing: listing,
-    title: listing.split("\n")[0].trim(),
+  title: displayTitle,
     brand,
     model,
     isPolished,
