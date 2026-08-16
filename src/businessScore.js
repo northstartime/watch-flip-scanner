@@ -12,6 +12,42 @@ function includesAny(text, terms) {
 }
 
 export function evaluateWatch(watch) {
+    const hasValidBuyPrice =
+    watch.buyPrice !== null &&
+    watch.buyPrice !== undefined &&
+    Number.isFinite(Number(watch.buyPrice)) &&
+    Number(watch.buyPrice) > 0;
+
+  const hasValidMarketValue =
+    watch.marketValue !== null &&
+    watch.marketValue !== undefined &&
+    Number.isFinite(Number(watch.marketValue)) &&
+    Number(watch.marketValue) > 0;
+
+  if (!hasValidBuyPrice || !hasValidMarketValue) {
+    return {
+      profit: null,
+      roi: null,
+      score: 0,
+      integrityScore: 0,
+      integrityIssues: ["Missing reliable price data"],
+      reasons: [
+        !hasValidBuyPrice
+          ? "Missing reliable buy price — manual review required"
+          : "Missing reliable market value — manual review required",
+      ],
+      decision: "🟠 REVIEW",
+      maximumBid: hasValidMarketValue
+        ? Math.max(
+            0,
+            Number(watch.marketValue) -
+              Number(watch.fees || 0) -
+              Number(watch.shipping || 0) -
+              1000
+          )
+        : null,
+    };
+  }
   const buyPrice = number(watch.buyPrice);
   const marketValue = number(watch.marketValue);
   const fees = number(watch.fees);

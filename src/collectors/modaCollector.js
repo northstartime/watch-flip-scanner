@@ -84,7 +84,7 @@ export async function dumpAccessibilityTree() {
 
   const posts = page.locator('[role="feed"] [role="article"]');
 
-  const count = Math.min(await posts.count(), 40);
+const count = Math.min(await posts.count(), 80);
 
   console.log("Feed articles found:", count);
 
@@ -115,6 +115,11 @@ export async function dumpAccessibilityTree() {
 
 const groupId = linkMatch?.[1] ?? null;
 const postId = linkMatch?.[2] ?? null;
+console.log("Candidate article", i, {
+  postLink,
+  groupId,
+  postId,
+});
 
   if (!groupId || !postId || seenPostIds.has(`${groupId}:${postId}`)) {
       continue;
@@ -132,6 +137,7 @@ const postId = linkMatch?.[2] ?? null;
     let parentListingText = "";
     let parentSeller = "Unknown seller";
     let image = null;
+    let commentTexts = [];
 
     try {
       await detailPage.goto(cleanPostUrl, {
@@ -202,6 +208,12 @@ await parentPost
         .first()
         .getAttribute("src")
         .catch(() => null);
+         commentTexts = await detailPage
+  .locator('[role="article"][aria-label^="Comment by"]:visible')
+  .allInnerTexts()
+  .catch(() => []);
+
+console.log("Auction/comment candidates:", commentTexts.slice(0, 20));
 
       console.log("\n===== PARENT MODA LISTING =====");
       console.log(parentListingText);
@@ -217,9 +229,10 @@ await parentPost
       await detailPage.close();
     }
 
-    if (!parentListingText) {
-      continue;
-    }
+if (!parentListingText) {
+  console.log("SKIP: no parent listing text", { postId });
+  continue;
+}
 const listingKey = parentListingText
   .replace(/\s+/g, " ")
   .trim()
@@ -229,10 +242,20 @@ const firstListingLine =
     .split("\n")
     .map((line) => line.trim())
     .find(Boolean) || "";
-if (
-  /^#\w+(?:\s+#\w+)*$/i.test(firstListingLine) ||
-  seenListingTexts.has(listingKey)
-) {
+    const isReferenceCheck =
+  /^(?:reference check|ref check|reference request|references on)\b/i.test(
+    firstListingLine
+  );
+
+if (isReferenceCheck) {
+  console.log("SKIP: reference check", {
+    postId,
+    firstListingLine,
+  });
+  continue;
+}
+if (seenListingTexts.has(listingKey)) {
+  console.log("SKIP: duplicate listing text", { postId });
   continue;
 }
 
@@ -241,14 +264,15 @@ seenListingTexts.add(listingKey);
       id: `moda-${postId}`,
       seller: parentSeller,
       listingText: parentListingText,
+      comments: commentTexts,
       source: "Moda",
-url: postLink,
+url: cleanPostUrl,
       image,
       capturedAt: new Date().toISOString(),
     });
 
     // Stop once we have enough real parent listings.
-    if (listings.length >= 4) {
+   if (listings.length >= 12) {
       break;
     }
   }

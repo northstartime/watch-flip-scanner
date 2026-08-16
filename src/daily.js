@@ -51,7 +51,8 @@ function formatListing(result) {
 
   const isAuction =
     String(watch.buyingOption || "").toUpperCase().includes("AUCTION") ||
-    watch.currentBid !== undefined;
+   watch.currentBid !== null &&
+watch.currentBid !== undefined;
 
   const currentBid = number(watch.currentBid || buyPrice);
 
@@ -76,18 +77,41 @@ function formatListing(result) {
   output += `Condition:         ${text(watch.condition)}\n`;
   output += `URL:               ${text(watch.url, "No URL available")}\n\n`;
 
-  output += `Buy Price:         ${money(buyPrice)}\n`;
-  output += `Market Value:      ${money(marketValue)}\n`;
-  const edge = marketValue - buyPrice;
+  const hasValidBuyPrice =
+    watch.buyPrice !== null &&
+    watch.buyPrice !== undefined &&
+    Number.isFinite(Number(watch.buyPrice)) &&
+    Number(watch.buyPrice) > 0;
+    const hasValidMarketValue =
+  watch.marketValue !== null &&
+  watch.marketValue !== undefined &&
+  Number.isFinite(Number(watch.marketValue)) &&
+  Number(watch.marketValue) > 0;
 
-output += `Edge:             ${money(edge)}\n`;
-if (edge >= 2000) {
-  output += `Opportunity:      ⭐⭐⭐⭐⭐\n`;
-} else if (edge >= 1500) {
-  output += `Opportunity:      ⭐⭐⭐⭐\n`;
-} else if (edge >= 1000) {
-  output += `Opportunity:      ⭐⭐⭐\n`;
-}
+  output += `Buy Price:         ${
+    hasValidBuyPrice ? money(buyPrice) : "Manual Review"
+  }\n`;
+
+output += `Market Value:      ${
+  hasValidMarketValue ? money(marketValue) : "Manual Review"
+}\n`;
+
+if (hasValidBuyPrice && hasValidMarketValue) {
+    const edge = marketValue - buyPrice;
+
+    output += `Edge:              ${money(edge)}\n`;
+
+    if (edge >= 2000) {
+      output += `Opportunity:       ⭐⭐⭐⭐⭐\n`;
+    } else if (edge >= 1500) {
+      output += `Opportunity:       ⭐⭐⭐⭐\n`;
+    } else if (edge >= 1000) {
+      output += `Opportunity:       ⭐⭐⭐\n`;
+    }
+  } else {
+    output += `Edge:              Manual Review\n`;
+    output += `Opportunity:       Manual Review\n`;
+  }
   if (watch.marketData) {
   output += `Wholesale:     ${money(watch.marketData.wholesale)}\n`;
   output += `Retail:        ${money(watch.marketData.retail)}\n`;
@@ -96,8 +120,13 @@ if (edge >= 2000) {
 }
   output += `Fees:              ${money(fees)}\n`;
   output += `Shipping:          ${money(shipping)}\n`;
-  output += `Projected Profit:  ${money(profit)}\n`;
-  output += `ROI:               ${number(roi).toFixed(1)}%\n\n`;
+output += `Projected Profit:  ${
+  profit !== null ? money(profit) : "Manual Review"
+}\n`;
+
+output += `ROI:               ${
+  roi !== null ? `${number(roi).toFixed(1)}%` : "Manual Review"
+}\n\n`;
 
 if (isAuction) {
   output += `Current Bid:      ${money(currentBid)}\n`;
@@ -330,6 +359,9 @@ const mobileResults = [
     url: watch.url,
 
     image: watch.image,
+    buyingOption: watch.buyingOption,
+requiresManualReview: watch.requiresManualReview,
+currentBid: watch.currentBid,
 
     roi: Math.round(roi),
   })
