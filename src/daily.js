@@ -347,10 +347,12 @@ const mobileResults = [
     brand: watch.brand,
     title: watch.title,
 
-    price: watch.buyPrice,
+   price: watch.buyPrice ?? watch.price ?? null,
 marketValue: watch.marketValue > 0 ? watch.marketValue : null,
-projectedProfit: watch.marketValue > 0 ? Math.round(profit) : null,
-
+projectedProfit:
+  watch.marketValue > 0 && (watch.buyPrice ?? watch.price) > 0
+    ? Math.round(profit)
+    : null,
     score,
     decision,
 
@@ -363,7 +365,10 @@ projectedProfit: watch.marketValue > 0 ? Math.round(profit) : null,
 requiresManualReview: watch.requiresManualReview,
 currentBid: watch.currentBid,
 
-   roi: watch.marketValue > 0 ? Math.round(roi) : null,
+roi:
+  watch.marketValue > 0 && (watch.buyPrice ?? watch.price) > 0
+    ? Math.round(roi)
+    : null,
   })
 );
 

@@ -52,17 +52,21 @@ export default function OpportunityScreen() {
       <ThemedView style={styles.card}>
         <ThemedText>Asking Price</ThemedText>
         <ThemedText type="defaultSemiBold">
-          ${Number(price).toLocaleString()}
+       {price != null ? `$${Number(price).toLocaleString()}` : "Manual Review"}
         </ThemedText>
 
         <ThemedText style={styles.spacing}>Market Value</ThemedText>
         <ThemedText type="defaultSemiBold">
-          ${Number(marketValue).toLocaleString()}
+        {marketValue != null
+  ? `$${Number(marketValue).toLocaleString()}`
+  : "Manual Review"}
         </ThemedText>
 
         <ThemedText style={styles.spacing}>Projected Profit</ThemedText>
         <ThemedText type="defaultSemiBold" style={styles.green}>
-          ${Number(projectedProfit).toLocaleString()}
+     {projectedProfit != null
+  ? `$${Number(projectedProfit).toLocaleString()}`
+  : "Manual Review"}
         </ThemedText>
 
         <ThemedText style={styles.spacing}>North Star Score</ThemedText>

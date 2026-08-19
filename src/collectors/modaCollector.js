@@ -73,27 +73,32 @@ console.log("Connecting to North Star Chrome...");
 export async function dumpAccessibilityTree() {
   const page = await getLatestModaPage();
 
-  await page.mouse.wheel(0, 2500);
-  await page.waitForTimeout(3000);
+console.log("Waiting for posts...");
 
-  console.log("Waiting for posts...");
+await page.waitForSelector('[role="article"]', {
+  timeout: 15000,
+});
 
-  await page.waitForSelector('[role="article"]', {
-    timeout: 15000,
-  });
+console.log("Discovering Moda posts while scrolling...");
 
-  const posts = page.locator('[role="feed"] [role="article"]');
+const discoveredPosts = [];
+const discoveredPostKeys = new Set();
 
-const count = Math.min(await posts.count(), 80);
+for (let pass = 0; pass < 8; pass++) {
+  const visiblePosts = page.locator(
+    '[role="feed"] [role="article"]'
+  );
 
-  console.log("Feed articles found:", count);
+  const visibleCount = await visiblePosts
+    .count()
+    .catch(() => 0);
 
-  const listings = [];
-  const seenPostIds = new Set();
-  const seenListingTexts = new Set();
+  console.log(
+    `Discovery pass ${pass + 1}: ${visibleCount} visible feed articles`
+  );
 
-  for (let i = 0; i < count; i++) {
-    const post = posts.nth(i);
+  for (let i = 0; i < visibleCount; i++) {
+    const post = visiblePosts.nth(i);
 
     const candidateLinks = await post
       .locator("a")
@@ -110,22 +115,51 @@ const count = Math.min(await posts.count(), 80);
       /\/groups\/\d+\/posts\/\d+/i.test(href)
     );
 
-   const linkMatch =
-  postLink?.match(/\/groups\/(\d+)\/posts\/(\d+)/i) ?? null;
+    const linkMatch =
+      postLink?.match(
+        /\/groups\/(\d+)\/posts\/(\d+)/i
+      ) ?? null;
 
-const groupId = linkMatch?.[1] ?? null;
-const postId = linkMatch?.[2] ?? null;
-console.log("Candidate article", i, {
-  postLink,
-  groupId,
-  postId,
-});
+    const groupId = linkMatch?.[1] ?? null;
+    const postId = linkMatch?.[2] ?? null;
 
-  if (!groupId || !postId || seenPostIds.has(`${groupId}:${postId}`)) {
+    if (!groupId || !postId) {
       continue;
     }
 
-  seenPostIds.add(`${groupId}:${postId}`);
+    const postKey = `${groupId}:${postId}`;
+
+    if (discoveredPostKeys.has(postKey)) {
+      continue;
+    }
+
+    discoveredPostKeys.add(postKey);
+
+    discoveredPosts.push({
+      groupId,
+      postId,
+    });
+
+    console.log("Discovered Moda post:", {
+      groupId,
+      postId,
+    });
+  }
+
+  if (pass < 7) {
+    await page.mouse.wheel(0, 1400);
+    await page.waitForTimeout(1200);
+  }
+}
+
+console.log(
+  `Unique Moda posts discovered: ${discoveredPosts.length}`
+);
+
+const listings = [];
+const seenListingTexts = new Set();
+
+for (const { groupId, postId } of discoveredPosts) {
 
   const cleanPostUrl =
   `https://www.facebook.com/groups/${groupId}/posts/${postId}/`;
@@ -203,11 +237,36 @@ await parentPost
   .innerText()
   .catch(() => "Unknown seller");
 
-      image = await parentPost
-        .locator("img")
-        .first()
-        .getAttribute("src")
-        .catch(() => null);
+image = null;
+
+const postPhotoLinks = parentPost.locator(
+  `a[href*="set=gm.${postId}"], ` +
+  `a[href*="set=pcb.${postId}"]`
+);
+
+const postPhotoCount = await postPhotoLinks
+  .count()
+  .catch(() => 0);
+
+console.log(
+  `Post ${postId} has ${postPhotoCount} tied photo links`
+);
+
+for (let photoIndex = 0; photoIndex < postPhotoCount; photoIndex++) {
+  const photoSrc = await postPhotoLinks
+    .nth(photoIndex)
+    .locator("img")
+    .first()
+    .getAttribute("src")
+    .catch(() => null);
+
+  if (photoSrc) {
+    image = photoSrc;
+    console.log("Selected tied post image:", photoSrc);
+    break;
+  }
+}
+
          commentTexts = await detailPage
   .locator('[role="article"][aria-label^="Comment by"]:visible')
   .allInnerTexts()

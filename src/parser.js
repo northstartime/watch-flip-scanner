@@ -29,6 +29,9 @@ const referenceMatch =
 listing.match(
   /\b(?:Ref\.?|Reference)\s*:?\s*([A-Z0-9]+(?:\.[A-Z0-9]+){1,})\b/i
 ) ||
+listing.match(
+  /\b(\d{3}\.\d{2}\.\d{2}\.\d{2}\.\d{2}\.\d{3}|\d{4}\.\d{2})\b/
+) ||
   listing.match(/\b(?:Ref\.?|Reference)\s*:?\s*(\d{4,6})\b/i) ||
   listing.match(/\b(11\d{4}|12\d{4}|21\d{4}|22\d{4})\b/);
 

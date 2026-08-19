@@ -115,7 +115,7 @@ price: auction
 
 buyPrice: auction
   ? currentBid ?? 0
-  : parsed.buyPrice,
+  : parsed.buyPrice ?? parsed.price ?? null,
 marketValue: parsed.marketValue ?? null,
 
       hasBoxAndPapers:
