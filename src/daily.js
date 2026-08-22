@@ -13,6 +13,33 @@ import { evaluateAuction } from "./auctionIntelligence.js";
 import { getDealers } from "./dealerManager.js";
 import { uploadOpportunities } from "./cloudSync.js";
 import { exec } from "child_process";
+async function embedModaImage(watch) {
+  if (watch.source !== "Moda" || !watch.image) {
+    return watch;
+  }
+
+  try {
+    const response = await fetch(watch.image);
+
+    if (!response.ok) {
+      console.log(`Moda image fetch failed: ${response.status}`);
+      return watch;
+    }
+
+    const contentType =
+      response.headers.get("content-type") || "image/jpeg";
+
+    const buffer = Buffer.from(await response.arrayBuffer());
+
+    return {
+      ...watch,
+      image: `data:${contentType};base64,${buffer.toString("base64")}`,
+    };
+  } catch (error) {
+    console.log("Moda image embed failed:", error.message);
+    return watch;
+  }
+}
 function money(value) {
   return Number(value || 0).toLocaleString("en-US", {
     style: "currency",
@@ -372,6 +399,9 @@ roi:
   })
 );
 
+const mobileOpportunitiesWithImages = await Promise.all(
+  mobileOpportunities.map(embedModaImage)
+);
 const opportunitiesPath = path.join(
   __dirname,
   "data",
@@ -380,13 +410,13 @@ const opportunitiesPath = path.join(
 
 fs.writeFileSync(
   opportunitiesPath,
-  JSON.stringify(mobileOpportunities, null, 2),
+JSON.stringify(mobileOpportunitiesWithImages, null, 2),
   "utf8"
 );
 console.log(`📱 Updated ${mobileOpportunities.length} mobile opportunities.`);
 
 try {
-  await uploadOpportunities(mobileOpportunities);
+await uploadOpportunities(mobileOpportunitiesWithImages);
 } catch (cloudError) {
   console.error(`☁️ ${cloudError.message || cloudError}`);
   process.exitCode = 1;

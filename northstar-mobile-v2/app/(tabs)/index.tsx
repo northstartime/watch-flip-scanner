@@ -145,12 +145,7 @@ useEffect(() => {
 >
   {item.image ? (
     <Image
-     source={{
-  uri:
-    item.source === "Moda"
-      ? `${API_URL}/api/image-proxy?url=${encodeURIComponent(item.image)}`
-      : item.image,
-}}
+source={{ uri: item.image }}
       style={styles.watchImage}
       onError={(e) =>
         console.log(
