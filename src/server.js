@@ -271,6 +271,41 @@ app.post("/api/evaluate", async (req, res) => {
     }
 
 });
+app.get("/api/image-proxy", async (req, res) => {
+  try {
+    const imageUrl = String(req.query.url || "");
+
+    if (!imageUrl) {
+      return res.status(400).send("Missing image URL");
+    }
+
+    const parsedUrl = new URL(imageUrl);
+
+    if (!parsedUrl.hostname.endsWith("fbcdn.net")) {
+      return res.status(400).send("Unsupported image host");
+    }
+
+    const response = await fetch(imageUrl);
+
+    if (!response.ok) {
+      return res.status(response.status).send("Could not load image");
+    }
+
+    const contentType =
+      response.headers.get("content-type") || "image/jpeg";
+
+    const imageBuffer = Buffer.from(
+      await response.arrayBuffer()
+    );
+
+    res.set("Content-Type", contentType);
+    res.set("Cache-Control", "public, max-age=300");
+    res.send(imageBuffer);
+  } catch (error) {
+    console.error("Image proxy error:", error);
+    res.status(500).send("Image proxy failed");
+  }
+});
 app.get("/api/opportunities", (req, res) => {
   try {
     res.set("Cache-Control", "no-store");

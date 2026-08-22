@@ -139,22 +139,33 @@ useEffect(() => {
         </ThemedView>
       ) : (
         opportunities.map((item, index) => (
-          <ThemedView
-            key={item.id ?? index}
-            style={styles.card}
-          >
-            {item.image ? (
-              <Image
-                source={{ uri: item.image }}
-                style={styles.watchImage}
-              />
-            ) : null}
-            <ThemedText
-             
-              style={styles.title}
-            >
-              {item.title}
-            </ThemedText>
+<ThemedView
+  key={item.id ?? index}
+  style={styles.card}
+>
+  {item.image ? (
+    <Image
+     source={{
+  uri:
+    item.source === "Moda"
+      ? `${API_URL}/api/image-proxy?url=${encodeURIComponent(item.image)}`
+      : item.image,
+}}
+      style={styles.watchImage}
+      onError={(e) =>
+        console.log(
+          "IMAGE ERROR:",
+          item.source,
+          e.nativeEvent.error,
+          item.image
+        )
+      }
+    />
+  ) : null}
+
+  <ThemedText style={styles.title}>
+    {item.title}
+  </ThemedText>
 
             <ThemedText>
               📍 Source: {item.source}
