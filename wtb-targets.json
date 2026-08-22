@@ -1,0 +1,27 @@
+[
+  {
+    "name": "Rolex Datejust 41",
+    "reference": "126300",
+    "year": 2018,
+    "set": "full set"
+  },
+  {
+    "name": "Rolex Air-King",
+    "reference": "126900",
+    "year": 2026,
+    "set": "full set"
+  },
+  {
+    "name": "Rolex Datejust 41 Silver Purple Arabic",
+    "reference": "126300",
+    "dial": "silver",
+    "configuration": "purple arabic numerals",
+    "set": "watch only"
+  },
+  {
+    "name": "Rolex GMT-Master II BLNR",
+    "reference": "126710BLNR",
+    "year": 2023,
+    "set": "full set"
+  }
+]

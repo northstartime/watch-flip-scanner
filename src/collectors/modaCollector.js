@@ -111,14 +111,14 @@ for (let pass = 0; pass < 8; pass++) {
       )
       .catch(() => []);
 
-    const postLink = candidateLinks.find((href) =>
-      /\/groups\/\d+\/posts\/\d+/i.test(href)
-    );
+const postLink = candidateLinks.find((href) =>
+  /\/groups\/[^/]+\/posts\/\d+/i.test(href)
+);
 
-    const linkMatch =
-      postLink?.match(
-        /\/groups\/(\d+)\/posts\/(\d+)/i
-      ) ?? null;
+ const linkMatch =
+  postLink?.match(
+    /\/groups\/([^/]+)\/posts\/(\d+)/i
+  ) ?? null;
 
     const groupId = linkMatch?.[1] ?? null;
     const postId = linkMatch?.[2] ?? null;
