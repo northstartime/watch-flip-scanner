@@ -64,6 +64,7 @@ const demandText = String(
 ).toLowerCase();
 
 let matchQuality = "POSSIBLE";
+let matchScore = 1;
 
 const demandYears =
   demandText.match(/\b20\d{2}\b/g) || [];
@@ -84,10 +85,70 @@ if (
   matchQuality = "REJECT";
 }
 
+if (
+  /\b(full set|complete set|with card|papers)\b/i.test(demand.demandText || "") &&
+  /\b(full set|complete set|with card|papers)\b/i.test(
+    opportunity.originalListing || ""
+  )
+) {
+  matchScore += 2;
+}
+
+if (
+  demandYears.length > 0 &&
+  demandYears.some((year) => askText.includes(year))
+) {
+  matchScore += 2;
+}
+
+
+const configWords = [
+  "black",
+  "blue",
+  "white",
+  "green",
+  "rhodium",
+  "silver",
+  "red",
+  "grape",
+  "meteorite",
+  "jubilee",
+  "oyster",
+  "champ",
+  "champagne",
+  "panda"
+];
+
+const demandedConfigs = configWords.filter((word) =>
+  demandText.includes(word)
+);
+
+if (demandedConfigs.length > 0) {
+  const matchedConfigs = demandedConfigs.filter((word) =>
+    askText.includes(word)
+  );
+
+  if (matchedConfigs.length === 0) {
+    matchQuality = "REJECT";
+  } else {
+    matchScore += matchedConfigs.length;
+  }
+}
+if (matchQuality !== "REJECT") {
+  if (matchScore >= 5) {
+    matchQuality = "EXACT";
+  } else if (matchScore >= 3) {
+    matchQuality = "STRONG";
+  } else {
+    matchQuality = "POSSIBLE";
+  }
+}
+
 if (matchQuality !== "REJECT") {
         opportunityMatches.push({
           type: "ARBITRAGE CANDIDATE",
           matchQuality,
+          matchScore,
           watch: opportunity.title,
           reference: ref,
           askPrice: opportunity.price,
