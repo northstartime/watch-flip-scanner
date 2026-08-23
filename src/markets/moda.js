@@ -75,7 +75,7 @@ export function parseBidComment(text) {
 export async function getModaListings() {
   console.log("Searching live Moda listings...");
 
-  const collectedListings = await dumpAccessibilityTree();
+const collectedListings = await dumpAccessibilityTree("558871041349029");
 
   return collectedListings.map((item) => {
     const auction = isAuctionListing(item.listingText);

@@ -372,9 +372,11 @@ const mobileResults = [
     id: watch.id || Date.now() + Math.random(),
 
     brand: watch.brand,
-    title: watch.title,
+title: watch.title,
+reference: watch.reference ?? null,
+originalListing: watch.originalListing ?? null,
 
-   price: watch.buyPrice ?? watch.price ?? null,
+price: watch.buyPrice ?? watch.price ?? null,
 marketValue: watch.marketValue > 0 ? watch.marketValue : null,
 projectedProfit:
   watch.marketValue > 0 && (watch.buyPrice ?? watch.price) > 0

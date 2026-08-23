@@ -10,7 +10,7 @@ const DEMAND_WORDS =
 function extractReferences(text) {
   const matches =
   String(text).toUpperCase().match(
-      /\b(?:1\d{5}[A-Z]{0,4}|[A-Z]{2,6}\d{3,8}[A-Z0-9.-]*)\b/g
+  /\b(?:1\d{5}[A-Z]{0,4}|\d{4,8}[A-Z]{1,4}|[A-Z]{2,6}\d{3,8}[A-Z0-9.-]*)\b/g
     ) || [];
 
   return [...new Set(matches)];
@@ -19,7 +19,8 @@ function extractReferences(text) {
 async function main() {
   console.log("Scanning Moda WTB / ISO demand...");
 
-  const posts = await dumpAccessibilityTree();
+const posts = await dumpAccessibilityTree("WatchBuying");
+
 
   const demands = posts
     .filter((post) => DEMAND_WORDS.test(post.listingText || ""))

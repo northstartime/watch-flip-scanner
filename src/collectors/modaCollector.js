@@ -40,7 +40,7 @@ async function findParentListingArticle(detailPage, postId) {
 
   return null;
 }
- export async function getLatestModaPage() {
+export async function getLatestModaPage(groupUrlFragment = null) {
 console.log("Connecting to North Star Chrome...");
 
   const browser = await chromium.connectOverCDP("http://127.0.0.1:9222");
@@ -56,7 +56,10 @@ console.log("Connecting to North Star Chrome...");
       console.log("Title:", title);
       console.log("URL:", url);
 
-      if (url.includes("facebook.com/groups")) {
+    if (
+  url.includes("facebook.com/groups") &&
+  (!groupUrlFragment || url.toLowerCase().includes(groupUrlFragment.toLowerCase()))
+) {
         console.log("✓ Connected to:", title);
 
         await page.bringToFront();
@@ -70,8 +73,8 @@ console.log("Connecting to North Star Chrome...");
   throw new Error("No Facebook group open.");
 }
 
-export async function dumpAccessibilityTree() {
-  const page = await getLatestModaPage();
+export async function dumpAccessibilityTree(groupUrlFragment = null) {
+  const page = await getLatestModaPage(groupUrlFragment);
 
 console.log("Waiting for posts...");
 
