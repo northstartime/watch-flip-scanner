@@ -72,10 +72,24 @@ export function parseBidComment(text) {
   return validBids.length ? Math.max(...validBids) : null;
 }
 
+const ASK_GROUPS = [
+  "558871041349029",
+  "watchtradercommunity",
+ "150223938977815",
+  "402925935441346",
+];
 export async function getModaListings() {
   console.log("Searching live Moda listings...");
 
-const collectedListings = await dumpAccessibilityTree("558871041349029");
+const collectedListings = [];
+
+for (const group of ASK_GROUPS) {
+  console.log(`Scanning ASK group: ${group}`);
+
+  const groupListings = await dumpAccessibilityTree(group);
+
+  collectedListings.push(...groupListings);
+}
 
   return collectedListings.map((item) => {
     const auction = isAuctionListing(item.listingText);
