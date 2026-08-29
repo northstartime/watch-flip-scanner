@@ -75,7 +75,7 @@ export function parseBidComment(text) {
 const ASK_GROUPS = [
   "558871041349029",
   "watchtradercommunity",
- "150223938977815",
+
   "402925935441346",
 ];
 export async function getModaListings() {
