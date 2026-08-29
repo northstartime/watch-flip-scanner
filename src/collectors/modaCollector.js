@@ -48,26 +48,39 @@ console.log("Connecting to North Star Chrome...");
   for (const context of browser.contexts()) {
     console.log(`Pages in context: ${context.pages().length}`);
 
-    for (const page of context.pages()) {
-      const title = await page.title();
-      const url = page.url();
+for (const page of context.pages()) {
+  const url = page.url();
 
-      console.log("--------------------------------");
-      console.log("Title:", title);
-      console.log("URL:", url);
+  if (!url.includes("facebook.com/groups/")) {
+    continue;
+  }
 
-    if (
-  url.includes("facebook.com/groups") &&
-  (!groupUrlFragment || url.toLowerCase().includes(groupUrlFragment.toLowerCase()))
-) {
-        console.log("✓ Connected to:", title);
+  if (url.includes("facebook.com/groups/feed")) {
+    continue;
+  }
 
-        await page.bringToFront();
-        await page.waitForTimeout(2000);
+  if (
+    groupUrlFragment &&
+    !url.toLowerCase().includes(groupUrlFragment.toLowerCase())
+  ) {
+    continue;
+  }
 
-        return page;
-      }
-    }
+  let title = "Facebook Group";
+
+  try {
+    title = await page.title();
+  } catch {
+    // Ignore title errors
+  }
+
+  console.log("------------------------------");
+  console.log("Title:", title);
+  console.log("URL:", url);
+  console.log("✓ Connected to:", title);
+
+  return page;
+}
   }
 
   throw new Error("No Facebook group open.");
@@ -162,6 +175,23 @@ console.log(
 const listings = [];
 const seenListingTexts = new Set();
 
+const detailPage = await page.context().newPage();
+const context = page.context();
+
+// The six existing group tabs + our one scratch tab are allowed.
+const allowedPages = new Set(context.pages());
+
+const closeUnexpectedPage = async (newPage) => {
+  if (!allowedPages.has(newPage)) {
+    console.log("Closing unexpected popup/tab:", newPage.url());
+
+    await newPage.close().catch(() => {
+      // Ignore close errors
+    });
+  }
+};
+
+context.on("page", closeUnexpectedPage);
 for (const { groupId, postId } of discoveredPosts) {
 
   const cleanPostUrl =
@@ -169,7 +199,7 @@ for (const { groupId, postId } of discoveredPosts) {
 
     console.log("Opening parent Moda post:", cleanPostUrl);
 
-    const detailPage = await page.context().newPage();
+  
 
     let parentListingText = "";
     let parentSeller = "Unknown seller";
@@ -287,8 +317,6 @@ console.log("Auction/comment candidates:", commentTexts.slice(0, 20));
         cleanPostUrl,
         error.message
       );
-    } finally {
-      await detailPage.close();
     }
 
 if (!parentListingText) {
@@ -338,6 +366,9 @@ url: cleanPostUrl,
       break;
     }
   }
+
+  context.off("page", closeUnexpectedPage);
+  await detailPage.close();
 
   fs.writeFileSync(
     "moda-listings.json",

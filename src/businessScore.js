@@ -251,22 +251,40 @@ if (integrityScore < 60) score -= 12;
    *
    * A WATCH listing is worth seeing even when it is not yet a BUY.
    */
-  let decision = "🔴 PASS";
+let decision = "🔴 PASS";
 
-  if (
+if (
   profit >= 1500 &&
   roi >= 12 &&
   score >= 72 &&
-watch.hasBoxAndPapers
+  watch.hasBoxAndPapers
 ) {
-    decision = "🟢 BUY NOW";
-  } else if (profit >= 1000 && roi >= 10 && score >= 60) {
-    decision = "🟡 STRONG WATCH";
-  } else if (profit >= 750 && roi >= 7 && score >= 48) {
-    decision = "🟠 WORTH CONTACTING";
-  } else if (profit >= 500 && roi >= 5 && score >= 38) {
-    decision = "👀 POSSIBLE";
-  }
+  decision = "🟢 BUY NOW";
+} else if (
+  profit >= 1000 &&
+  roi >= 10 &&
+  score >= 60
+) {
+  decision = "🟡 STRONG WATCH";
+} else if (
+  profit >= 600 &&
+  roi >= 12 &&
+  score >= 50
+) {
+  decision = "🟠 HIGH ROI";
+} else if (
+  profit >= 500 &&
+  roi >= 8 &&
+  score >= 42
+) {
+  decision = "🟠 WORTH CONTACTING";
+} else if (
+  profit >= 300 &&
+  roi >= 10 &&
+  score >= 35
+) {
+  decision = "👀 POSSIBLE";
+}
 
 return {
   profit,
