@@ -192,6 +192,7 @@ const closeUnexpectedPage = async (newPage) => {
 };
 
 context.on("page", closeUnexpectedPage);
+try {
 for (const { groupId, postId } of discoveredPosts) {
 
   const cleanPostUrl =
@@ -367,8 +368,13 @@ url: cleanPostUrl,
     }
   }
 
+} finally {
   context.off("page", closeUnexpectedPage);
-  await detailPage.close();
+
+  if (!detailPage.isClosed()) {
+    await detailPage.close().catch(() => {});
+  }
+}
 
   fs.writeFileSync(
     "moda-listings.json",

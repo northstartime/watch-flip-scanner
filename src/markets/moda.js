@@ -73,10 +73,10 @@ export function parseBidComment(text) {
 }
 
 const ASK_GROUPS = [
-  "558871041349029",
-  "watchtradercommunity",
+"watchtradercommunity",
 
-  "402925935441346",
+
+
 ];
 export async function getModaListings() {
   console.log("Searching live Moda listings...");
