@@ -1,9 +1,9 @@
 $ErrorActionPreference = "Stop"
 
-$projectPath = "C:\Users\woodm\watch-flip-scanner"
+$projectPath = "C:\Users\Administrator\watch-flip-scanner"
 $logFolder = Join-Path $projectPath "automation\logs"
 $cloudUrl = "https://watch-flip-scanner.onrender.com"
-$chromeShortcut = "$env:USERPROFILE\Desktop\North Star Chrome.lnk"
+$chromeShortcut = ""
 $modaUrl = "https://www.facebook.com/groups/558871041349029/?sorting_setting=CHRONOLOGICAL"
 
 New-Item -ItemType Directory -Force -Path $logFolder | Out-Null
@@ -49,7 +49,7 @@ try {
         $chromeReady = $true
     }
   catch {
-    Start-Process $chromeShortcut
+    Start-Process "C:\Program Files\Google\Chrome\Application\chrome.exe" -ArgumentList "--remote-debugging-port=9222","--user-data-dir=C:\NorthStarChrome"
     $startedChrome = $true
 }
 
@@ -76,17 +76,17 @@ try {
 
  if ($startedChrome) {
     Start-Process `
-        "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" `
+        "C:\Program Files\Google\Chrome\Application\chrome.exe" `
         -ArgumentList @(
             "--remote-debugging-port=9222",
-            '--user-data-dir=C:\NorthStarChromeProfile',
+            '--user-data-dir=C:\NorthStarChrome',
             $modaUrl
         )
 
     Start-Sleep -Seconds 8
 }
 
-    & npm.cmd start
+    & node src\v1.js
 
   if ($LASTEXITCODE -notin @(0, -1073740791)) {
         throw "The scanner exited with code $LASTEXITCODE."
@@ -111,3 +111,8 @@ finally {
 }
 
 exit $exitCode
+
+
+
+
+

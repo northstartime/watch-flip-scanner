@@ -11,6 +11,7 @@ const dataDirectory = process.env.NORTH_STAR_DATA_DIR
   ? path.resolve(process.env.NORTH_STAR_DATA_DIR)
   : path.join(__dirname, "data");
 const opportunitiesFile = path.join(dataDirectory, "opportunities.json");
+const scanRequestFile = path.join(dataDirectory, "scan-request.json");
 
 function readOpportunities() {
   if (!fs.existsSync(opportunitiesFile)) {
@@ -363,6 +364,22 @@ app.get("/api/health", (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ ok: false, error: "Health check failed." });
+  }
+});
+
+app.post("/api/scan-request", (req, res) => {
+  try {
+    fs.mkdirSync(dataDirectory, { recursive: true });
+    fs.writeFileSync(
+      scanRequestFile,
+      JSON.stringify({ requestedAt: new Date().toISOString() }, null, 2),
+      "utf8"
+    );
+
+    res.json({ ok: true, requestedAt: new Date().toISOString() });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Could not request scan." });
   }
 });
 
