@@ -367,6 +367,20 @@ app.get("/api/health", (req, res) => {
   }
 });
 
+app.get("/api/scan-request", requireUploadKey, (req, res) => {
+  try {
+    if (!fs.existsSync(scanRequestFile)) {
+      return res.json({ requestedAt: null });
+    }
+
+    const request = JSON.parse(fs.readFileSync(scanRequestFile, "utf8"));
+    res.json(request);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Could not read scan request." });
+  }
+});
+
 app.post("/api/scan-request", (req, res) => {
   try {
     fs.mkdirSync(dataDirectory, { recursive: true });
