@@ -42,6 +42,53 @@ export default function HomeScreen() {
   const [error, setError] = useState<string | null>(null);
   const [cloudUpdatedAt, setCloudUpdatedAt] = useState<string | null>(null);
 
+  async function refreshOpportunities() {
+    try {
+      setLoading(true);
+      setError(null);
+
+      const before = cloudUpdatedAt;
+
+      const requestResponse = await fetch(
+        `${API_URL}/api/scan-request`,
+        { method: 'POST' }
+      );
+
+      if (!requestResponse.ok) {
+        throw new Error(`HTTP ${requestResponse.status}`);
+      }
+
+      for (let attempt = 0; attempt < 36; attempt++) {
+        await new Promise(resolve => setTimeout(resolve, 5000));
+
+        const healthResponse = await fetch(
+          `${API_URL}/api/health?t=${Date.now()}`,
+          { headers: { Accept: 'application/json' } }
+        );
+
+        if (healthResponse.ok) {
+          const health: HealthResponse = await healthResponse.json();
+
+          if (health.updatedAt && health.updatedAt !== before) {
+            await loadOpportunities();
+            return;
+          }
+        }
+      }
+
+      throw new Error('Scan did not finish in time.');
+    } catch (err) {
+      console.log('REFRESH ERROR:', err);
+      setError(
+        err instanceof Error
+          ? err.message
+          : 'Could not start a fresh North Star scan.'
+      );
+    } finally {
+      setLoading(false);
+    }
+  }
+
   async function loadOpportunities() {
     try {
       setLoading(true);
@@ -110,7 +157,7 @@ useEffect(() => {
 
       <Pressable
         style={styles.refreshButton}
-        onPress={loadOpportunities}
+        onPress={refreshOpportunities}
       >
       {loading ? (
   <ActivityIndicator color="#FFFFFF" />
