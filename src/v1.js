@@ -54,20 +54,74 @@ async function run() {
   console.log(
     `North Star V1 found ${ebayListings.length} eBay listings`
   );
+console.log("Testing Facebook collector...");
 
-  console.log("Testing Facebook collector...");
+let watchTraderCommunityListings = [];
+let modaWatchClubListings = [];
+let modaMainListings = [];
+let modaWtbListings = [];
 
-const watchTraderCommunityListings =
-  await dumpAccessibilityTree("watchtradercommunity");
+try {
+  watchTraderCommunityListings =
+    await dumpAccessibilityTree("watchtradercommunity");
 
-const modaWatchClubListings =
-  await dumpAccessibilityTree("Watchtrading");
+  console.log(
+    `Watch Trader Community: ${watchTraderCommunityListings.length}`
+  );
+} catch (error) {
+  console.warn(
+    "Watch Trader Community collector failed — continuing with other sources.",
+    error?.message || error
+  );
+}
+
+
+try {
+  modaMainListings =
+    await dumpAccessibilityTree("Watchtrading");
+
+  console.log(
+    `Moda Main: ${modaMainListings.length}`
+  );
+} catch (error) {
+  console.warn(
+    "Moda Main collector failed - continuing with other sources.",
+    error?.message || error
+  );
+}
+
+try {
+  modaWtbListings =
+    await dumpAccessibilityTree("WatchBuying");
+
+  console.log(
+    `Moda WTB/ISO: ${modaWtbListings.length}`
+  );
+} catch (error) {
+  console.warn(
+    "Moda WTB/ISO collector failed - continuing with other sources.",
+    error?.message || error
+  );
+}
+try {
+  modaWatchClubListings =
+    await dumpAccessibilityTree("558871041349029");
+  console.log(
+    `Moda Watch Club: ${modaWatchClubListings.length}`
+  );
+} catch (error) {
+  console.warn(
+    "Moda Watch Club collector failed — continuing with other sources.",
+    error?.message || error
+  );
+}
 
 const facebookListings = [
   ...watchTraderCommunityListings,
+  ...modaMainListings,
+  ...modaWtbListings,
   ...modaWatchClubListings,
 ];
-
 console.log(
   `Watch Trader Community: ${watchTraderCommunityListings.length}`
 );
@@ -102,3 +156,7 @@ await uploadOpportunities(enrichedListings);
 run().catch((error) => {
   console.error("North Star V1 failed:", error);
 });
+
+
+
+
