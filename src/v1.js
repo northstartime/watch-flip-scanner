@@ -138,9 +138,10 @@ const allListings = filterListings([
 ]);
 const enrichedListings = allListings.map((listing) => ({
   ...listing,
- reference: extractReference(
-  listing.title || listing.listingText
-),
+  title: listing.title || listing.listingText || "Facebook listing",
+  reference: extractReference(
+    listing.title || listing.listingText
+  ),
 }));
 console.log(
   `North Star V1 recognized ${enrichedListings.filter((listing) => listing.reference).length} references`
