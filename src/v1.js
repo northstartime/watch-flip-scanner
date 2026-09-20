@@ -9,6 +9,46 @@ function extractReference(title) {
 
   return match ? match[0].toUpperCase() : null;
 }
+
+const BUY_CEILINGS = {
+  "126900": 7500,
+  "124270": 7000,
+  "214270": 8500,
+  "226570": 9000,
+  "216570": 8000,
+  "126300": 8500,
+  "126334": 10500,
+  "124060": 11000,
+  "126610LN": 12000,
+  "126613LN": 15500,
+  "126710BLNR": 15500,
+  "126710BLRO": 20500,
+  "310.30.42.50.01.002": 5000,
+  "210.30.42.20.03.001": 4000
+};
+function selectEbayBuyMode(listings) {
+  const bad = /\bbox\b|bezel|bracelet|band|dial only|case only|links?\b|custom|aftermarket|lab grown|diamond bezel|parts|replacement|certificate|guarantee card|warranty card|papers only|card only/i;
+  const clean = listings.filter(x =>
+    x.source === "eBay" &&
+    x.price >= 1000 &&
+    x.title &&
+    !bad.test(x.title) &&
+    extractReference(x.title)
+  );
+
+  const groups = new Map();
+
+  for (const listing of clean) {
+    const ref = extractReference(listing.title);
+    if (!BUY_CEILINGS[ref] || listing.price > BUY_CEILINGS[ref]) continue;
+    if (!groups.has(ref)) groups.set(ref, []);
+    groups.get(ref).push(listing);
+  }
+
+  return [...groups.values()].flatMap(items =>
+    items.sort((a, b) => a.price - b.price).slice(0, 3)
+  );
+}
 function filterListings(listings) {
   return listings.filter((listing) => {
     if (listing.source === "eBay" && !listing.price) {
@@ -133,7 +173,7 @@ console.log(
     `North Star V1 found ${facebookListings.length} Facebook listings`
   );
 const allListings = filterListings([
-  ...ebayListings,
+  ...selectEbayBuyMode(ebayListings),
   ...facebookListings,
 ]);
 const enrichedListings = allListings.map((listing) => ({
@@ -157,6 +197,10 @@ await uploadOpportunities(enrichedListings);
 run().catch((error) => {
   console.error("North Star V1 failed:", error);
 });
+
+
+
+
 
 
 

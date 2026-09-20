@@ -14,6 +14,7 @@ const SEARCHES = [
   { query: "Rolex 126334", brand: "Rolex" },
   { query: "Rolex 124060", brand: "Rolex" },
   { query: "Rolex 126610LN", brand: "Rolex" },
+  { query: "Rolex 126613LN", brand: "Rolex" },
   { query: "Rolex 126710BLNR", brand: "Rolex" },
   { query: "Rolex 126710BLRO", brand: "Rolex" },
   { query: "Omega 310.30.42.50.01.002", brand: "Omega" },
