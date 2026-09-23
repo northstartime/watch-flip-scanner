@@ -1,5 +1,5 @@
 import { getEbayListingsV1 } from "./markets/ebayV1.js";
-import { dumpAccessibilityTree } from "./collectors/modaCollector.js";
+import { getFacebookDirect } from "./collectors/facebookDirect.js";
 import { uploadOpportunities } from "./cloudSync.js";
 
 function extractReference(title) {
@@ -103,7 +103,7 @@ let modaWtbListings = [];
 
 try {
   watchTraderCommunityListings =
-    await dumpAccessibilityTree("watchtradercommunity");
+    await getFacebookDirect("watchtradercommunity");
 
   console.log(
     `Watch Trader Community: ${watchTraderCommunityListings.length}`
@@ -118,7 +118,7 @@ try {
 
 try {
   modaMainListings =
-    await dumpAccessibilityTree("Watchtrading");
+    await getFacebookDirect("Watchtrading");
 
   console.log(
     `Moda Main: ${modaMainListings.length}`
@@ -132,7 +132,7 @@ try {
 
 try {
   modaWtbListings =
-    await dumpAccessibilityTree("WatchBuying");
+    await getFacebookDirect("WatchBuying");
 
   console.log(
     `Moda WTB/ISO: ${modaWtbListings.length}`
@@ -145,7 +145,7 @@ try {
 }
 try {
   modaWatchClubListings =
-    await dumpAccessibilityTree("558871041349029");
+    await getFacebookDirect("558871041349029");
   console.log(
     `Moda Watch Club: ${modaWatchClubListings.length}`
   );
@@ -197,6 +197,7 @@ await uploadOpportunities(enrichedListings);
 run().catch((error) => {
   console.error("North Star V1 failed:", error);
 });
+
 
 
 
