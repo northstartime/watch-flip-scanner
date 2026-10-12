@@ -69,76 +69,140 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json({ limit: "25mb" }));
 
 app.get("/", (req, res) => {
-    res.send(`
+  res.send(`
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>North Star Terminal</title>
+<title>North Star Scanner</title>
 
 <style>
-body{
-    font-family:Arial,sans-serif;
-    max-width:700px;
-    margin:40px auto;
-    padding:20px;
+body {
+  font-family: Arial, sans-serif;
+  background: #f5f5f5;
+  margin: 0;
+  padding: 16px;
 }
-
-textarea{
-    width:100%;
-    height:250px;
-    font-size:16px;
+.wrap {
+  max-width: 700px;
+  margin: auto;
 }
-
-button{
-    margin-top:15px;
-    padding:12px 24px;
-    font-size:18px;
+h1 {
+  margin-bottom: 4px;
 }
-
-.banner{
-    color:white;
-    font-size:30px;
-    font-weight:bold;
-    text-align:center;
-    padding:15px;
-    border-radius:10px;
-    margin-bottom:25px;
+.sub {
+  color: #666;
+  margin-top: 0;
 }
-
-.buy{background:#16a34a;}
-.hold{background:#d97706;}
-.pass{background:#dc2626;}
-.review{background:#4b5563;}
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 15px;
+  margin: 12px 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,.10);
+}
+.title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+.price {
+  font-size: 22px;
+  font-weight: bold;
+}
+.meta {
+  margin: 5px 0;
+}
+.score {
+  font-weight: bold;
+}
+img {
+  width: 100%;
+  max-height: 300px;
+  object-fit: contain;
+  margin-top: 10px;
+  border-radius: 8px;
+}
+a {
+  display: inline-block;
+  margin-top: 12px;
+  font-weight: bold;
+}
 </style>
-
 </head>
 
 <body>
+<div class="wrap">
+  <h1>⭐ North Star Scanner</h1>
+  <p class="sub">Current watch opportunities</p>
 
-<h1>⭐ North Star Terminal</h1>
+  <div id="status">Loading opportunities...</div>
+  <div id="list"></div>
+</div>
 
-<form method="POST" action="/evaluate">
+<script>
+async function loadOpportunities() {
+  const status = document.getElementById("status");
+  const list = document.getElementById("list");
 
-<textarea
-name="listing"
-placeholder="Paste a MODA, Facebook or dealer listing..."
-></textarea>
+  try {
+    const response = await fetch("/api/opportunities");
+    const opportunities = await response.json();
 
-<br>
+    status.textContent =
+      opportunities.length + " opportunities found";
 
-<button type="submit">
-Evaluate Listing
-</button>
+    list.innerHTML = opportunities.map(o => \`
+      <div class="card">
+        <div class="title">\${o.title || "Watch Opportunity"}</div>
 
-</form>
+        <div class="price">
+          $\${Number(o.price || 0).toLocaleString()}
+        </div>
 
+        <div class="meta">
+          Source: \${o.source || "Unknown"}
+        </div>
+
+        <div class="meta">
+          Market: $\${Number(o.marketValue || 0).toLocaleString()}
+        </div>
+
+        <div class="meta">
+          Projected Profit:
+          $\${Number(o.projectedProfit || 0).toLocaleString()}
+        </div>
+
+        <div class="score">
+          North Star Score: \${o.score || 0}/100
+        </div>
+
+        \${o.image ? \`
+          <img src="\${o.image}" alt="Watch">
+        \` : ""}
+
+        \${o.url ? \`
+          <br>
+          <a href="\${o.url}" target="_blank">
+            View Listing →
+          </a>
+        \` : ""}
+      </div>
+    \`).join("");
+
+  } catch (err) {
+    status.textContent = "Could not load opportunities.";
+    console.error(err);
+  }
+}
+
+loadOpportunities();
+</script>
 </body>
 </html>
-`);
+  `);
 });
-
 app.post("/evaluate", async (req, res) => {
 
     const listing = req.body.listing;
@@ -329,7 +393,7 @@ app.post("/api/opportunities", requireUploadKey, (req, res) => {
       });
     }
 
-    if (opportunities.length > 500) {
+   if (opportunities.length > 5000) {
       return res.status(413).json({
         error: "Too many opportunities in one upload.",
       });
