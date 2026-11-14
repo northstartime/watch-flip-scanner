@@ -1,3 +1,5 @@
+import { financialReviewReasons } from "./listingIntegrity.js";
+
 function number(value) {
   const converted = Number(value);
   return Number.isFinite(converted) ? converted : 0;
@@ -12,41 +14,11 @@ function includesAny(text, terms) {
 }
 
 export function evaluateWatch(watch) {
-    const hasValidBuyPrice =
-    watch.buyPrice !== null &&
-    watch.buyPrice !== undefined &&
-    Number.isFinite(Number(watch.buyPrice)) &&
-    Number(watch.buyPrice) > 0;
-
-  const hasValidMarketValue =
-    watch.marketValue !== null &&
-    watch.marketValue !== undefined &&
-    Number.isFinite(Number(watch.marketValue)) &&
-    Number(watch.marketValue) > 0;
-
-  if (!hasValidBuyPrice || !hasValidMarketValue) {
-    return {
-      profit: null,
-      roi: null,
-      score: 0,
-      integrityScore: 0,
-      integrityIssues: ["Missing reliable price data"],
-      reasons: [
-        !hasValidBuyPrice
-          ? "Missing reliable buy price — manual review required"
-          : "Missing reliable market value — manual review required",
-      ],
-      decision: "🟠 REVIEW",
-      maximumBid: hasValidMarketValue
-        ? Math.max(
-            0,
-            Number(watch.marketValue) -
-              Number(watch.fees || 0) -
-              Number(watch.shipping || 0) -
-              1000
-          )
-        : null,
-    };
+  const reviewReasons = financialReviewReasons(watch);
+  if (reviewReasons.length) {
+    return { profit: null, roi: null, score: 0, integrityScore: 0,
+      integrityIssues: reviewReasons, reasons: reviewReasons,
+      decision: "REVIEW", maximumBid: null };
   }
   const buyPrice = number(watch.buyPrice);
   const marketValue = number(watch.marketValue);
@@ -54,7 +26,8 @@ export function evaluateWatch(watch) {
   const shipping = number(watch.shipping);
 
   const profit = marketValue - buyPrice - fees - shipping;
-  const roi = buyPrice > 0 ? (profit / buyPrice) * 100 : 0;
+  const acquisitionCost = buyPrice + fees + shipping;
+  const roi = acquisitionCost > 0 ? (profit / acquisitionCost) * 100 : 0;
 
   const desiredProfit = 1000;
   const maximumBid = Math.max(

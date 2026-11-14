@@ -1,0 +1,29 @@
+{
+  "entrypoint": "src/server.js",
+  "runtimeFiles": [
+    "package.json",
+    "package-lock.json",
+    "src/server.js",
+    "src/inventoryStore.js",
+    "src/inventoryIntegrity.js",
+    "src/uploadAuth.js",
+    "src/runtimeUtils.js",
+    "src/quickEvaluate.js",
+    "src/parser.js",
+    "src/businessScore.js",
+    "src/marketValue.js",
+    "src/listingIntegrity.js"
+  ],
+  "reviewFiles": [
+    ".gitignore",
+    "server-release.json",
+    "tools/check-server-release.js",
+    "SERVER_DEPLOYMENT_PREPARATION.md",
+    "tests/scan-request.test.js",
+    "tests/inventory-store.test.js",
+    "tests/helpers/offline-inventory-server.js",
+    "tests/helpers/server-marker.js",
+    "tests/server-release.test.js",
+    "SERVER_RELEASE_REVIEW.md"
+  ]
+}

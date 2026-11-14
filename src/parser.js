@@ -1,37 +1,12 @@
 import { estimateMarketValue } from "./marketValue.js";
+import { parseAskingPrice } from "./listingIntegrity.js";
 export function parseListing(listing, shareLink) {
 
   // Extract Facebook URL if present
 const listingUrl =
   shareLink?.trim() || "https://www.facebook.com/groups/Watchtrading";
 
-// Find asking price
-const pricePatterns = [
-  /\basking\s*(?:price\s*)?[:\-]?\s*\$?\s*([\d,]{3,8})\b/i,
-  /\bprice\s*[:\-]?\s*\$?\s*([\d,]{3,8})\b/i,
-  /^\$?\s*([\d,]{3,8})\s*\+\s*(?:label)\b/i,
-  /^\$?\s*([\d,]{3,8})\s*(?:obo|firm|shipped|net)\b/i,
-/^\$\s*([\d,]{3,8})\b/i,
-  /(?:take it home|take it)\s*(?:for\s*)?\$?\s*([\d,]{3,8})\b/i,
-  /^\s*\$?\s*([\d,]{3,8})\s*(?:take it home|take it|shipped|obo|firm|net)\b/im,
-];
-
-const numberedItems = listing.match(/^\s*\d+\s*:/gm) || [];
-const isMultiWatchPost = numberedItems.length >= 2;
-
-let priceMatch = null;
-
-if (!isMultiWatchPost) {
-  for (const pattern of pricePatterns) {
-    const match = listing.match(pattern);
-
-    if (match) {
-      priceMatch = match;
-      break;
-    }
-  }
-}
-
+const askingPrice = parseAskingPrice(listing);
 
   // Find reference number
 const referenceMatch =
@@ -243,17 +218,18 @@ tradeAccepted,
 dealerListing,
 wristSize,
     reference: referenceMatch ? referenceMatch[1] : null,
-   price: priceMatch
-  ? Number(priceMatch[1].replace(/,/g, ""))
-  : null,
-  buyPrice: priceMatch
-  ? Number(priceMatch[1].replace(/,/g, ""))
-  : null,
+   price: askingPrice.amount,
+  buyPrice: askingPrice.amount,
+  priceExtraction: askingPrice,
+  currency: askingPrice.currency,
 
 source: "Moda",
 url: listingUrl,
 
-marketValue: estimateMarketValue(listing),
+marketValue: null,
+    estimatedMarketValue: referenceMatch ? estimateMarketValue(referenceMatch[1]) : null,
+    acquisitionVerified: false,
+    exitVerified: false,
     year: yearMatch ? Number(yearMatch[0]) : null,
     hasBox,
     hasPapers,

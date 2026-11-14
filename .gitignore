@@ -6,4 +6,29 @@ reports/
 !northstar-mobile-v2/assets/images/*.png
 .env
 automation/logs/
+automation/output/
+deployment-packages/
+
+# Runtime secrets and inventory must never enter a new release commit.
+.env.*
+.aws/
+**/credentials
+*.pem
+*.key
+src/data/
+**/opportunities.json
+**/opportunities-backup-*.json
+**/opportunities.json.*
+**/opportunities.json.lock
+
+# Local collection/session artifacts.
+moda-listings.json
+market-matches.json
+wtb-demand.json
+scanner-status.json
+tabs.json
+PHASE3_*_RESULT.json
+*.html
+chrome-processes.txt
+comments-check.txt
 

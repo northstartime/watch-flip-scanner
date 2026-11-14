@@ -149,7 +149,7 @@ export function estimateMarketValue(title) {
         .replace(/[^a-z0-9]+/g, " ")
         .trim();
 
-      return normalizedTitle.includes(normalizedKeyword);
+      return (` ${normalizedTitle} `).includes(` ${normalizedKeyword} `);
     });
 
     if (matches) {
@@ -175,7 +175,7 @@ export function getMarketData(title) {
         .replace(/[^a-z0-9]+/g, " ")
         .trim();
 
-      return normalizedTitle.includes(normalizedKeyword);
+      return (` ${normalizedTitle} `).includes(` ${normalizedKeyword} `);
     });
 
     if (matches) {
@@ -183,7 +183,8 @@ export function getMarketData(title) {
         wholesale: entry.wholesale ?? entry.value,
         expected: entry.expected ?? entry.value,
         retail: entry.retail ?? entry.value,
-        confidence: entry.confidence ?? 75,
+        confidence: entry.confidence ?? null,
+        verified: false,
         updated: entry.updated ?? "Unknown",
       };
     }

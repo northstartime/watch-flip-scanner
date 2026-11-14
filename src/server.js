@@ -1,8 +1,15 @@
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import { randomUUID } from "node:crypto";
 import express from "express";
+import { createInventoryStore, InventoryError } from "./inventoryStore.js";
 import { main } from "./quickEvaluate.js";
+import { createUploadAuthorization } from "./uploadAuth.js";
+import { loadRuntimeEnvironment } from "./runtimeUtils.js";
+
+const isMain = process.argv[1] === fileURLToPath(import.meta.url);
+if (isMain) await loadRuntimeEnvironment();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -27,38 +34,9 @@ function readOpportunities() {
   return data;
 }
 
-function writeOpportunities(opportunities) {
-  fs.mkdirSync(dataDirectory, { recursive: true });
-  const temporaryFile = `${opportunitiesFile}.tmp`;
+const inventory = createInventoryStore(opportunitiesFile);
 
-  fs.writeFileSync(
-    temporaryFile,
-    JSON.stringify(opportunities, null, 2),
-    "utf8"
-  );
-  fs.renameSync(temporaryFile, opportunitiesFile);
-}
-
-function requireUploadKey(req, res, next) {
-  const configuredKey = process.env.NORTH_STAR_UPLOAD_KEY;
-
-  if (!configuredKey) {
-    return res.status(503).json({
-      error: "Cloud uploads are not configured.",
-    });
-  }
-
-  const authorization = req.get("authorization") || "";
-  const suppliedKey = authorization.startsWith("Bearer ")
-    ? authorization.slice("Bearer ".length)
-    : req.get("x-api-key");
-
-  if (suppliedKey !== configuredKey) {
-    return res.status(401).json({ error: "Unauthorized." });
-  }
-
-  next();
-}
+const requireUploadKey = createUploadAuthorization();
 
 const app = express();
 app.use((req, res, next) => {
@@ -68,78 +46,150 @@ app.use((req, res, next) => {
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json({ limit: "25mb" }));
+// Body-parser errors may contain submitted data; never echo/log the raw exception.
+app.use((error, req, res, next) => {
+  const oversized = error.type === 'entity.too.large';
+  const malformed = error.type === 'entity.parse.failed';
+  res.status(oversized ? 413 : malformed ? 400 : 500).json({
+    error: oversized ? 'PAYLOAD_TOO_LARGE' : malformed ? 'INVALID_JSON' : 'REQUEST_FAILED',
+  });
+});
 
 app.get("/", (req, res) => {
-    res.send(`
+  res.send(`
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>North Star Terminal</title>
+<title>North Star Scanner</title>
 
 <style>
-body{
-    font-family:Arial,sans-serif;
-    max-width:700px;
-    margin:40px auto;
-    padding:20px;
+body {
+  font-family: Arial, sans-serif;
+  background: #f5f5f5;
+  margin: 0;
+  padding: 16px;
 }
-
-textarea{
-    width:100%;
-    height:250px;
-    font-size:16px;
+.wrap {
+  max-width: 700px;
+  margin: auto;
 }
-
-button{
-    margin-top:15px;
-    padding:12px 24px;
-    font-size:18px;
+h1 {
+  margin-bottom: 4px;
 }
-
-.banner{
-    color:white;
-    font-size:30px;
-    font-weight:bold;
-    text-align:center;
-    padding:15px;
-    border-radius:10px;
-    margin-bottom:25px;
+.sub {
+  color: #666;
+  margin-top: 0;
 }
-
-.buy{background:#16a34a;}
-.hold{background:#d97706;}
-.pass{background:#dc2626;}
-.review{background:#4b5563;}
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 15px;
+  margin: 12px 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,.10);
+}
+.title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+.price {
+  font-size: 22px;
+  font-weight: bold;
+}
+.meta {
+  margin: 5px 0;
+}
+.score {
+  font-weight: bold;
+}
+img {
+  width: 100%;
+  max-height: 300px;
+  object-fit: contain;
+  margin-top: 10px;
+  border-radius: 8px;
+}
+a {
+  display: inline-block;
+  margin-top: 12px;
+  font-weight: bold;
+}
 </style>
-
 </head>
 
 <body>
+<div class="wrap">
+  <h1>⭐ North Star Scanner</h1>
+  <p class="sub">Current watch opportunities</p>
 
-<h1>⭐ North Star Terminal</h1>
+  <div id="status">Loading opportunities...</div>
+  <div id="list"></div>
+</div>
 
-<form method="POST" action="/evaluate">
+<script>
+async function loadOpportunities() {
+  const status = document.getElementById("status");
+  const list = document.getElementById("list");
 
-<textarea
-name="listing"
-placeholder="Paste a MODA, Facebook or dealer listing..."
-></textarea>
+  try {
+    const response = await fetch("/api/opportunities");
+    const opportunities = await response.json();
 
-<br>
+    status.textContent =
+      opportunities.length + " opportunities found";
 
-<button type="submit">
-Evaluate Listing
-</button>
+    list.innerHTML = opportunities.map(o => \`
+      <div class="card">
+        <div class="title">\${o.title || "Watch Opportunity"}</div>
 
-</form>
+        <div class="price">
+          \${o.price == null ? "Manual Review" : "$" + Number(o.price).toLocaleString()}
+        </div>
 
+        <div class="meta">
+          Source: \${o.source || "Unknown"}
+        </div>
+
+        <div class="meta">
+          Market: \${o.marketValue == null ? "Manual Review" : "$" + Number(o.marketValue).toLocaleString()}
+        </div>
+
+        <div class="meta">
+          Projected Profit:
+          \${o.projectedProfit == null ? "Manual Review" : "$" + Number(o.projectedProfit).toLocaleString()}
+        </div>
+
+        <div class="score">
+          North Star Score: \${o.score || 0}/100
+        </div>
+
+        \${o.image ? \`
+          <img src="\${o.image}" alt="Watch">
+        \` : ""}
+
+        \${o.url ? \`
+          <br>
+          <a href="\${o.url}" target="_blank">
+            View Listing →
+          </a>
+        \` : ""}
+      </div>
+    \`).join("");
+
+  } catch (err) {
+    status.textContent = "Could not load opportunities.";
+    console.error(err);
+  }
+}
+
+loadOpportunities();
+</script>
 </body>
 </html>
-`);
+  `);
 });
-
 app.post("/evaluate", async (req, res) => {
 
     const listing = req.body.listing;
@@ -310,7 +360,12 @@ app.get("/api/image-proxy", async (req, res) => {
 app.get("/api/opportunities", (req, res) => {
   try {
     res.set("Cache-Control", "no-store");
-    res.json(readOpportunities());
+    // Response-only filter: retain the complete stored inventory for other operations.
+    const facebookListings = readOpportunities().filter(listing =>
+      typeof listing?.source === 'string' &&
+      ['moda', 'facebook'].includes(listing.source.trim().toLowerCase())
+    );
+    res.json(facebookListings);
 
   } catch (err) {
     console.error(err);
@@ -320,32 +375,67 @@ app.get("/api/opportunities", (req, res) => {
   }
 });
 
-app.post("/api/opportunities", requireUploadKey, (req, res) => {
+// Existing AWS watcher contract: reads never consume or acknowledge requests.
+app.get('/api/scan-request', requireUploadKey, (req, res) => {
+  res.set('Cache-Control', 'no-store, private');
   try {
-    const opportunities = req.body;
+    res.json(JSON.parse(fs.readFileSync(scanRequestFile, 'utf8')));
+  } catch (error) {
+    if (error.code === 'ENOENT') return res.json({ requestedAt: null });
+    res.status(500).json({ error: 'SCAN_REQUEST_READ_FAILED' });
+  }
+});
 
-    if (!Array.isArray(opportunities)) {
-      return res.status(400).json({
-        error: "Request body must be an array of opportunities.",
-      });
+// SECURITY: intentionally unauthenticated to preserve the deployed iPhone contract.
+// Changing this requires a coordinated app/auth migration, not a server-only patch.
+app.post('/api/scan-request', (req, res) => {
+  res.set('Cache-Control', 'no-store');
+  let temporary;
+  try {
+    const request = { requestedAt: new Date().toISOString() };
+    fs.mkdirSync(dataDirectory, { recursive: true });
+    temporary = `${scanRequestFile}.${randomUUID()}.tmp`;
+    const fd = fs.openSync(temporary, 'wx', 0o600);
+    try {
+      fs.writeFileSync(fd, JSON.stringify(request));
+      fs.fsyncSync(fd);
+    } finally { fs.closeSync(fd); }
+    fs.renameSync(temporary, scanRequestFile);
+    temporary = undefined;
+    res.json({ ok: true, requestedAt: request.requestedAt });
+  } catch {
+    res.status(500).json({ error: 'SCAN_REQUEST_WRITE_FAILED' });
+  } finally {
+    if (temporary) {
+      try { fs.unlinkSync(temporary); } catch { /* Never expose paths or raw errors. */ }
     }
+  }
+});
 
-    if (opportunities.length > 500) {
-      return res.status(413).json({
-        error: "Too many opportunities in one upload.",
-      });
+// Complete inventory is never exposed by the public iPhone feed.
+app.get('/api/opportunities/inventory', requireUploadKey, (req, res) => {
+  res.set('Cache-Control', 'no-store, private');
+  try {
+    const snapshot = inventory.snapshot();
+    res.set('ETag', snapshot.version);
+    res.json({ ok: true, complete: true, version: snapshot.version, opportunities: snapshot.rows });
+  } catch {
+    res.status(500).json({ error: 'INVENTORY_READ_FAILED' });
+  }
+});
+
+app.post('/api/opportunities', requireUploadKey, (req, res) => {
+  res.set('Cache-Control', 'no-store, private');
+  try {
+    const result = inventory.commit(req.body, req.get('if-match'));
+    res.set('ETag', result.version);
+    res.json(result);
+  } catch (error) {
+    if (error instanceof InventoryError) {
+      return res.status(error.status).json({ error: error.code, ...(error.validation ? { validation: error.validation } : {}) });
     }
-
-    writeOpportunities(opportunities);
-
-    res.json({
-      ok: true,
-      count: opportunities.length,
-      updatedAt: new Date().toISOString(),
-    });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Could not save opportunities." });
+    // Never log stored listing data, filesystem paths, headers or raw exceptions.
+    res.status(500).json({ error: 'INVENTORY_WRITE_FAILED' });
   }
 });
 
@@ -367,45 +457,8 @@ app.get("/api/health", (req, res) => {
   }
 });
 
-app.get("/api/scan-request", requireUploadKey, (req, res) => {
-  try {
-    if (!fs.existsSync(scanRequestFile)) {
-      return res.json({ requestedAt: null });
-    }
-
-    const request = JSON.parse(fs.readFileSync(scanRequestFile, "utf8"));
-    res.json(request);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Could not read scan request." });
-  }
-});
-
-app.post("/api/scan-request", (req, res) => {
-  try {
-    fs.mkdirSync(dataDirectory, { recursive: true });
-    fs.writeFileSync(
-      scanRequestFile,
-      JSON.stringify({ requestedAt: new Date().toISOString() }, null, 2),
-      "utf8"
-    );
-
-    res.json({ ok: true, requestedAt: new Date().toISOString() });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Could not request scan." });
-  }
-});
-
 const PORT = process.env.PORT || 3000;
 
-const server = app.listen(PORT, () => {
-
-    console.log("");
-    console.log("⭐ North Star Terminal Running");
-  
-    console.log("");
-
-});
-
+// Importing the app for offline tests never opens a listening socket.
+const server = isMain ? app.listen(PORT, () => console.log('North Star Terminal Running')) : null;
 export { app, server };
