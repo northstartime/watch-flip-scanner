@@ -1,10 +1,9 @@
 $ErrorActionPreference = "Stop"
 
-$projectPath = "C:\Users\Administrator\watch-flip-scanner"
+$projectPath = Split-Path -Parent $PSScriptRoot
 $logFolder = Join-Path $projectPath "automation\logs"
 $cloudUrl = "https://watch-flip-scanner.onrender.com"
-$chromeShortcut = ""
-$modaUrl = "https://www.facebook.com/groups/558871041349029/?sorting_setting=CHRONOLOGICAL"
+$chromeShortcut = "$env:USERPROFILE\Desktop\North Star Chrome.lnk"
 
 New-Item -ItemType Directory -Force -Path $logFolder | Out-Null
 
@@ -29,17 +28,14 @@ try {
     Set-Location $projectPath
 
     $env:NORTH_STAR_CLOUD_URL = $cloudUrl
-    $env:NORTH_STAR_UPLOAD_KEY = [Environment]::GetEnvironmentVariable(
-        "NORTH_STAR_UPLOAD_KEY",
-        "User"
-    )
-
-    if ([string]::IsNullOrWhiteSpace($env:NORTH_STAR_UPLOAD_KEY)) {
-        throw "NORTH_STAR_UPLOAD_KEY is missing from the Windows user environment."
+    # Use the same process/.env resolver as direct Node entry points.
+    # Validate before accessing or starting Chrome; do not print credentials.
+    & node tools/check-upload-config.js
+    if ($LASTEXITCODE -ne 0) {
+        throw "Upload configuration preflight failed. No scan was started."
     }
 
     $chromeReady = $false
-    $startedChrome = $false
 
     try {
         Invoke-WebRequest `
@@ -49,8 +45,7 @@ try {
         $chromeReady = $true
     }
   catch {
-    Start-Process "C:\Program Files\Google\Chrome\Application\chrome.exe" -ArgumentList "--remote-debugging-port=9222","--user-data-dir=C:\NorthStarChrome"
-    $startedChrome = $true
+    Start-Process -FilePath $chromeShortcut -WindowStyle Hidden
 }
 
     if (-not $chromeReady) {
@@ -74,29 +69,33 @@ try {
         throw "North Star Chrome did not become available on port 9222."
     }
 
- if ($startedChrome) {
-    Start-Process `
-        "C:\Program Files\Google\Chrome\Application\chrome.exe" `
-        -ArgumentList @(
-            "--remote-debugging-port=9222",
-            '--user-data-dir=C:\NorthStarChrome',
-            $modaUrl
-        )
+$scanner = Start-Process `
+    -FilePath (Get-Command node.exe -ErrorAction Stop).Source `
+    -ArgumentList "src/daily.js" `
+    -WorkingDirectory $projectPath `
+    -PassThru `
+    -NoNewWindow
 
-    Start-Sleep -Seconds 8
+$null = $scanner.Handle
+
+if (-not $scanner.WaitForExit(900000)) {
+    Write-Warning "Scanner exceeded 15 minutes. Killing stuck process."
+    # Kill the scanner process tree, including its Playwright driver.
+    & taskkill.exe /PID $scanner.Id /T /F | Out-Null
+    throw "Scanner timed out after 15 minutes."
 }
 
-    & node src\v1.js
+$scanner.Refresh()
+$scannerExitCode = $scanner.ExitCode
 
-  if ($LASTEXITCODE -notin @(0, -1073740791)) {
-        throw "The scanner exited with code $LASTEXITCODE."
-    }
-
+if ($null -eq $scannerExitCode -or $scannerExitCode -ne 0) {
+    throw "The scanner exited with code $scannerExitCode."
+}
     Write-Host "North Star automated scan completed successfully."
 }
 catch {
     $exitCode = 1
-    Write-Error $_
+    Write-Host "North Star automation failed. Review configuration and safe status checks before retrying."
 }
 finally {
     if ($transcriptStarted) {
@@ -111,8 +110,3 @@ finally {
 }
 
 exit $exitCode
-
-
-
-
-

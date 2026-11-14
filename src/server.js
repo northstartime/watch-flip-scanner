@@ -1,3 +1,5 @@
+import {scannerPage} from './scannerPage.js';
+import {eligibleSaleRecord} from './saleListing.js';
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -55,141 +57,7 @@ app.use((error, req, res, next) => {
   });
 });
 
-app.get("/", (req, res) => {
-  res.send(`
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>North Star Scanner</title>
-
-<style>
-body {
-  font-family: Arial, sans-serif;
-  background: #f5f5f5;
-  margin: 0;
-  padding: 16px;
-}
-.wrap {
-  max-width: 700px;
-  margin: auto;
-}
-h1 {
-  margin-bottom: 4px;
-}
-.sub {
-  color: #666;
-  margin-top: 0;
-}
-.card {
-  background: white;
-  border-radius: 12px;
-  padding: 15px;
-  margin: 12px 0;
-  box-shadow: 0 2px 8px rgba(0,0,0,.10);
-}
-.title {
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 8px;
-}
-.price {
-  font-size: 22px;
-  font-weight: bold;
-}
-.meta {
-  margin: 5px 0;
-}
-.score {
-  font-weight: bold;
-}
-img {
-  width: 100%;
-  max-height: 300px;
-  object-fit: contain;
-  margin-top: 10px;
-  border-radius: 8px;
-}
-a {
-  display: inline-block;
-  margin-top: 12px;
-  font-weight: bold;
-}
-</style>
-</head>
-
-<body>
-<div class="wrap">
-  <h1>⭐ North Star Scanner</h1>
-  <p class="sub">Current watch opportunities</p>
-
-  <div id="status">Loading opportunities...</div>
-  <div id="list"></div>
-</div>
-
-<script>
-async function loadOpportunities() {
-  const status = document.getElementById("status");
-  const list = document.getElementById("list");
-
-  try {
-    const response = await fetch("/api/opportunities");
-    const opportunities = await response.json();
-
-    status.textContent =
-      opportunities.length + " opportunities found";
-
-    list.innerHTML = opportunities.map(o => \`
-      <div class="card">
-        <div class="title">\${o.title || "Watch Opportunity"}</div>
-
-        <div class="price">
-          \${o.price == null ? "Manual Review" : "$" + Number(o.price).toLocaleString()}
-        </div>
-
-        <div class="meta">
-          Source: \${o.source || "Unknown"}
-        </div>
-
-        <div class="meta">
-          Market: \${o.marketValue == null ? "Manual Review" : "$" + Number(o.marketValue).toLocaleString()}
-        </div>
-
-        <div class="meta">
-          Projected Profit:
-          \${o.projectedProfit == null ? "Manual Review" : "$" + Number(o.projectedProfit).toLocaleString()}
-        </div>
-
-        <div class="score">
-          North Star Score: \${o.score || 0}/100
-        </div>
-
-        \${o.image ? \`
-          <img src="\${o.image}" alt="Watch">
-        \` : ""}
-
-        \${o.url ? \`
-          <br>
-          <a href="\${o.url}" target="_blank">
-            View Listing →
-          </a>
-        \` : ""}
-      </div>
-    \`).join("");
-
-  } catch (err) {
-    status.textContent = "Could not load opportunities.";
-    console.error(err);
-  }
-}
-
-loadOpportunities();
-</script>
-</body>
-</html>
-  `);
-});
+app.get("/", (req, res) => { res.send(scannerPage()); });
 app.post("/evaluate", async (req, res) => {
 
     const listing = req.body.listing;
@@ -365,7 +233,10 @@ app.get("/api/opportunities", (req, res) => {
       typeof listing?.source === 'string' &&
       ['moda', 'facebook'].includes(listing.source.trim().toLowerCase())
     );
-    res.json(facebookListings);
+    const components=new Set(facebookListings.filter(row=>row.watchKey).map(row=>String(row.parentPostId)));
+    const visible=facebookListings.filter(eligibleSaleRecord).filter(row=>row.watchKey || !components.has(String(row.id).replace(/^moda-/,'')));
+    const selected=['research','opportunities'].includes(req.query?.queue)?visible.filter(row=>(row.queue??'research')===req.query.queue):visible;
+    res.json(selected);
 
   } catch (err) {
     console.error(err);

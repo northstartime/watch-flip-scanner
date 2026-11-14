@@ -1,5 +1,9 @@
+import { ASK_GROUPS, FACEBOOK_ASK_TARGETS, validateGroupFragments } from "../facebookGroups.js";
+import { withFacebookSession } from "../browserSession.js";
 import { dumpAccessibilityTree } from "../collectors/modaCollector.js";
 import { parseListing } from "../parser.js";
+import { deduplicateListings, matchesFacebookGroup } from "../listingIntegrity.js";
+import { splitSalePost } from '../saleListing.js';
 
 function isAuctionListing(text) {
   return /modaauction|start no reserve|minimum increment|top 3 bids are binding|no reserve auction|soft close/i.test(
@@ -72,28 +76,33 @@ export function parseBidComment(text) {
   return validBids.length ? Math.max(...validBids) : null;
 }
 
-const ASK_GROUPS = [
-"watchtradercommunity",
-
-
-
-];
-export async function getModaListings() {
-  console.log("Searching live Moda listings...");
+export async function getModaListings(collect, { sessionOptions, collectorOptions = {}, groups = ASK_GROUPS, log = console.log } = {}) {
+  const configuredGroups = validateGroupFragments(groups);
+  if (!collect) return withFacebookSession(session => getModaListings(group => dumpAccessibilityTree(group, { ...collectorOptions, getPage: session.getPage }), { groups: configuredGroups, log }), sessionOptions);
+  log("Collecting configured Facebook ASK groups...");
 
 const collectedListings = [];
 
-for (const group of ASK_GROUPS) {
-  console.log(`Scanning ASK group: ${group}`);
+for (const group of configuredGroups) {
+  log(`Scanning ASK group: ${group}`);
 
-  const groupListings = await dumpAccessibilityTree(group);
+  const groupListings = await collect(group);
 
-  collectedListings.push(...groupListings);
+  collectedListings.push(...groupListings.filter(item=>matchesFacebookGroup(item.url,group)).map(item=>({
+    ...item,groupId:new URL(item.url).pathname.split('/')[2],
+    groupName:FACEBOOK_ASK_TARGETS.find(target=>target.fragment.toLowerCase()===group.toLowerCase())?.name??group,
+  })));
 }
 
-  return collectedListings.map((item) => {
+  const components=deduplicateListings(collectedListings).flatMap(item=>splitSalePost(item).listings);
+  return deduplicateListings(components).map((item) => {
     const auction = isAuctionListing(item.listingText);
-    const parsed = parseListing(item.listingText);
+    const parsed = parseListing(item.listingText,item.url);
+    // Respect owned-text diagnostics, including a deliberately unresolved truncated price.
+    const priceExtraction = item.priceExtraction ?? parsed.priceExtraction;
+    const fixedPrice = priceExtraction?.status === 'recognized' && priceExtraction.currency === 'USD'
+      && typeof priceExtraction.amount === 'number' && Number.isFinite(priceExtraction.amount) && priceExtraction.amount > 0
+      ? priceExtraction.amount : null;
  const commentBids = auction
   ? (item.comments || [])
       .map(parseBidComment)
@@ -112,7 +121,12 @@ const currentBid = auction
       ...parsed,
 
       id: item.id,
-      seller: item.seller,
+      parentPostId:item.parentPostId,watchKey:item.watchKey,saleStatus:item.saleStatus,listingKind:item.listingKind,
+      groupId:item.groupId,groupName:item.groupName,photoAssociation:item.photoAssociation,textDiagnostics:item.textDiagnostics,
+      seller: item.seller || "Unknown seller",
+      sellerExtraction: item.sellerExtraction,
+      priceExtraction,
+      reviewReasons: [...new Set([...(item.reviewReasons??[]),...(fixedPrice===null?[priceExtraction?.reason??'asking_price_not_recognized']:[])])],
       source: "Moda",
 
       url: item.url,
@@ -120,16 +134,17 @@ const currentBid = auction
       originalListing: item.listingText,
 
       buyingOption: auction ? "AUCTION" : "FIXED_PRICE",
-      requiresManualReview: auction,
+      requiresManualReview: true,
+      capturedAt: item.capturedAt,
 currentBid,
 
 price: auction
-  ? currentBid ?? 0
-  : parsed.price,
+  ? currentBid
+  : fixedPrice,
 
 buyPrice: auction
-  ? currentBid ?? 0
-  : parsed.buyPrice ?? parsed.price ?? null,
+  ? null
+  : fixedPrice,
 marketValue: parsed.marketValue ?? null,
 
       hasBoxAndPapers:
@@ -141,8 +156,8 @@ marketValue: parsed.marketValue ?? null,
         ),
 
       trustedSeller: false,
-      fees: 0,
-      shipping: 0,
+      fees: null,
+      shipping: null,
     };
   });
 }

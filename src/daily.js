@@ -1,4 +1,3 @@
-import { execSync } from "child_process";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -6,40 +5,16 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-import { getEbayListings } from "./markets/ebay.js";
 import { getModaListings } from "./markets/moda.js";
 import { evaluateWatch } from "./businessScore.js";
 import { evaluateAuction } from "./auctionIntelligence.js";
-import { getDealers } from "./dealerManager.js";
 import { uploadOpportunities } from "./cloudSync.js";
-import { exec } from "child_process";
-async function embedModaImage(watch) {
-  if (watch.source !== "Moda" || !watch.image) {
-    return watch;
-  }
+import { deduplicateListings, toMobileOpportunity } from "./listingIntegrity.js";
+import { embedModaImages } from "./mobileImages.js";
+import { measureStage, loadRuntimeEnvironment } from "./runtimeUtils.js";
+import { scannerOutputDirectory, validateScannerConfiguration } from './scannerConfig.js';
+import { eligibleSaleRecord } from './saleListing.js';
 
-  try {
-    const response = await fetch(watch.image);
-
-    if (!response.ok) {
-      console.log(`Moda image fetch failed: ${response.status}`);
-      return watch;
-    }
-
-    const contentType =
-      response.headers.get("content-type") || "image/jpeg";
-
-    const buffer = Buffer.from(await response.arrayBuffer());
-
-    return {
-      ...watch,
-      image: `data:${contentType};base64,${buffer.toString("base64")}`,
-    };
-  } catch (error) {
-    console.log("Moda image embed failed:", error.message);
-    return watch;
-  }
-}
 function money(value) {
   return Number(value || 0).toLocaleString("en-US", {
     style: "currency",
@@ -58,7 +33,7 @@ function text(value, fallback = "Unknown") {
   return cleaned || fallback;
 }
 
-function formatListing(result) {
+export function formatListing(result) {
   const {
     watch,
     profit,
@@ -88,7 +63,7 @@ watch.currentBid !== undefined;
       ? currentBid <= maximumBid
         ? "KEEP BIDDING"
         : "STOP BIDDING"
-      : "NOT AN AUCTION";
+      : isAuction ? "MANUAL REVIEW" : "NOT AN AUCTION";
 
   let output = "";
 
@@ -120,10 +95,10 @@ watch.currentBid !== undefined;
   }\n`;
 
 output += `Market Value:      ${
-  hasValidMarketValue ? money(marketValue) : "Manual Review"
+  profit !== null && hasValidMarketValue ? money(marketValue) : "Manual Review"
 }\n`;
 
-if (hasValidBuyPrice && hasValidMarketValue) {
+if (profit !== null && hasValidBuyPrice && hasValidMarketValue) {
     const edge = marketValue - buyPrice;
 
     output += `Edge:              ${money(edge)}\n`;
@@ -139,14 +114,14 @@ if (hasValidBuyPrice && hasValidMarketValue) {
     output += `Edge:              Manual Review\n`;
     output += `Opportunity:       Manual Review\n`;
   }
-  if (watch.marketData) {
+  if (profit !== null && watch.marketData) {
   output += `Wholesale:     ${money(watch.marketData.wholesale)}\n`;
   output += `Retail:        ${money(watch.marketData.retail)}\n`;
   output += `Confidence:    ${watch.marketData.confidence}%\n`;
   output += `Updated:       ${watch.marketData.updated}\n\n`;
 }
-  output += `Fees:              ${money(fees)}\n`;
-  output += `Shipping:          ${money(shipping)}\n`;
+  output += `Fees:              ${watch.fees == null ? "Unknown" : money(fees)}\n`;
+  output += `Shipping:          ${watch.shipping == null ? "Unknown" : money(shipping)}\n`;
 output += `Projected Profit:  ${
   profit !== null ? money(profit) : "Manual Review"
 }\n`;
@@ -157,7 +132,7 @@ output += `ROI:               ${
 
 if (isAuction) {
   output += `Current Bid:      ${money(currentBid)}\n`;
-  output += `Maximum Bid:      ${money(maximumBid)}\n`;
+  output += `Maximum Bid:      ${maximumBid == null ? "Manual Review" : money(maximumBid)}\n`;
  output += `Auction Mode:     ${auctionDecision}\n`;
 output += "Auction Intelligence\n";
 output += "--------------------\n";
@@ -193,8 +168,8 @@ function formatRejectedCandidate(result, position) {
     `${position}. ${text(watch.title)}`,
     `   Buy: ${money(watch.buyPrice)} | Market: ${money(
       watch.marketValue
-    )} | Profit: ${money(profit)}`,
-    `   ROI: ${number(roi).toFixed(1)}% | Score: ${number(
+    )} | Profit: ${profit == null ? "Manual Review" : money(profit)}`,
+    `   ROI: ${roi == null ? "Manual Review" : number(roi).toFixed(1) + "%"} | Score: ${number(
       score
     )}/100 | Decision: ${text(decision)}`,
     `   ${text(watch.url, "No URL available")}`,
@@ -202,51 +177,35 @@ function formatRejectedCandidate(result, position) {
   ].join("\n");
 }
 
-async function main() {
+async function main({ collect = getModaListings, embed = embedModaImages, upload = uploadOpportunities, config = {} } = {}) {
+  const outputDirectory = scannerOutputDirectory(config);
   console.log("******** USING DAILY.JS ********");
   try {
     console.log("========================================");
     console.log("       NORTH STAR SCANNER 3.0");
     console.log("========================================");
-    console.log("Fetching live eBay listings...\n");
-    const dealers = getDealers();
-
-console.log("===== DEALERS =====");
-console.table(dealers);
-
+    console.log("Collecting Facebook listings; eBay collection remains disabled.\n");
 // Get listings from each source
-const ebayListings = await getEbayListings();
+const ebayListings = [];
 
 // Placeholder for future sources
-const modaListings = await getModaListings();
-
-console.log("\n========== MODA ==========");
-console.log("Moda listings:", modaListings.length);
-console.dir(modaListings, { depth: null });
-console.log("==========================\n");
+const modaListings = await measureStage("facebook-collection", () => collect());
 
 const dealerListings = [];
 
 // Combine all listings
-const listings = [
+const listings = deduplicateListings([
   ...ebayListings,
   ...modaListings,
   ...dealerListings
-];
+]).filter(watch=>eligibleSaleRecord(watch));
 
 
 console.log(`Listings returned: ${listings.length}`);
     const evaluatedListings = listings
       .map((watch) => {
         const evaluation = evaluateWatch(watch);
-  if (watch.source !== "eBay") {
-    console.log("\n===== MODA WATCH =====");
-    console.dir(watch, { depth: null });
-
-    console.log("\n===== EVALUATION =====");
-    console.dir(evaluation, { depth: null });
-}      
-const auction = evaluateAuction({
+const auction = evaluation.maximumBid == null ? { status: "REVIEW", message: "Verified acquisition and exit required before bidding." } : evaluateAuction({
   hoursRemaining: watch.hoursRemaining ?? 24,
   bidCount: watch.bidCount ?? 0,
   currentBid: watch.currentBid ?? watch.price,
@@ -273,25 +232,12 @@ const auction = evaluateAuction({
       
 const opportunities = evaluatedListings.filter(
   ({ watch, score, profit, decision }) =>
-    watch.source === "Moda" ||
     number(score) >= 60 ||
     number(profit) >= 1500 ||
     String(decision).includes("BUY") ||
     String(decision).includes("POSSIBLE")
 );
-// Open the top 3 opportunities automatically
-console.log("Opening", opportunities.length, "opportunities...");
-
-for (const watch of opportunities.slice(0, 3)) {
-
-    console.log("URL:", watch.watch.url);
-
- if (watch.watch.url) {
-    console.log("Opening:", watch.watch.url);
-    exec(`start "" "${watch.watch.url}"`);
-}
-
-}
+// Browser navigation is user initiated; scans never open opportunity tabs.
 
     const hiddenGems = opportunities.filter(({ hiddenGem }) => hiddenGem);
 
@@ -354,8 +300,7 @@ END OF NORTH STAR REPORT
 // ------------------------------------
 
 const modaCandidates = evaluatedListings
-  .filter(({ watch }) => watch.source === "Moda")
-  .slice(0, 5);
+  .filter(({ watch,decision }) => watch.source === "Moda" && eligibleSaleRecord(watch) && decision==='REVIEW');
 
 const mobileResults = [
   ...opportunities,
@@ -367,49 +312,15 @@ const mobileResults = [
       )
   ),
 ];
-  const mobileOpportunities = mobileResults.map(
-({ watch, profit, score, decision, roi }) => ({
-    id: watch.id || Date.now() + Math.random(),
+const mobileOpportunities = mobileResults.map(toMobileOpportunity);
 
-    brand: watch.brand,
-title: watch.title,
-reference: watch.reference ?? null,
-originalListing: watch.originalListing ?? null,
-
-price: watch.buyPrice ?? watch.price ?? null,
-marketValue: watch.marketValue > 0 ? watch.marketValue : null,
-projectedProfit:
-  watch.marketValue > 0 && (watch.buyPrice ?? watch.price) > 0
-    ? Math.round(profit)
-    : null,
-    score,
-    decision,
-
-    source: watch.source,
-
-    url: watch.url,
-
-    image: watch.image,
-    buyingOption: watch.buyingOption,
-requiresManualReview: watch.requiresManualReview,
-currentBid: watch.currentBid,
-
-roi:
-  watch.marketValue > 0 && (watch.buyPrice ?? watch.price) > 0
-    ? Math.round(roi)
-    : null,
-  })
-);
-
-const mobileOpportunitiesWithImages = await Promise.all(
-  mobileOpportunities.map(embedModaImage)
-);
+const mobileOpportunitiesWithImages = await measureStage("image-embedding", () => embed(mobileOpportunities));
 const opportunitiesPath = path.join(
-  __dirname,
-  "data",
+  outputDirectory,
   "opportunities.json"
 );
 
+fs.mkdirSync(outputDirectory, { recursive: true });
 fs.writeFileSync(
   opportunitiesPath,
 JSON.stringify(mobileOpportunitiesWithImages, null, 2),
@@ -418,15 +329,13 @@ JSON.stringify(mobileOpportunitiesWithImages, null, 2),
 console.log(`📱 Updated ${mobileOpportunities.length} mobile opportunities.`);
 
 try {
-await uploadOpportunities(mobileOpportunitiesWithImages);
+await measureStage("cloud-upload", () => upload(mobileOpportunitiesWithImages));
 } catch (cloudError) {
   console.error(`☁️ ${cloudError.message || cloudError}`);
   process.exitCode = 1;
 }
 
-    fs.mkdirSync("reports", { recursive: true });
-
-    const reportPath = `reports/daily-report-${today}.txt`;
+    const reportPath = path.join(outputDirectory, `daily-report-${today}.txt`);
     fs.writeFileSync(reportPath, report, "utf8");
 
   console.log(`Report saved to: ${reportPath}`);
@@ -435,19 +344,20 @@ await uploadOpportunities(mobileOpportunitiesWithImages);
 } catch (error) {
     console.error("\nNORTH STAR SCANNER ERROR");
 
-    if (error.response?.data) {
-      console.error(JSON.stringify(error.response.data, null, 2));
-    } else {
-      console.error(error.message || error);
-    }
+    console.error('Scanner failed. No automatic retry was performed.');
 
     process.exitCode = 1;
   }
 }
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  main().finally(() => {
-    process.exit(process.exitCode ?? 0);
-  });
+  try {
+    await loadRuntimeEnvironment();
+    validateScannerConfiguration();
+    await measureStage("daily-total", () => main());
+  } catch {
+    console.error('Scanner configuration failed. No scan was started.');
+    process.exitCode = 1;
+  }
 }
 export { main };
 

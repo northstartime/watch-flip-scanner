@@ -22,7 +22,7 @@ try {
     if (/\.(?:js|json)$/.test(file)) {
       const content = read(file);
       if (/-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----|\bAKIA[0-9A-Z]{16}\b|\bgh[pousr]_[A-Za-z0-9]{20,}\b/.test(content)) fail('Potential credential detected; inspect privately.');
-      const synthetic = new Set(['scan-request-fixture', 'server-release-fixture']);
+      const synthetic = new Set(manifest.syntheticTestKeys || ['scan-request-fixture', 'server-release-fixture']);
       for (const match of content.matchAll(/(?:UPLOAD_KEY|api[_-]?key|password|secret)\s*[:=]\s*['"]([^'"\s]{12,})['"]/gi)) {
         if (!(file.startsWith('tests/') && synthetic.has(match[1]))) fail('Potential embedded credential detected; inspect privately.');
       }

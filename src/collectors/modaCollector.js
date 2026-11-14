@@ -1,389 +1,177 @@
-import fs from "fs";
-import { chromium } from "playwright";
+﻿import fs from 'fs';
+import { parseAskingPrice, matchesFacebookGroup } from '../listingIntegrity.js';
+import { openFacebookSession, withFacebookSession, withScratchPage } from '../browserSession.js';
+import { measureStage, withTimeout } from '../runtimeUtils.js';
+import { readOwnedFacebookPost } from './facebookPostOwnership.js';
+import { classifySale } from '../saleListing.js';
 
-async function findParentListingArticle(detailPage, postId) {
-  const storyMessages = detailPage.locator(
-    '[data-ad-rendering-role="story_message"]:visible'
-  );
-
-  const messageCount = await storyMessages.count();
-
-  for (let i = 0; i < messageCount; i++) {
-    const storyMessage = storyMessages.nth(i);
-
-    const owner = storyMessage.locator(
-      `xpath=ancestor::div[
-        .//a[
-          contains(@href, "set=gm.${postId}") or
-          contains(@href, "set=pcb.${postId}")
-        ]
-      ][1]`
-    );
-
-    if ((await owner.count()) > 0) {
-      return owner;
-    }
-
-    const canonicalOwner = storyMessage.locator(
-      `xpath=ancestor::div[
-        .//a[
-          contains(@href, "/posts/${postId}") and
-          not(contains(@href, "comment_id"))
-        ]
-      ][1]`
-    );
-
-    if ((await canonicalOwner.count()) > 0) {
-      return canonicalOwner;
-    }
-  }
-
-  return null;
-}
-export async function getLatestModaPage(groupUrlFragment = null) {
-console.log("Connecting to North Star Chrome...");
-
-  const browser = await chromium.connectOverCDP("http://127.0.0.1:9222");
-
-  for (const context of browser.contexts()) {
-    console.log(`Pages in context: ${context.pages().length}`);
-
-for (const page of context.pages()) {
-  const url = page.url();
-
-  if (!url.includes("facebook.com/groups/")) {
-    continue;
-  }
-
-  if (url.includes("facebook.com/groups/feed")) {
-    continue;
-  }
-
-  if (
-    groupUrlFragment &&
-    !url.toLowerCase().includes(groupUrlFragment.toLowerCase())
-  ) {
-    continue;
-  }
-
-  let title = "Facebook Group";
-
+const legacySessions = new WeakMap();
+export async function getLatestModaPage(group = null) {
+  const session = await openFacebookSession();
   try {
-    title = await page.title();
-  } catch {
-    // Ignore title errors
-  }
-
-  console.log("------------------------------");
-  console.log("Title:", title);
-  console.log("URL:", url);
-  console.log("✓ Connected to:", title);
-
-  return page;
+    const page = await session.getPage(group);
+    legacySessions.set(page, session);
+    return page;
+  } catch (error) { await session.close(); throw error; }
 }
-  }
-
-  throw new Error("No Facebook group open.");
+export async function releaseModaPage(page) {
+  const session = legacySessions.get(page);
+  legacySessions.delete(page);
+  await session?.close();
 }
+export function extractPrice(text) { return parseAskingPrice(text).amount; }
 
-export async function dumpAccessibilityTree(groupUrlFragment = null) {
-  const page = await getLatestModaPage(groupUrlFragment);
-
-console.log("Waiting for posts...");
-
-await page.waitForSelector('[role="article"]', {
-  timeout: 15000,
-});
-
-console.log("Discovering Moda posts while scrolling...");
-
-const discoveredPosts = [];
-const discoveredPostKeys = new Set();
-
-for (let pass = 0; pass < 8; pass++) {
-  const visiblePosts = page.locator(
-    '[role="feed"] [role="article"]'
-  );
-
-  const visibleCount = await visiblePosts
-    .count()
-    .catch(() => 0);
-
-  console.log(
-    `Discovery pass ${pass + 1}: ${visibleCount} visible feed articles`
-  );
-
-  for (let i = 0; i < visibleCount; i++) {
-    const post = visiblePosts.nth(i);
-
-    const candidateLinks = await post
-      .locator("a")
-      .evaluateAll((links) =>
-        links
-          .map((link) => link.href)
-          .filter((href) =>
-            /stories|posts|permalink|multi_permalinks/i.test(href)
-          )
-      )
-      .catch(() => []);
-
-const postLink = candidateLinks.find((href) =>
-  /\/groups\/[^/]+\/posts\/\d+/i.test(href)
-);
-
- const linkMatch =
-  postLink?.match(
-    /\/groups\/([^/]+)\/posts\/(\d+)/i
-  ) ?? null;
-
-    const groupId = linkMatch?.[1] ?? null;
-    const postId = linkMatch?.[2] ?? null;
-
-    if (!groupId || !postId) {
-      continue;
-    }
-
-    const postKey = `${groupId}:${postId}`;
-
-    if (discoveredPostKeys.has(postKey)) {
-      continue;
-    }
-
-    discoveredPostKeys.add(postKey);
-
-    discoveredPosts.push({
-      groupId,
-      postId,
-    });
-
-    console.log("Discovered Moda post:", {
-      groupId,
-      postId,
-    });
-  }
-
-  if (pass < 7) {
-    await page.mouse.wheel(0, 1400);
-    await page.waitForTimeout(1200);
-  }
-}
-
-console.log(
-  `Unique Moda posts discovered: ${discoveredPosts.length}`
-);
-
-const listings = [];
-const seenListingTexts = new Set();
-
-const detailPage = await page.context().newPage();
-const context = page.context();
-
-// The six existing group tabs + our one scratch tab are allowed.
-const allowedPages = new Set(context.pages());
-
-const closeUnexpectedPage = async (newPage) => {
-  if (!allowedPages.has(newPage)) {
-    console.log("Closing unexpected popup/tab:", newPage.url());
-
-    await newPage.close().catch(() => {
-      // Ignore close errors
-    });
-  }
-};
-
-context.on("page", closeUnexpectedPage);
-try {
-for (const { groupId, postId } of discoveredPosts) {
-
-  const cleanPostUrl =
-  `https://www.facebook.com/groups/${groupId}/posts/${postId}/`;
-
-    console.log("Opening parent Moda post:", cleanPostUrl);
-
-  
-
-    let parentListingText = "";
-    let parentSeller = "Unknown seller";
-    let image = null;
-    let commentTexts = [];
-
-    try {
-      await detailPage.goto(cleanPostUrl, {
-        waitUntil: "domcontentloaded",
-        timeout: 30000,
-      });
-
-      await detailPage.waitForTimeout(2000);
-
-      await detailPage.waitForSelector(
-        '[data-ad-rendering-role="story_message"]:visible',
-        { timeout: 15000 }
-      );
-      const parentPost = await findParentListingArticle(
-        detailPage,
-        postId
-      );
-
-      if (!parentPost) {
-        throw new Error(
-          `No article owns Facebook post ${postId}`
-        );
+export async function dumpAccessibilityTree(group = null, options = {}) {
+  const { getPage, saveListings = listings => fs.writeFileSync('moda-listings.json', JSON.stringify(listings, null, 2), 'utf8'),
+    maxListings = 12, maxPosts = 24, maxPasses = 3, groupTimeoutMs = 90000, onTiming,
+    onDiagnostic = event => console.log(JSON.stringify(event)), now = () => performance.now(),
+  } = options;
+  if (!getPage) return withFacebookSession(session => dumpAccessibilityTree(group, { ...options, getPage: session.getPage }));
+  const timing = { now, ...(onTiming ? { onTiming } : {}) };
+  // Only code-defined reason/stage strings and bounded numeric counts are emitted.
+  // Never attach a listing, URL, post/profile ID, error object, or page content.
+  const emit = event => {
+    try { onDiagnostic(Object.freeze(event)); }
+    catch { console.warn('Facebook diagnostic observer failed; details suppressed.'); }
+  };
+  const count = value => Number.isInteger(value) && value >= 0 ? Math.min(value, 100000) : 0;
+  return measureStage('facebook-group', async () => {
+    const started = now();
+    const remaining = () => Math.max(1, groupTimeoutMs - (now() - started));
+    const page = await getPage(group);
+    const posts = await measureStage('facebook-discovery', () => withTimeout(async () => {
+      await page.waitForSelector('[data-ad-rendering-role="story_message"]', { timeout: Math.min(15000, remaining()) });
+      const found = new Map();
+      for (let pass = 0; pass < maxPasses; pass++) {
+        const links = await page.locator('a[href*="/posts/"]').evaluateAll(nodes => nodes.map(node => node.href));
+        for (const href of links) {
+          const match = href.match(/\/groups\/([^/]+)\/posts\/(\d+)/i);
+          if (!match || !matchesFacebookGroup(href, group)) continue;
+          found.set(match[2], { groupId: match[1], postId: match[2] });
+          if (found.size >= maxPosts) break;
+        }
+        if (found.size >= maxListings || pass + 1 >= maxPasses) break;
+        await page.mouse.wheel(0, 1400);
+        await page.waitForTimeout(Math.min(600, remaining()));
       }
-
-
-const storyMessageTexts = await detailPage
-  .locator(
-    '[role="dialog"] [data-ad-rendering-role="story_message"]:visible'
-  )
-  .allInnerTexts()
-  .catch(() => []);
-
-const storyMessageText =
-  storyMessageTexts
-    .map((text) => text.trim())
-    .filter(Boolean)
-    .sort((a, b) => b.length - a.length)[0] || "";
-
-
-
-      parentListingText =
-  storyMessageText ||
-await parentPost
-              .evaluate((article) => {
-                const cleanArticle = article.cloneNode(true);
-
-                cleanArticle
-                  .querySelectorAll(
-                    '[role="article"][aria-label^="Comment by"], ' +
-                    '[role="article"][aria-label^="Reply by"], ' +
-                    "[data-commentid]"
-                  )
-                  .forEach((comment) => comment.remove());
-
-                return cleanArticle.innerText || cleanArticle.textContent || "";
-              })
-              .catch(() => "");
-
-    parentSeller = await parentPost
-  .locator('a[href*="/groups/"][href*="/user/"]')
-  .filter({ hasText: /\S/ })
-  .first()
-  .innerText()
-  .catch(() => "Unknown seller");
-
-image = null;
-
-const postPhotoLinks = parentPost.locator(
-  `a[href*="set=gm.${postId}"], ` +
-  `a[href*="set=pcb.${postId}"]`
-);
-
-const postPhotoCount = await postPhotoLinks
-  .count()
-  .catch(() => 0);
-
-console.log(
-  `Post ${postId} has ${postPhotoCount} tied photo links`
-);
-
-for (let photoIndex = 0; photoIndex < postPhotoCount; photoIndex++) {
-  const photoSrc = await postPhotoLinks
-    .nth(photoIndex)
-    .locator("img")
-    .first()
-    .getAttribute("src")
-    .catch(() => null);
-
-  if (photoSrc) {
-    image = photoSrc;
-    console.log("Selected tied post image:", photoSrc);
-    break;
-  }
-}
-
-         commentTexts = await detailPage
-  .locator('[role="article"][aria-label^="Comment by"]:visible')
-  .allInnerTexts()
-  .catch(() => []);
-
-console.log("Auction/comment candidates:", commentTexts.slice(0, 20));
-
-      console.log("\n===== PARENT MODA LISTING =====");
-      console.log(parentListingText);
-      console.log("===== END PARENT LISTING =====\n");
+      return [...found.values()].slice(0, maxPosts);
+    }, remaining(), { label: 'Facebook discovery' }), timing);
+    if (!posts.length) {
+      emit({ event: 'facebook_collection_summary', reason: 'no_candidates_discovered', discovered: 0, attempted: 0, collected: 0, skipped: 0, notAttempted: 0 });
+      saveListings([]);
+      return [];
+    }
+    let attempted = 0, collected = 0, skipped = 0, notAttempted = 0, interrupted = false;
+    const terminal = new Set();
+    const outcome = (candidate, stage, reason, status = 'skipped', metadata = {}) => {
+      if (terminal.has(candidate)) return;
+      terminal.add(candidate);
+      if (status === 'skipped') skipped++;
+      if (status === 'not_attempted') notAttempted++;
+      emit({ event: 'facebook_candidate', candidate, outcome: status, stage, reason, ...metadata });
+    };
+    let activeCandidate = null, activeStage = 'scratch_creation';
+    let listings;
+    try {
+      listings = await measureStage('facebook-details', () => withScratchPage(page.context(), async (detailPage, signal) => {
+        const found = [];
+        for (let index = 0; index < posts.length; index++) {
+          const candidate = index + 1;
+          activeCandidate = candidate;
+          activeStage = 'budget';
+          if (signal.aborted || now() - started >= groupTimeoutMs) {
+            outcome(candidate, activeStage, 'group_budget_exceeded', 'not_attempted');
+            throw new Error('Facebook group collection timed out.');
+          }
+          attempted++;
+          const { groupId, postId } = posts[index];
+          const url = `https://www.facebook.com/groups/${groupId}/posts/${postId}/`;
+          try {
+            activeStage = 'navigation';
+            await detailPage.goto(url, { waitUntil: 'domcontentloaded', timeout: Math.min(15000, remaining()) });
+            activeStage = 'message_readiness';
+            await detailPage.waitForSelector('[data-ad-rendering-role="story_message"]:visible', { timeout: Math.min(10000, remaining()) });
+            activeStage = 'content_extraction';
+            // One DOM snapshot binds text, author, image and comments to the same post.
+            let content = await detailPage.locator('body').evaluate(readOwnedFacebookPost, { groupId, postId, expand:true });
+            if(content.diagnostics?.expansionAttempted){
+              await detailPage.waitForTimeout(Math.min(350,remaining()));
+              content=await detailPage.locator('body').evaluate(readOwnedFacebookPost,{groupId,postId});
+              content.diagnostics.expansionAttempted=true;
+            }
+            if (!content.text) {
+              const reasons = new Set(['no_visible_story_message', 'post_ownership_not_found', 'conflicting_post_ownership',
+                'ambiguous_post_ownership', 'ambiguous_parent_messages', 'nested_story_content', 'empty_parent_message']);
+              const reason = reasons.has(content.reason) ? content.reason : 'post_ownership_not_found';
+              outcome(candidate, reason === 'post_ownership_not_found' || reason === 'conflicting_post_ownership' || reason === 'no_visible_story_message' ? 'owner_lookup' : activeStage,
+                reason, 'skipped', { visibleStoryMessageCount: count(content.diagnostics?.visibleStoryMessageCount),
+                  matchedMessageCount: count(content.diagnostics?.matchedMessageCount), storyMessageCount: count(content.diagnostics?.storyMessageCount),
+                  distinctMessageCount: count(content.diagnostics?.distinctMessageCount) });
+              continue;
+            }
+            const sale=classifySale(content.text);
+            if (sale.kind!=='sale') {
+              outcome(candidate, 'listing_filter', sale.reason);
+              continue;
+            }
+            for (const reason of content.warnings || []) {
+              if (reason === 'optional_image_unavailable' || reason === 'optional_comments_unavailable') emit({ event: 'facebook_candidate_warning', candidate,
+                stage: reason === 'optional_image_unavailable' ? 'image_extraction' : 'comment_extraction', reason });
+            }
+            const image = content.image || null;
+            const comments = content.comments || [];
+            const sellerReasons = new Set(['post_author_identified', 'conflicting_author_evidence',
+              'no_supported_author_in_verified_header', 'verified_author_header_not_found']);
+            const sellerReason = sellerReasons.has(content.sellerExtraction?.reason) ? content.sellerExtraction.reason : 'verified_author_header_not_found';
+            emit({ event: 'facebook_field_status', candidate, field: 'seller',
+              status: content.seller !== 'Unknown seller' ? 'recognized' : content.sellerExtraction?.status === 'ambiguous' ? 'ambiguous' : 'missing',
+              reason: sellerReason, headerCount: count(content.sellerExtraction?.headerCount), profileCandidateCount: count(content.sellerExtraction?.profileCandidateCount) });
+            const priceExtraction = content.diagnostics?.textStatus === 'truncated'
+              ? { amount: null, currency: null, status: 'missing', reason: 'post_text_truncated', evidence: [], rejectedReasons: [] }
+              : parseAskingPrice(content.text);
+            const price = priceExtraction.amount;
+            emit({event:'facebook_text_status',candidate,expanded:Boolean(content.diagnostics?.expansionAttempted),
+              truncated:content.diagnostics?.textStatus==='truncated',domHasAdditionalDigits:Boolean(content.diagnostics?.domHasAdditionalDigits),
+              renderedDigitCount:count(content.diagnostics?.renderedDigitCount),domDigitCount:count(content.diagnostics?.domDigitCount)});
+            emit({ event: 'facebook_field_status', candidate, field: 'asking_price', status: priceExtraction.status, reason: priceExtraction.reason });
+            found.push({ id: `moda-${postId}`, seller: content.seller, listingText: content.text, price, priceExtraction, sellerExtraction: content.sellerExtraction, comments,
+              photos:content.photos??[],textStatus:content.diagnostics?.textStatus,
+              textDiagnostics:{expansionAttempted:Boolean(content.diagnostics?.expansionAttempted),textStatus:content.diagnostics?.textStatus??'unknown',
+                domHasAdditionalDigits:Boolean(content.diagnostics?.domHasAdditionalDigits),renderedDigitCount:count(content.diagnostics?.renderedDigitCount),domDigitCount:count(content.diagnostics?.domDigitCount)},
+              source: 'Moda', url, image, requiresManualReview: content.seller === 'Unknown seller' || price === null,
+              reviewReasons: [...(content.seller === 'Unknown seller' ? ['seller_not_unambiguously_identified'] : []), ...(price === null ? ['asking_price_not_recognized', priceExtraction.reason] : [])],
+              capturedAt: new Date().toISOString() });
+            collected++;
+            outcome(candidate, 'complete', 'listing_collected', 'collected', { sellerRecognized: content.seller !== 'Unknown seller', priceRecognized: price !== null });
+            if (found.length >= maxListings) {
+              for (let pending = index + 2; pending <= posts.length; pending++) outcome(pending, 'budget', 'listing_limit_reached', 'not_attempted');
+              break;
+            }
+          } catch (error) {
+            if (signal.aborted) {
+              outcome(candidate, activeStage, 'group_budget_exceeded');
+              throw new Error('Facebook detail collection timed out.');
+            }
+            const timedOut = error?.name === 'TimeoutError' || error?.code === 'TIMEOUT';
+            outcome(candidate, activeStage, detailPage.isClosed() ? 'detail_page_closed' : timedOut ? 'operation_timeout' : 'operation_failed');
+          }
+        }
+        return found;
+      }, { timeoutMs: remaining() }), timing);
     } catch (error) {
-
-      console.log(
-        "Could not read parent Moda post:",
-        cleanPostUrl,
-        error.message
-      );
+      interrupted = true;
+      // The outer deadline may reject before the inner operation notices cancellation.
+      if (activeCandidate != null) outcome(activeCandidate, activeStage, error?.code === 'TIMEOUT' ? 'group_budget_exceeded' : 'detail_collection_interrupted');
+      for (let candidate = 1; candidate <= posts.length; candidate++) {
+        if (!terminal.has(candidate)) outcome(candidate, activeCandidate == null ? 'scratch_creation' : 'budget',
+          activeCandidate == null ? error?.code === 'TIMEOUT' ? 'scratch_creation_timeout' : 'scratch_creation_failed' : 'collection_interrupted', 'not_attempted');
+      }
+      throw error;
+    } finally {
+      emit({ event: 'facebook_collection_summary', reason: interrupted ? 'collection_interrupted' : collected ? 'collection_completed' : 'all_candidates_skipped',
+        discovered: posts.length, attempted, collected, skipped, notAttempted });
     }
-
-if (!parentListingText) {
-  console.log("SKIP: no parent listing text", { postId });
-  continue;
-}
-const listingKey = parentListingText
-  .replace(/\s+/g, " ")
-  .trim()
-  .toLowerCase();
-const firstListingLine =
-  parentListingText
-    .split("\n")
-    .map((line) => line.trim())
-    .find(Boolean) || "";
-    const isReferenceCheck =
-  /^(?:reference check|ref check|reference request|references on)\b/i.test(
-    firstListingLine
-  );
-
-if (isReferenceCheck) {
-  console.log("SKIP: reference check", {
-    postId,
-    firstListingLine,
-  });
-  continue;
-}
-if (seenListingTexts.has(listingKey)) {
-  console.log("SKIP: duplicate listing text", { postId });
-  continue;
-}
-
-seenListingTexts.add(listingKey);
-    listings.push({
-      id: `moda-${postId}`,
-      seller: parentSeller,
-      listingText: parentListingText,
-      comments: commentTexts,
-      source: "Moda",
-url: cleanPostUrl,
-      image,
-      capturedAt: new Date().toISOString(),
-    });
-
-    // Stop once we have enough real parent listings.
-   if (listings.length >= 12) {
-      break;
-    }
-  }
-
-} finally {
-  context.off("page", closeUnexpectedPage);
-
-  if (!detailPage.isClosed()) {
-    await detailPage.close().catch(() => {});
-  }
-}
-
-  fs.writeFileSync(
-    "moda-listings.json",
-    JSON.stringify(listings, null, 2),
-    "utf8"
-  );
-
-  console.log(`✓ Saved ${listings.length} structured Moda listings.`);
-  console.dir(listings, { depth: null });
-
-  return listings;
+    saveListings(listings);
+    return listings;
+  }, timing);
 }

@@ -1,0 +1,25 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import {offlineInventoryServer} from './helpers/offline-inventory-server.js';
+import {getModaListings} from '../src/markets/moda.js';
+import {evaluateWatch} from '../src/businessScore.js';
+import {toMobileOpportunity} from '../src/listingIntegrity.js';
+globalThis.fetch=()=>{throw Error('Network forbidden');};
+const raw=JSON.parse(fs.readFileSync(new URL('./fixtures/captured-five-sales.json',import.meta.url),'utf8'));
+test('response-only sale/research filtering preserves all19 stored records and original snapshots',async t=>{
+ const server=await offlineInventoryServer(t);
+ const legacy=Array.from({length:6},(_,i)=>({id:`legacy-${i}`,source:'eBay',nested:{preserve:i}}));
+ const old=raw.map(r=>({...r,source:'Moda',originalListing:r.listingText,title:r.listingText.split('\n')[0]}));
+ const watches=await getModaListings(async group=>raw.filter(r=>new URL(r.url).pathname.split('/')[2].toLowerCase()===group.toLowerCase()),{log(){}});
+ const fresh=watches.map(watch=>toMobileOpportunity({watch,...evaluateWatch(watch)}));
+ const stored=[...legacy,...old,...fresh];fs.writeFileSync(server.file,JSON.stringify(stored));const bytes=fs.readFileSync(server.file);
+ const result=await server.fetchImpl('https://synthetic.invalid/api/opportunities');assert.equal(result.status,200);
+ const visible=await result.json();assert.equal(visible.length,8);assert.ok(visible.every(r=>r.watchKey&&r.queue==='research'));
+ assert.equal((await(await server.fetchImpl('https://synthetic.invalid/api/opportunities?queue=research')).json()).length,8);
+ assert.equal((await(await server.fetchImpl('https://synthetic.invalid/api/opportunities?queue=opportunities')).json()).length,0);
+ const page=await(await server.fetchImpl('https://synthetic.invalid/')).json();assert.match(page,/Request Facebook scan/);assert.match(page,/Research queue/);
+ assert.ok(!visible.some(r=>r.parentPostId==='2119495975383925'));
+ assert.deepEqual(fs.readFileSync(server.file),bytes);
+ const snapshot=JSON.parse(fs.readFileSync(server.file));assert.deepEqual(snapshot.slice(0,6),legacy);assert.deepEqual(snapshot.slice(6,11),old);
+});

@@ -1,5 +1,6 @@
 import { estimateMarketValue } from "./marketValue.js";
 import { parseAskingPrice } from "./listingIntegrity.js";
+import { recognizeWatchIdentity } from './watchIdentity.js';
 export function parseListing(listing, shareLink) {
 
   // Extract Facebook URL if present
@@ -207,17 +208,18 @@ const displayTitle =
   listingLines.find((line) => !/^#\w+/i.test(line)) ||
   listingLines[0] ||
   "Unknown listing";
+const identity = recognizeWatchIdentity(listing, { brand, model, reference: referenceMatch?.[1] });
 return {
     originalListing: listing,
   title: displayTitle,
-    brand,
-    model,
+    brand: identity.brand,
+    model: identity.model,
     isPolished,
 scrambledSerial,
 tradeAccepted,
 dealerListing,
 wristSize,
-    reference: referenceMatch ? referenceMatch[1] : null,
+    reference: identity.reference,
    price: askingPrice.amount,
   buyPrice: askingPrice.amount,
   priceExtraction: askingPrice,
@@ -227,7 +229,7 @@ source: "Moda",
 url: listingUrl,
 
 marketValue: null,
-    estimatedMarketValue: referenceMatch ? estimateMarketValue(referenceMatch[1]) : null,
+    estimatedMarketValue: identity.reference ? estimateMarketValue(identity.reference) : null,
     acquisitionVerified: false,
     exitVerified: false,
     year: yearMatch ? Number(yearMatch[0]) : null,

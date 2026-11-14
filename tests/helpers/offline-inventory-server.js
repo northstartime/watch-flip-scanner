@@ -21,8 +21,8 @@ export async function offlineInventoryServer(t) {
     if(!route)return {ok:false,status:404,headers:new Headers(),json:async()=>({error:'Not found'})};
     let status=200,body;
     const responseHeaders=new Headers();
-    const req={body:options.body?JSON.parse(options.body):undefined,get:name=>headers.get(name)??undefined};
-    const res={status(code){status=code;return this;},set(name,value){responseHeaders.set(name,value);return this;},json(value){body=JSON.parse(JSON.stringify(value));return this;}};
+    const req={query:Object.fromEntries(new URL(url).searchParams),body:options.body?JSON.parse(options.body):undefined,get:name=>headers.get(name)??undefined};
+    const res={status(code){status=code;return this;},set(name,value){responseHeaders.set(name,value);return this;},json(value){body=JSON.parse(JSON.stringify(value));return this;},send(value){body=value;return this;}};
     let index=0;
     const next=()=>{const layer=route.stack[index++];if(layer)return layer.handle(req,res,next);};
     await next();

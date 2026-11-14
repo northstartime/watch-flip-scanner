@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { spawn } from 'node:child_process';
 import { createInventoryStore } from '../src/inventoryStore.js';
-import { testMarker } from './helpers/server-marker.js';
+import { testMarker } from '../tools/test-controlled-upload.js';
 const root=path.resolve('tests');
 const six=Array.from({length:6},(_,i)=>({id:`legacy-${i}`,source:i%2?'eBay':'Moda',title:'Legacy fixture',extra:{keep:true}}));
 function fixture(t,rows=six){
