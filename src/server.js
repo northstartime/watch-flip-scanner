@@ -1,4 +1,5 @@
 import {scannerPage} from './scannerPage.js';
+import {loadSourcingContext,annotateSourcing} from './sourcingResearch.js';
 import {eligibleSaleRecord} from './saleListing.js';
 import fs from "fs";
 import path from "path";
@@ -225,7 +226,7 @@ app.get("/api/image-proxy", async (req, res) => {
     res.status(500).send("Image proxy failed");
   }
 });
-app.get("/api/opportunities", (req, res) => {
+app.get("/api/opportunities", async (req, res) => {
   try {
     res.set("Cache-Control", "no-store");
     // Response-only filter: retain the complete stored inventory for other operations.
@@ -236,7 +237,8 @@ app.get("/api/opportunities", (req, res) => {
     const components=new Set(facebookListings.filter(row=>row.watchKey).map(row=>String(row.parentPostId)));
     const visible=facebookListings.filter(eligibleSaleRecord).filter(row=>row.watchKey || !components.has(String(row.id).replace(/^moda-/,'')));
     const selected=['research','opportunities'].includes(req.query?.queue)?visible.filter(row=>(row.queue??'research')===req.query.queue):visible;
-    res.json(selected);
+    const sourcingContext=await loadSourcingContext({directory:path.join(dataDirectory,'research')});
+    res.json(selected.map(row=>annotateSourcing(row,sourcingContext)));
 
   } catch (err) {
     console.error(err);

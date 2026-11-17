@@ -7,12 +7,31 @@ export function scannerClient() {
   function imageUrl(value){if(typeof value!=='string')return null;if(/^data:image\/(?:jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(value))return value;try{const u=new URL(value);return u.protocol==='https:' && /(?:^|\.)fbcdn\.net$/i.test(u.hostname)?u.href:null;}catch{return null;}}
   const money=value=>typeof value==='number'&&Number.isFinite(value)?`$${value.toLocaleString('en-US')}`:'Not extracted';
   function render(){
-    const selected=rows.filter(r=>(r.queue??'research')===queue);
+    const selected=rows.filter(r=>(r.queue??'research')===queue)
+      .sort((a,b)=>Number(Boolean(b.preliminaryScreening?.target))-Number(Boolean(a.preliminaryScreening?.target)));
     el('list').replaceChildren();el('status').textContent=`${selected.length} ${queue==='research'?'sale listings for research':'verified opportunities'}`;
     for(const row of selected){
       const card=document.createElement('article');card.className='card';
       const title=document.createElement('h2');title.textContent=[row.brand,row.model,row.reference].filter(Boolean).join(' ')||row.title;card.append(title);
       field(card,'Asking price',money(row.price));field(card,'Group',row.groupName??row.groupId??'Not recorded');
+      const preliminary=row.preliminaryScreening;
+      if(preliminary){
+        field(card,'Preliminary target screening',preliminary.signal.replaceAll('_',' '));
+        if(preliminary.maximumAllIn!==null)field(card,'Preliminary all-in ceiling (not market value)',money(preliminary.maximumAllIn));
+        if(preliminary.budgetRemainingBeforeCosts!==null)field(card,'Budget remaining before unknown costs (not profit)',money(preliminary.budgetRemainingBeforeCosts));
+        field(card,'Screening basis',preliminary.note);
+      }
+      if(row.manualCompResearch){
+        for(const name of ['market','wholesale','retail']){
+          const bucket=row.manualCompResearch[name];
+          field(card,`${name} estimate from reviewed sold comps`,bucket.value===null?`Insufficient data (${bucket.verifiedSoldCount} reviewed sales)`:money(bucket.value));
+          for(const comp of bucket.comps){
+            const link=document.createElement('a');
+            try{const u=new URL(comp.url);if(u.protocol!=='https:'||u.username||u.password)continue;link.href=u.href;}catch{continue;}
+            link.target='_blank';link.rel='noopener noreferrer';link.textContent=`${comp.source}: ${money(comp.amount)} sold ${new Date(comp.eventAt).toLocaleDateString()}`;card.append(link);
+          }
+        }
+      }
       if(queue==='research'){
         field(card,'Financial assessment','Not scored — acquisition costs and resale exit need verification');
         if(row.estimatedMarketValue!=null)field(card,'Unverified static reference estimate',money(row.estimatedMarketValue));
