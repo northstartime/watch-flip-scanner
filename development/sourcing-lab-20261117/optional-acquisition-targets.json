@@ -1,0 +1,242 @@
+{
+  "schemaVersion": 1,
+  "entries": [
+    {
+      "brand": "Rolex",
+      "reference": "16622",
+      "configuration": {
+        "dial": "Platinum",
+        "bracelet": "Oyster"
+      },
+      "minimumNetProfit": 1000,
+      "optional": true,
+      "playbook": {
+        "configurationResearchStatus": "primary_catalog_example_not_exhaustive_variant_guide",
+        "configurationSource": "https://www.christies.com/lot/lot-6424487",
+        "configurationChecks": [
+          "Verify platinum dial and exact 16622 identity; distinguish 116622/126622. Steel/platinum Rolesium is not a solid platinum watch.",
+          "Confirm production year separately from warranty date and actual included contents."
+        ],
+        "conditionRisks": [
+          "Inspect textured dial, raised platinum bezel for polishing/damage, case geometry and bracelet/clasp wear."
+        ],
+        "serviceRisks": [
+          "Test winding/date/crown operation; obtain actual timing, water-resistance and repair assessment. Unknown repair costs remain unknown."
+        ],
+        "fullSetConsiderations": "Verify matching original papers, box and all bracelet links; no automatic full-set premium.",
+        "watchOnlyConsiderations": "Require watch-only matched evidence; do not invent a missing-paper discount.",
+        "liquidityRequirements": [
+          "Require exact condition-matched settled-sale evidence and current wholesale quote; do not infer liquidity from asking-price volume."
+        ],
+        "preferredSourcingChannels": [
+          "Original dealer offers with documented processing and pricing rights",
+          "Provider-authorized imports only"
+        ],
+        "likelyExitChannels": [
+          "Current exact dealer/wholesale quote",
+          "Evidence-supported conservative retail"
+        ],
+        "ownerNotes": "Optional; no market-value target supplied.",
+        "evidencePolicy": {
+          "minimumExactReviewedSales": 3,
+          "maximumSaleAgeDays": 90,
+          "maximumListingReviewAgeHours": 24,
+          "maximumExitQuoteAgeHours": 72,
+          "quoteMustBeUnexpired": true,
+          "unknownNeverZero": true,
+          "modelEstimateIsNotSoldProof": true
+        },
+        "financialPolicyApplied": false
+      }
+    },
+    {
+      "brand": "Rolex",
+      "reference": "116400",
+      "configuration": {
+        "dial": "White",
+        "bracelet": "Oyster"
+      },
+      "minimumNetProfit": 1000,
+      "optional": true,
+      "playbook": {
+        "configurationResearchStatus": "primary_catalog_example_not_exhaustive_variant_guide",
+        "configurationSource": "https://www.tourneau.com/watches/rolex-certified-pre-owned/milgauss-116400-0002-VRX9743240.html",
+        "configurationChecks": [
+          "Verify original white dial, hands, crystal and exact 116400 identity. Do not substitute GV, blue or black-dial comps.",
+          "Separate production year, sale date and service date."
+        ],
+        "conditionRisks": [
+          "Inspect polished bezel/case, dial/hands consistency and bracelet stretch; excellent pre-owned preferred."
+        ],
+        "serviceRisks": [
+          "Require qualified movement/function and magnetic-shield assessment; model reputation does not establish actual magnetic resistance."
+        ],
+        "fullSetConsiderations": "Check matching papers, links and original contents; seller full-set wording is not proof.",
+        "watchOnlyConsiderations": "Use watch-only white-dial comps, with no invented completeness premium.",
+        "liquidityRequirements": [
+          "Require white-dial settled sales and current exact wholesale fallback; no assumed scarcity premium."
+        ],
+        "preferredSourcingChannels": [
+          "Original authorized dealer offers",
+          "Authorized provider exports only"
+        ],
+        "likelyExitChannels": [
+          "Current exact wholesale quote",
+          "Evidence-supported retail"
+        ],
+        "ownerNotes": "Optional; no market-value target supplied.",
+        "evidencePolicy": {
+          "minimumExactReviewedSales": 3,
+          "maximumSaleAgeDays": 90,
+          "maximumListingReviewAgeHours": 24,
+          "maximumExitQuoteAgeHours": 72,
+          "quoteMustBeUnexpired": true,
+          "unknownNeverZero": true,
+          "modelEstimateIsNotSoldProof": true
+        },
+        "financialPolicyApplied": false
+      }
+    },
+    {
+      "brand": "Rolex",
+      "reference": "216570",
+      "configuration": {
+        "dial": "White",
+        "bracelet": "Oyster"
+      },
+      "minimumNetProfit": 1000,
+      "optional": true,
+      "playbook": {
+        "configurationResearchStatus": "primary_reference_checked_listing_still_requires_review",
+        "configurationSource": "https://content.rolex.com/dam/media/brochures/explorer/m216570-0001.pdf",
+        "configurationChecks": [
+          "Polar: verify white dial, 42 mm case, fixed 24-hour bezel and calibre 3187; do not pool newer 226570 comps."
+        ],
+        "conditionRisks": [
+          "Inspect bezel engraving, case geometry, dial/hands and bracelet links; excellent pre-owned preferred."
+        ],
+        "serviceRisks": [
+          "Test independent local-hour jump, date change, 24-hour indication, timing and crown operation; obtain actual service cost basis."
+        ],
+        "fullSetConsiderations": "Check matching identity/papers, links and box; warranty date is not production-year proof.",
+        "watchOnlyConsiderations": "Use exact watch-only Polar evidence with matched condition.",
+        "liquidityRequirements": [
+          "Require exact 216570 Polar sales; observed sale durations only, no invented future holding time."
+        ],
+        "preferredSourcingChannels": [
+          "Original authorized dealer offers",
+          "Authorized provider exports only"
+        ],
+        "likelyExitChannels": [
+          "Exact wholesale fallback",
+          "Verified-evidence conservative retail"
+        ],
+        "ownerNotes": "Optional; no market-value target supplied.",
+        "evidencePolicy": {
+          "minimumExactReviewedSales": 3,
+          "maximumSaleAgeDays": 90,
+          "maximumListingReviewAgeHours": 24,
+          "maximumExitQuoteAgeHours": 72,
+          "quoteMustBeUnexpired": true,
+          "unknownNeverZero": true,
+          "modelEstimateIsNotSoldProof": true
+        },
+        "financialPolicyApplied": false
+      }
+    },
+    {
+      "brand": "Rolex",
+      "reference": "226570",
+      "configuration": {
+        "dial": "White",
+        "bracelet": "Oyster"
+      },
+      "minimumNetProfit": 1000,
+      "optional": true,
+      "playbook": {
+        "configurationResearchStatus": "primary_reference_checked_listing_still_requires_review",
+        "configurationSource": "https://www.rolex.com/watches/explorer-ii/m226570-0001",
+        "configurationChecks": [
+          "Polar: verify white dial, exact 226570, 42 mm and calibre 3285 against manufacturer specification; do not pool 216570 exits."
+        ],
+        "conditionRisks": [
+          "Inspect fixed bezel, clasp, case finish and original dial/hands; excellent pre-owned preferred."
+        ],
+        "serviceRisks": [
+          "Test independent local-hour/date and GMT functions, timing and crown; document actual service needs."
+        ],
+        "fullSetConsiderations": "Verify matching papers, complete bracelet and actual contents.",
+        "watchOnlyConsiderations": "Use watch-only Polar comps; no automatic full-set adjustment.",
+        "liquidityRequirements": [
+          "Require current exact Polar sales/quote, not older-generation liquidity assumptions."
+        ],
+        "preferredSourcingChannels": [
+          "Original authorized dealer offers",
+          "Authorized provider exports only"
+        ],
+        "likelyExitChannels": [
+          "Exact current wholesale quote",
+          "Evidence-supported conservative retail"
+        ],
+        "ownerNotes": "Optional; no market-value target supplied.",
+        "evidencePolicy": {
+          "minimumExactReviewedSales": 3,
+          "maximumSaleAgeDays": 90,
+          "maximumListingReviewAgeHours": 24,
+          "maximumExitQuoteAgeHours": 72,
+          "quoteMustBeUnexpired": true,
+          "unknownNeverZero": true,
+          "modelEstimateIsNotSoldProof": true
+        },
+        "financialPolicyApplied": false
+      }
+    },
+    {
+      "brand": "Rolex",
+      "reference": "224270",
+      "configuration": {
+        "dial": "Black",
+        "bracelet": "Oyster"
+      },
+      "minimumNetProfit": 1000,
+      "optional": true,
+      "playbook": {
+        "configurationResearchStatus": "primary_reference_checked_listing_still_requires_review",
+        "configurationSource": "https://www.rolex.com/watches/explorer/m224270-0001",
+        "configurationChecks": [
+          "Explorer 40: verify 40 mm 224270, black dial, Oyster bracelet and calibre 3230; do not pool 36 mm 124270 or older 39 mm references."
+        ],
+        "conditionRisks": [
+          "Inspect smooth bezel, case scratches and clasp/Easylink operation; excellent pre-owned preferred."
+        ],
+        "serviceRisks": [
+          "Test winding/time-setting and timing; price only documented service needs and recheck water resistance before wear."
+        ],
+        "fullSetConsiderations": "Verify matching papers, box and links; no price premium without matched sales.",
+        "watchOnlyConsiderations": "Use exact 40 mm watch-only comps, not a mixed Explorer sample.",
+        "liquidityRequirements": [
+          "Require exact 40 mm settled sales and current wholesale fallback; model popularity is not a sale guarantee."
+        ],
+        "preferredSourcingChannels": [
+          "Original authorized dealer offers",
+          "Authorized provider exports only"
+        ],
+        "likelyExitChannels": [
+          "Exact wholesale quote",
+          "Evidence-supported conservative retail"
+        ],
+        "ownerNotes": "Optional; no market-value target supplied.",
+        "evidencePolicy": {
+          "minimumExactReviewedSales": 3,
+          "maximumSaleAgeDays": 90,
+          "maximumListingReviewAgeHours": 24,
+          "maximumExitQuoteAgeHours": 72,
+          "quoteMustBeUnexpired": true,
+          "unknownNeverZero": true,
+          "modelEstimateIsNotSoldProof": true
+        },
+        "financialPolicyApplied": false
+      }
+    }
+  ]
+}

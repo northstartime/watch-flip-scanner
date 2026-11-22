@@ -1,3 +1,4 @@
+import { unifiedDealDeskRead } from './unifiedDealDeskFeed.js';
 import {scannerPage} from './scannerPage.js';
 import {loadSourcingContext,annotateSourcing} from './sourcingResearch.js';
 import {eligibleSaleRecord} from './saleListing.js';
@@ -43,7 +44,7 @@ const requireUploadKey = createUploadAuthorization();
 
 const app = express();
 app.use((req, res, next) => {
-  console.log(`${req.method} ${req.url}`);
+  console.log(`${req.method} ${req.path.toLowerCase().startsWith('/api/deal-desk/') ? req.path : req.url}`);
   next();
 });
 
@@ -247,6 +248,9 @@ app.get("/api/opportunities", async (req, res) => {
     });
   }
 });
+
+app.get('/api/deal-desk/opportunities', unifiedDealDeskRead());
+app.get('/api/deal-desk/health', unifiedDealDeskRead({health:true}));
 
 // Existing AWS watcher contract: reads never consume or acknowledge requests.
 app.get('/api/scan-request', requireUploadKey, (req, res) => {

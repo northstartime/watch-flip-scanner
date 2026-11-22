@@ -1,0 +1,1596 @@
+{
+  "schemaVersion": 1,
+  "currency": "USD",
+  "meaning": "Editable research playbook,not an executable market-price feed or automatic approval",
+  "entries": [
+    {
+      "brand": "Rolex",
+      "reference": "124060",
+      "configurationChecks": [
+        "Distinguish adjacent generation114060;verify actual case/reference and original bracelet,not title nickname.",
+        "Separate production year from warranty/purchase dates;verify dial,bracelet,condition and completeness."
+      ],
+      "configurationSource": "https://www.rolex.com/watches/submariner/m124060-0001",
+      "configurationResearchStatus": "primary_reference_checked_listing_still_requires_review",
+      "ownerConfigurationScope": {},
+      "preliminaryOwnerAllInCeilingUSD": null,
+      "ceilingStatus": "pending_research",
+      "ceilingProvenance": "reused/config/acquisition-targets.json;not a fresh owner approval or resale value",
+      "legacyMinimumProfitUSD": 1000,
+      "minimumNetProfitUSD": 1000,
+      "validatedMarketBuyCeilingUSD": null,
+      "fullSetConsiderations": "Verify matching papers,box,links,buckle/straps and identity;full set wording alone is not proof.",
+      "watchOnlyConsiderations": "Use watch-only reviewed comps and document missing contents;no invented fixed discount or full-set premium.",
+      "conditionRisks": [
+        "Inspect bezel insert, lug/crown-guard geometry, bracelet links/clasp and evidence of polishing; keep 124060 distinct from adjacent generations and date models.",
+        "Polish,damage and bracelet wear",
+        "Inconsistent year/dial/configuration claims"
+      ],
+      "serviceRisks": [
+        "No-date Submariner: check winding, time-setting, bezel action, crown threads and actual pressure-test evidence; a box or recent sale date does not establish service.",
+        "Unknown service/water resistance requires review or a documented reserve"
+      ],
+      "preferredSourcingChannels": [
+        "eBay current discovery only; ephemeral and not connected to pricing analysis",
+        "Chrono24 native search; software access request pending",
+        "Grailzee native auctions/Last Chance; software permission pending",
+        "WatchRecon native search to original Rolex forum posts; no integration grant inferred",
+        "Independently authorized direct listing exports after documented scope review"
+      ],
+      "likelyExitChannels": [
+        "Confirmed customer order after terms review",
+        "Current executable exact dealer/wholesale quote",
+        "Permitted private/retail sale supported by reviewed evidence"
+      ],
+      "evidencePolicy": {
+        "minimumExactReviewedSales": 3,
+        "maximumSaleAgeDays": 90,
+        "maximumListingReviewAgeHours": 24,
+        "maximumExitQuoteAgeHours": 72,
+        "quoteMustBeUnexpired": true,
+        "unknownNeverZero": true,
+        "modelEstimateIsNotSoldProof": true
+      },
+      "ownerNotes": "",
+      "lastOwnerReview": null,
+      "liquidityRequirements": [
+        "At least three exact reviewed settled sales under existing dated-evidence policy; asking prices never establish exits.",
+        "Record observed days-to-sale and sample coverage when independently available; unknown liquidity stays unknown.",
+        "For a 60-90 day wearable hold, document a current exact wholesale fallback, a day60/day90 exit plan and fresh condition/quote checks."
+      ]
+    },
+    {
+      "brand": "Rolex",
+      "reference": "114060",
+      "configurationChecks": [
+        "Confirm exact generation,dial/bezel,bracelet/clasp and original versus service/replacement parts;do not pool adjacent references.",
+        "Separate production year from warranty/purchase dates;verify dial,bracelet,condition and completeness."
+      ],
+      "configurationSource": null,
+      "configurationResearchStatus": "specific_variant_research_pending",
+      "ownerConfigurationScope": {},
+      "preliminaryOwnerAllInCeilingUSD": null,
+      "ceilingStatus": "pending_research",
+      "ceilingProvenance": "reused/config/acquisition-targets.json;not a fresh owner approval or resale value",
+      "legacyMinimumProfitUSD": 1000,
+      "minimumNetProfitUSD": 1000,
+      "validatedMarketBuyCeilingUSD": null,
+      "fullSetConsiderations": "Verify matching papers,box,links,buckle/straps and identity;full set wording alone is not proof.",
+      "watchOnlyConsiderations": "Use watch-only reviewed comps and document missing contents;no invented fixed discount or full-set premium.",
+      "conditionRisks": [
+        "Inspect bezel insert, lug/crown-guard geometry, bracelet links/clasp and evidence of polishing; keep 114060 distinct from adjacent generations and date models.",
+        "Polish,damage and bracelet wear",
+        "Inconsistent year/dial/configuration claims"
+      ],
+      "serviceRisks": [
+        "No-date Submariner: check winding, time-setting, bezel action, crown threads and actual pressure-test evidence; a box or recent sale date does not establish service.",
+        "Unknown service/water resistance requires review or a documented reserve"
+      ],
+      "preferredSourcingChannels": [
+        "eBay current discovery only; ephemeral and not connected to pricing analysis",
+        "Chrono24 native search; software access request pending",
+        "Grailzee native auctions/Last Chance; software permission pending",
+        "WatchRecon native search to original Rolex forum posts; no integration grant inferred",
+        "Independently authorized direct listing exports after documented scope review"
+      ],
+      "likelyExitChannels": [
+        "Confirmed customer order after terms review",
+        "Current executable exact dealer/wholesale quote",
+        "Permitted private/retail sale supported by reviewed evidence"
+      ],
+      "evidencePolicy": {
+        "minimumExactReviewedSales": 3,
+        "maximumSaleAgeDays": 90,
+        "maximumListingReviewAgeHours": 24,
+        "maximumExitQuoteAgeHours": 72,
+        "quoteMustBeUnexpired": true,
+        "unknownNeverZero": true,
+        "modelEstimateIsNotSoldProof": true
+      },
+      "ownerNotes": "",
+      "lastOwnerReview": null,
+      "liquidityRequirements": [
+        "At least three exact reviewed settled sales under existing dated-evidence policy; asking prices never establish exits.",
+        "Record observed days-to-sale and sample coverage when independently available; unknown liquidity stays unknown.",
+        "For a 60-90 day wearable hold, document a current exact wholesale fallback, a day60/day90 exit plan and fresh condition/quote checks."
+      ]
+    },
+    {
+      "brand": "Rolex",
+      "reference": "126610LN",
+      "configurationChecks": [
+        "41mm black-dial Submariner Date; confirm black bezel and original Oyster bracelet. Keep predecessor116610LN comps separate.",
+        "Confirm exact generation,dial/bezel,bracelet/clasp and original versus service/replacement parts;do not pool adjacent references.",
+        "Separate production year from warranty/purchase dates;verify dial,bracelet,condition and completeness."
+      ],
+      "configurationSource": "https://www.rolex.com/watches/submariner/m126610ln-0001",
+      "configurationResearchStatus": "primary_reference_checked_listing_still_requires_review",
+      "ownerConfigurationScope": {},
+      "preliminaryOwnerAllInCeilingUSD": null,
+      "ceilingStatus": "pending_research",
+      "ceilingProvenance": "reused/config/acquisition-targets.json;not a fresh owner approval or resale value",
+      "legacyMinimumProfitUSD": 1000,
+      "minimumNetProfitUSD": 1000,
+      "validatedMarketBuyCeilingUSD": null,
+      "fullSetConsiderations": "Verify matching papers,box,links,buckle/straps and identity;full set wording alone is not proof.",
+      "watchOnlyConsiderations": "Use watch-only reviewed comps and document missing contents;no invented fixed discount or full-set premium.",
+      "conditionRisks": [
+        "Check 126610LN dial/bezel combination, original bracelet and case finish; do not use another color, metal mix or generation as an exact comp.",
+        "Polish,damage and bracelet wear",
+        "Inconsistent year/dial/configuration claims"
+      ],
+      "serviceRisks": [
+        "Submariner Date: test date change and setting, crown threads, bezel action and documented water-resistance; obtain actual repair/service quotes.",
+        "Unknown service/water resistance requires review or a documented reserve"
+      ],
+      "preferredSourcingChannels": [
+        "eBay current discovery only; ephemeral and not connected to pricing analysis",
+        "Chrono24 native search; software access request pending",
+        "Grailzee native auctions/Last Chance; software permission pending",
+        "WatchRecon native search to original Rolex forum posts; no integration grant inferred",
+        "Independently authorized direct listing exports after documented scope review"
+      ],
+      "likelyExitChannels": [
+        "Confirmed customer order after terms review",
+        "Current executable exact dealer/wholesale quote",
+        "Permitted private/retail sale supported by reviewed evidence"
+      ],
+      "evidencePolicy": {
+        "minimumExactReviewedSales": 3,
+        "maximumSaleAgeDays": 90,
+        "maximumListingReviewAgeHours": 24,
+        "maximumExitQuoteAgeHours": 72,
+        "quoteMustBeUnexpired": true,
+        "unknownNeverZero": true,
+        "modelEstimateIsNotSoldProof": true
+      },
+      "ownerNotes": "",
+      "lastOwnerReview": null,
+      "liquidityRequirements": [
+        "At least three exact reviewed settled sales under existing dated-evidence policy; asking prices never establish exits.",
+        "Record observed days-to-sale and sample coverage when independently available; unknown liquidity stays unknown.",
+        "For a 60-90 day wearable hold, document a current exact wholesale fallback, a day60/day90 exit plan and fresh condition/quote checks."
+      ]
+    },
+    {
+      "brand": "Rolex",
+      "reference": "116610LN",
+      "configurationChecks": [
+        "Confirm exact generation,dial/bezel,bracelet/clasp and original versus service/replacement parts;do not pool adjacent references.",
+        "Separate production year from warranty/purchase dates;verify dial,bracelet,condition and completeness.",
+        "Legacy reference: verify dated original specification/bracelet and actual parts before accepting current-generation comparables. Detailed historical variants remain pending primary-document research."
+      ],
+      "configurationSource": null,
+      "configurationResearchStatus": "specific_variant_research_pending",
+      "ownerConfigurationScope": {},
+      "preliminaryOwnerAllInCeilingUSD": null,
+      "ceilingStatus": "pending_research",
+      "ceilingProvenance": "reused/config/acquisition-targets.json;not a fresh owner approval or resale value",
+      "legacyMinimumProfitUSD": 1000,
+      "minimumNetProfitUSD": 1000,
+      "validatedMarketBuyCeilingUSD": null,
+      "fullSetConsiderations": "Verify matching papers,box,links,buckle/straps and identity;full set wording alone is not proof.",
+      "watchOnlyConsiderations": "Use watch-only reviewed comps and document missing contents;no invented fixed discount or full-set premium.",
+      "conditionRisks": [
+        "Check 116610LN dial/bezel combination, original bracelet and case finish; do not use another color, metal mix or generation as an exact comp.",
+        "Polish,damage and bracelet wear",
+        "Inconsistent year/dial/configuration claims"
+      ],
+      "serviceRisks": [
+        "Submariner Date: test date change and setting, crown threads, bezel action and documented water-resistance; obtain actual repair/service quotes.",
+        "Unknown service/water resistance requires review or a documented reserve"
+      ],
+      "preferredSourcingChannels": [
+        "eBay current discovery only; ephemeral and not connected to pricing analysis",
+        "Chrono24 native search; software access request pending",
+        "Grailzee native auctions/Last Chance; software permission pending",
+        "WatchRecon native search to original Rolex forum posts; no integration grant inferred",
+        "Independently authorized direct listing exports after documented scope review"
+      ],
+      "likelyExitChannels": [
+        "Confirmed customer order after terms review",
+        "Current executable exact dealer/wholesale quote",
+        "Permitted private/retail sale supported by reviewed evidence"
+      ],
+      "evidencePolicy": {
+        "minimumExactReviewedSales": 3,
+        "maximumSaleAgeDays": 90,
+        "maximumListingReviewAgeHours": 24,
+        "maximumExitQuoteAgeHours": 72,
+        "quoteMustBeUnexpired": true,
+        "unknownNeverZero": true,
+        "modelEstimateIsNotSoldProof": true
+      },
+      "ownerNotes": "",
+      "lastOwnerReview": null,
+      "liquidityRequirements": [
+        "At least three exact reviewed settled sales under existing dated-evidence policy; asking prices never establish exits.",
+        "Record observed days-to-sale and sample coverage when independently available; unknown liquidity stays unknown.",
+        "For a 60-90 day wearable hold, document a current exact wholesale fallback, a day60/day90 exit plan and fresh condition/quote checks."
+      ]
+    },
+    {
+      "brand": "Rolex",
+      "reference": "126610LV",
+      "configurationChecks": [
+        "41mm black-dial Submariner Date with green bezel; confirm actual dial/bezel and year. Do not pool green-dial predecessor116610LV.",
+        "Confirm exact generation,dial/bezel,bracelet/clasp and original versus service/replacement parts;do not pool adjacent references.",
+        "Separate production year from warranty/purchase dates;verify dial,bracelet,condition and completeness."
+      ],
+      "configurationSource": "https://www.rolex.com/watches/submariner/m126610lv-0002",
+      "configurationResearchStatus": "primary_reference_checked_listing_still_requires_review",
+      "ownerConfigurationScope": {},
+      "preliminaryOwnerAllInCeilingUSD": null,
+      "ceilingStatus": "pending_research",
+      "ceilingProvenance": "reused/config/acquisition-targets.json;not a fresh owner approval or resale value",
+      "legacyMinimumProfitUSD": 1000,
+      "minimumNetProfitUSD": 1000,
+      "validatedMarketBuyCeilingUSD": null,
+      "fullSetConsiderations": "Verify matching papers,box,links,buckle/straps and identity;full set wording alone is not proof.",
+      "watchOnlyConsiderations": "Use watch-only reviewed comps and document missing contents;no invented fixed discount or full-set premium.",
+      "conditionRisks": [
+        "Check 126610LV dial/bezel combination, original bracelet and case finish; do not use another color, metal mix or generation as an exact comp.",
+        "Polish,damage and bracelet wear",
+        "Inconsistent year/dial/configuration claims"
+      ],
+      "serviceRisks": [
+        "Submariner Date: test date change and setting, crown threads, bezel action and documented water-resistance; obtain actual repair/service quotes.",
+        "Unknown service/water resistance requires review or a documented reserve"
+      ],
+      "preferredSourcingChannels": [
+        "eBay current discovery only; ephemeral and not connected to pricing analysis",
+        "Chrono24 native search; software access request pending",
+        "Grailzee native auctions/Last Chance; software permission pending",
+        "WatchRecon native search to original Rolex forum posts; no integration grant inferred",
+        "Independently authorized direct listing exports after documented scope review"
+      ],
+      "likelyExitChannels": [
+        "Confirmed customer order after terms review",
+        "Current executable exact dealer/wholesale quote",
+        "Permitted private/retail sale supported by reviewed evidence"
+      ],
+      "evidencePolicy": {
+        "minimumExactReviewedSales": 3,
+        "maximumSaleAgeDays": 90,
+        "maximumListingReviewAgeHours": 24,
+        "maximumExitQuoteAgeHours": 72,
+        "quoteMustBeUnexpired": true,
+        "unknownNeverZero": true,
+        "modelEstimateIsNotSoldProof": true
+      },
+      "ownerNotes": "",
+      "lastOwnerReview": null,
+      "liquidityRequirements": [
+        "At least three exact reviewed settled sales under existing dated-evidence policy; asking prices never establish exits.",
+        "Record observed days-to-sale and sample coverage when independently available; unknown liquidity stays unknown.",
+        "For a 60-90 day wearable hold, document a current exact wholesale fallback, a day60/day90 exit plan and fresh condition/quote checks."
+      ]
+    },
+    {
+      "brand": "Rolex",
+      "reference": "116610LV",
+      "configurationChecks": [
+        "Confirm exact generation,dial/bezel,bracelet/clasp and original versus service/replacement parts;do not pool adjacent references.",
+        "Separate production year from warranty/purchase dates;verify dial,bracelet,condition and completeness.",
+        "Legacy reference: verify dated original specification/bracelet and actual parts before accepting current-generation comparables. Detailed historical variants remain pending primary-document research."
+      ],
+      "configurationSource": null,
+      "configurationResearchStatus": "specific_variant_research_pending",
+      "ownerConfigurationScope": {},
+      "preliminaryOwnerAllInCeilingUSD": null,
+      "ceilingStatus": "pending_research",
+      "ceilingProvenance": "reused/config/acquisition-targets.json;not a fresh owner approval or resale value",
+      "legacyMinimumProfitUSD": 1000,
+      "minimumNetProfitUSD": 1000,
+      "validatedMarketBuyCeilingUSD": null,
+      "fullSetConsiderations": "Verify matching papers,box,links,buckle/straps and identity;full set wording alone is not proof.",
+      "watchOnlyConsiderations": "Use watch-only reviewed comps and document missing contents;no invented fixed discount or full-set premium.",
+      "conditionRisks": [
+        "Check 116610LV dial/bezel combination, original bracelet and case finish; do not use another color, metal mix or generation as an exact comp.",
+        "Polish,damage and bracelet wear",
+        "Inconsistent year/dial/configuration claims"
+      ],
+      "serviceRisks": [
+        "Submariner Date: test date change and setting, crown threads, bezel action and documented water-resistance; obtain actual repair/service quotes.",
+        "Unknown service/water resistance requires review or a documented reserve"
+      ],
+      "preferredSourcingChannels": [
+        "eBay current discovery only; ephemeral and not connected to pricing analysis",
+        "Chrono24 native search; software access request pending",
+        "Grailzee native auctions/Last Chance; software permission pending",
+        "WatchRecon native search to original Rolex forum posts; no integration grant inferred",
+        "Independently authorized direct listing exports after documented scope review"
+      ],
+      "likelyExitChannels": [
+        "Confirmed customer order after terms review",
+        "Current executable exact dealer/wholesale quote",
+        "Permitted private/retail sale supported by reviewed evidence"
+      ],
+      "evidencePolicy": {
+        "minimumExactReviewedSales": 3,
+        "maximumSaleAgeDays": 90,
+        "maximumListingReviewAgeHours": 24,
+        "maximumExitQuoteAgeHours": 72,
+        "quoteMustBeUnexpired": true,
+        "unknownNeverZero": true,
+        "modelEstimateIsNotSoldProof": true
+      },
+      "ownerNotes": "",
+      "lastOwnerReview": null,
+      "liquidityRequirements": [
+        "At least three exact reviewed settled sales under existing dated-evidence policy; asking prices never establish exits.",
+        "Record observed days-to-sale and sample coverage when independently available; unknown liquidity stays unknown.",
+        "For a 60-90 day wearable hold, document a current exact wholesale fallback, a day60/day90 exit plan and fresh condition/quote checks."
+      ]
+    },
+    {
+      "brand": "Rolex",
+      "reference": "126613LN",
+      "configurationChecks": [
+        "41mm black-dial steel/yellow-gold Submariner Date; inspect actual two-tone parts/bracelet and polishing. Separate steel-only and predecessor comps.",
+        "Confirm exact generation,dial/bezel,bracelet/clasp and original versus service/replacement parts;do not pool adjacent references.",
+        "Separate production year from warranty/purchase dates;verify dial,bracelet,condition and completeness."
+      ],
+      "configurationSource": "https://www.rolex.com/watches/submariner/m126613ln-0002",
+      "configurationResearchStatus": "primary_reference_checked_listing_still_requires_review",
+      "ownerConfigurationScope": {},
+      "preliminaryOwnerAllInCeilingUSD": null,
+      "ceilingStatus": "pending_research",
+      "ceilingProvenance": "reused/config/acquisition-targets.json;not a fresh owner approval or resale value",
+      "legacyMinimumProfitUSD": 1000,
+      "minimumNetProfitUSD": 1000,
+      "validatedMarketBuyCeilingUSD": null,
+      "fullSetConsiderations": "Verify matching papers,box,links,buckle/straps and identity;full set wording alone is not proof.",
+      "watchOnlyConsiderations": "Use watch-only reviewed comps and document missing contents;no invented fixed discount or full-set premium.",
+      "conditionRisks": [
+        "Check 126613LN dial/bezel combination, original bracelet and case finish; do not use another color, metal mix or generation as an exact comp.",
+        "Polish,damage and bracelet wear",
+        "Inconsistent year/dial/configuration claims"
+      ],
+      "serviceRisks": [
+        "Submariner Date: test date change and setting, crown threads, bezel action and documented water-resistance; obtain actual repair/service quotes.",
+        "Unknown service/water resistance requires review or a documented reserve"
+      ],
+      "preferredSourcingChannels": [
+        "eBay current discovery only; ephemeral and not connected to pricing analysis",
+        "Chrono24 native search; software access request pending",
+        "Grailzee native auctions/Last Chance; software permission pending",
+        "WatchRecon native search to original Rolex forum posts; no integration grant inferred",
+        "Independently authorized direct listing exports after documented scope review"
+      ],
+      "likelyExitChannels": [
+        "Confirmed customer order after terms review",
+        "Current executable exact dealer/wholesale quote",
+        "Permitted private/retail sale supported by reviewed evidence"
+      ],
+      "evidencePolicy": {
+        "minimumExactReviewedSales": 3,
+        "maximumSaleAgeDays": 90,
+        "maximumListingReviewAgeHours": 24,
+        "maximumExitQuoteAgeHours": 72,
+        "quoteMustBeUnexpired": true,
+        "unknownNeverZero": true,
+        "modelEstimateIsNotSoldProof": true
+      },
+      "ownerNotes": "",
+      "lastOwnerReview": null,
+      "liquidityRequirements": [
+        "At least three exact reviewed settled sales under existing dated-evidence policy; asking prices never establish exits.",
+        "Record observed days-to-sale and sample coverage when independently available; unknown liquidity stays unknown.",
+        "For a 60-90 day wearable hold, document a current exact wholesale fallback, a day60/day90 exit plan and fresh condition/quote checks."
+      ]
+    },
+    {
+      "brand": "Rolex",
+      "reference": "116613LN",
+      "configurationChecks": [
+        "Confirm exact generation,dial/bezel,bracelet/clasp and original versus service/replacement parts;do not pool adjacent references.",
+        "Separate production year from warranty/purchase dates;verify dial,bracelet,condition and completeness.",
+        "Legacy reference: verify dated original specification/bracelet and actual parts before accepting current-generation comparables. Detailed historical variants remain pending primary-document research."
+      ],
+      "configurationSource": null,
+      "configurationResearchStatus": "specific_variant_research_pending",
+      "ownerConfigurationScope": {},
+      "preliminaryOwnerAllInCeilingUSD": null,
+      "ceilingStatus": "pending_research",
+      "ceilingProvenance": "reused/config/acquisition-targets.json;not a fresh owner approval or resale value",
+      "legacyMinimumProfitUSD": 1000,
+      "minimumNetProfitUSD": 1000,
+      "validatedMarketBuyCeilingUSD": null,
+      "fullSetConsiderations": "Verify matching papers,box,links,buckle/straps and identity;full set wording alone is not proof.",
+      "watchOnlyConsiderations": "Use watch-only reviewed comps and document missing contents;no invented fixed discount or full-set premium.",
+      "conditionRisks": [
+        "Check 116613LN dial/bezel combination, original bracelet and case finish; do not use another color, metal mix or generation as an exact comp.",
+        "Polish,damage and bracelet wear",
+        "Inconsistent year/dial/configuration claims"
+      ],
+      "serviceRisks": [
+        "Submariner Date: test date change and setting, crown threads, bezel action and documented water-resistance; obtain actual repair/service quotes.",
+        "Unknown service/water resistance requires review or a documented reserve"
+      ],
+      "preferredSourcingChannels": [
+        "eBay current discovery only; ephemeral and not connected to pricing analysis",
+        "Chrono24 native search; software access request pending",
+        "Grailzee native auctions/Last Chance; software permission pending",
+        "WatchRecon native search to original Rolex forum posts; no integration grant inferred",
+        "Independently authorized direct listing exports after documented scope review"
+      ],
+      "likelyExitChannels": [
+        "Confirmed customer order after terms review",
+        "Current executable exact dealer/wholesale quote",
+        "Permitted private/retail sale supported by reviewed evidence"
+      ],
+      "evidencePolicy": {
+        "minimumExactReviewedSales": 3,
+        "maximumSaleAgeDays": 90,
+        "maximumListingReviewAgeHours": 24,
+        "maximumExitQuoteAgeHours": 72,
+        "quoteMustBeUnexpired": true,
+        "unknownNeverZero": true,
+        "modelEstimateIsNotSoldProof": true
+      },
+      "ownerNotes": "",
+      "lastOwnerReview": null,
+      "liquidityRequirements": [
+        "At least three exact reviewed settled sales under existing dated-evidence policy; asking prices never establish exits.",
+        "Record observed days-to-sale and sample coverage when independently available; unknown liquidity stays unknown.",
+        "For a 60-90 day wearable hold, document a current exact wholesale fallback, a day60/day90 exit plan and fresh condition/quote checks."
+      ]
+    },
+    {
+      "brand": "Rolex",
+      "reference": "126710BLNR",
+      "configurationChecks": [
+        "Black dial, blue/black bezel; confirm actual Oyster versus Jubilee bracelet and matching original configuration rather than relying on nicknames. Do not pool116710BLNR automatically.",
+        "Confirm exact generation,dial/bezel,bracelet/clasp and original versus service/replacement parts;do not pool adjacent references.",
+        "Separate production year from warranty/purchase dates;verify dial,bracelet,condition and completeness."
+      ],
+      "configurationSource": "https://www.rolex.com/en-us/watches/gmt-master-ii/m126710blnr-0003",
+      "configurationResearchStatus": "primary_reference_checked_listing_still_requires_review",
+      "ownerConfigurationScope": {},
+      "preliminaryOwnerAllInCeilingUSD": null,
+      "ceilingStatus": "pending_research",
+      "ceilingProvenance": "reused/config/acquisition-targets.json;not a fresh owner approval or resale value",
+      "legacyMinimumProfitUSD": 1000,
+      "minimumNetProfitUSD": 1000,
+      "validatedMarketBuyCeilingUSD": null,
+      "fullSetConsiderations": "Verify matching papers,box,links,buckle/straps and identity;full set wording alone is not proof.",
+      "watchOnlyConsiderations": "Use watch-only reviewed comps and document missing contents;no invented fixed discount or full-set premium.",
+      "conditionRisks": [
+        "For 126710BLNR, verify exact dial/bezel and bracelet variant, links and clasp; nickname alone is not a configuration or liquidity match.",
+        "Polish,damage and bracelet wear",
+        "Inconsistent year/dial/configuration claims"
+      ],
+      "serviceRisks": [
+        "GMT: test independent hour-setting, date and 24-hour display against the actual operating instructions, plus crown and bezel; obtain documented movement assessment.",
+        "Unknown service/water resistance requires review or a documented reserve"
+      ],
+      "preferredSourcingChannels": [
+        "eBay current discovery only; ephemeral and not connected to pricing analysis",
+        "Chrono24 native search; software access request pending",
+        "Grailzee native auctions/Last Chance; software permission pending",
+        "WatchRecon native search to original Rolex forum posts; no integration grant inferred",
+        "Independently authorized direct listing exports after documented scope review"
+      ],
+      "likelyExitChannels": [
+        "Confirmed customer order after terms review",
+        "Current executable exact dealer/wholesale quote",
+        "Permitted private/retail sale supported by reviewed evidence"
+      ],
+      "evidencePolicy": {
+        "minimumExactReviewedSales": 3,
+        "maximumSaleAgeDays": 90,
+        "maximumListingReviewAgeHours": 24,
+        "maximumExitQuoteAgeHours": 72,
+        "quoteMustBeUnexpired": true,
+        "unknownNeverZero": true,
+        "modelEstimateIsNotSoldProof": true
+      },
+      "ownerNotes": "",
+      "lastOwnerReview": null,
+      "liquidityRequirements": [
+        "At least three exact reviewed settled sales under existing dated-evidence policy; asking prices never establish exits.",
+        "Record observed days-to-sale and sample coverage when independently available; unknown liquidity stays unknown.",
+        "For a 60-90 day wearable hold, document a current exact wholesale fallback, a day60/day90 exit plan and fresh condition/quote checks."
+      ]
+    },
+    {
+      "brand": "Rolex",
+      "reference": "116710BLNR",
+      "configurationChecks": [
+        "Confirm exact generation,dial/bezel,bracelet/clasp and original versus service/replacement parts;do not pool adjacent references.",
+        "Separate production year from warranty/purchase dates;verify dial,bracelet,condition and completeness.",
+        "Legacy reference: verify dated original specification/bracelet and actual parts before accepting current-generation comparables. Detailed historical variants remain pending primary-document research."
+      ],
+      "configurationSource": null,
+      "configurationResearchStatus": "specific_variant_research_pending",
+      "ownerConfigurationScope": {},
+      "preliminaryOwnerAllInCeilingUSD": null,
+      "ceilingStatus": "pending_research",
+      "ceilingProvenance": "reused/config/acquisition-targets.json;not a fresh owner approval or resale value",
+      "legacyMinimumProfitUSD": 1000,
+      "minimumNetProfitUSD": 1000,
+      "validatedMarketBuyCeilingUSD": null,
+      "fullSetConsiderations": "Verify matching papers,box,links,buckle/straps and identity;full set wording alone is not proof.",
+      "watchOnlyConsiderations": "Use watch-only reviewed comps and document missing contents;no invented fixed discount or full-set premium.",
+      "conditionRisks": [
+        "For 116710BLNR, verify exact dial/bezel and bracelet variant, links and clasp; nickname alone is not a configuration or liquidity match.",
+        "Polish,damage and bracelet wear",
+        "Inconsistent year/dial/configuration claims"
+      ],
+      "serviceRisks": [
+        "GMT: test independent hour-setting, date and 24-hour display against the actual operating instructions, plus crown and bezel; obtain documented movement assessment.",
+        "Unknown service/water resistance requires review or a documented reserve"
+      ],
+      "preferredSourcingChannels": [
+        "eBay current discovery only; ephemeral and not connected to pricing analysis",
+        "Chrono24 native search; software access request pending",
+        "Grailzee native auctions/Last Chance; software permission pending",
+        "WatchRecon native search to original Rolex forum posts; no integration grant inferred",
+        "Independently authorized direct listing exports after documented scope review"
+      ],
+      "likelyExitChannels": [
+        "Confirmed customer order after terms review",
+        "Current executable exact dealer/wholesale quote",
+        "Permitted private/retail sale supported by reviewed evidence"
+      ],
+      "evidencePolicy": {
+        "minimumExactReviewedSales": 3,
+        "maximumSaleAgeDays": 90,
+        "maximumListingReviewAgeHours": 24,
+        "maximumExitQuoteAgeHours": 72,
+        "quoteMustBeUnexpired": true,
+        "unknownNeverZero": true,
+        "modelEstimateIsNotSoldProof": true
+      },
+      "ownerNotes": "",
+      "lastOwnerReview": null,
+      "liquidityRequirements": [
+        "At least three exact reviewed settled sales under existing dated-evidence policy; asking prices never establish exits.",
+        "Record observed days-to-sale and sample coverage when independently available; unknown liquidity stays unknown.",
+        "For a 60-90 day wearable hold, document a current exact wholesale fallback, a day60/day90 exit plan and fresh condition/quote checks."
+      ]
+    },
+    {
+      "brand": "Rolex",
+      "reference": "126710GRNR",
+      "configurationChecks": [
+        "Verify bracelet variant and exact suffix;do not treat all GMT configurations as interchangeable.",
+        "Separate production year from warranty/purchase dates;verify dial,bracelet,condition and completeness."
+      ],
+      "configurationSource": "https://www.rolex.com/watches/gmt-master-ii/m126710grnr-0004",
+      "configurationResearchStatus": "primary_reference_checked_listing_still_requires_review",
+      "ownerConfigurationScope": {},
+      "preliminaryOwnerAllInCeilingUSD": null,
+      "ceilingStatus": "pending_research",
+      "ceilingProvenance": "reused/config/acquisition-targets.json;not a fresh owner approval or resale value",
+      "legacyMinimumProfitUSD": 1000,
+      "minimumNetProfitUSD": 1000,
+      "validatedMarketBuyCeilingUSD": null,
+      "fullSetConsiderations": "Verify matching papers,box,links,buckle/straps and identity;full set wording alone is not proof.",
+      "watchOnlyConsiderations": "Use watch-only reviewed comps and document missing contents;no invented fixed discount or full-set premium.",
+      "conditionRisks": [
+        "For 126710GRNR, verify exact dial/bezel and bracelet variant, links and clasp; nickname alone is not a configuration or liquidity match.",
+        "Polish,damage and bracelet wear",
+        "Inconsistent year/dial/configuration claims"
+      ],
+      "serviceRisks": [
+        "GMT: test independent hour-setting, date and 24-hour display against the actual operating instructions, plus crown and bezel; obtain documented movement assessment.",
+        "Unknown service/water resistance requires review or a documented reserve"
+      ],
+      "preferredSourcingChannels": [
+        "eBay current discovery only; ephemeral and not connected to pricing analysis",
+        "Chrono24 native search; software access request pending",
+        "Grailzee native auctions/Last Chance; software permission pending",
+        "WatchRecon native search to original Rolex forum posts; no integration grant inferred",
+        "Independently authorized direct listing exports after documented scope review"
+      ],
+      "likelyExitChannels": [
+        "Confirmed customer order after terms review",
+        "Current executable exact dealer/wholesale quote",
+        "Permitted private/retail sale supported by reviewed evidence"
+      ],
+      "evidencePolicy": {
+        "minimumExactReviewedSales": 3,
+        "maximumSaleAgeDays": 90,
+        "maximumListingReviewAgeHours": 24,
+        "maximumExitQuoteAgeHours": 72,
+        "quoteMustBeUnexpired": true,
+        "unknownNeverZero": true,
+        "modelEstimateIsNotSoldProof": true
+      },
+      "ownerNotes": "",
+      "lastOwnerReview": null,
+      "liquidityRequirements": [
+        "At least three exact reviewed settled sales under existing dated-evidence policy; asking prices never establish exits.",
+        "Record observed days-to-sale and sample coverage when independently available; unknown liquidity stays unknown.",
+        "For a 60-90 day wearable hold, document a current exact wholesale fallback, a day60/day90 exit plan and fresh condition/quote checks."
+      ]
+    },
+    {
+      "brand": "Rolex",
+      "reference": "116710LN",
+      "configurationChecks": [
+        "Confirm exact generation,dial/bezel,bracelet/clasp and original versus service/replacement parts;do not pool adjacent references.",
+        "Separate production year from warranty/purchase dates;verify dial,bracelet,condition and completeness.",
+        "Legacy reference: verify dated original specification/bracelet and actual parts before accepting current-generation comparables. Detailed historical variants remain pending primary-document research."
+      ],
+      "configurationSource": null,
+      "configurationResearchStatus": "specific_variant_research_pending",
+      "ownerConfigurationScope": {},
+      "preliminaryOwnerAllInCeilingUSD": null,
+      "ceilingStatus": "pending_research",
+      "ceilingProvenance": "reused/config/acquisition-targets.json;not a fresh owner approval or resale value",
+      "legacyMinimumProfitUSD": 1000,
+      "minimumNetProfitUSD": 1000,
+      "validatedMarketBuyCeilingUSD": null,
+      "fullSetConsiderations": "Verify matching papers,box,links,buckle/straps and identity;full set wording alone is not proof.",
+      "watchOnlyConsiderations": "Use watch-only reviewed comps and document missing contents;no invented fixed discount or full-set premium.",
+      "conditionRisks": [
+        "For 116710LN, verify exact dial/bezel and bracelet variant, links and clasp; nickname alone is not a configuration or liquidity match.",
+        "Polish,damage and bracelet wear",
+        "Inconsistent year/dial/configuration claims"
+      ],
+      "serviceRisks": [
+        "GMT: test independent hour-setting, date and 24-hour display against the actual operating instructions, plus crown and bezel; obtain documented movement assessment.",
+        "Unknown service/water resistance requires review or a documented reserve"
+      ],
+      "preferredSourcingChannels": [
+        "eBay current discovery only; ephemeral and not connected to pricing analysis",
+        "Chrono24 native search; software access request pending",
+        "Grailzee native auctions/Last Chance; software permission pending",
+        "WatchRecon native search to original Rolex forum posts; no integration grant inferred",
+        "Independently authorized direct listing exports after documented scope review"
+      ],
+      "likelyExitChannels": [
+        "Confirmed customer order after terms review",
+        "Current executable exact dealer/wholesale quote",
+        "Permitted private/retail sale supported by reviewed evidence"
+      ],
+      "evidencePolicy": {
+        "minimumExactReviewedSales": 3,
+        "maximumSaleAgeDays": 90,
+        "maximumListingReviewAgeHours": 24,
+        "maximumExitQuoteAgeHours": 72,
+        "quoteMustBeUnexpired": true,
+        "unknownNeverZero": true,
+        "modelEstimateIsNotSoldProof": true
+      },
+      "ownerNotes": "",
+      "lastOwnerReview": null,
+      "liquidityRequirements": [
+        "At least three exact reviewed settled sales under existing dated-evidence policy; asking prices never establish exits.",
+        "Record observed days-to-sale and sample coverage when independently available; unknown liquidity stays unknown.",
+        "For a 60-90 day wearable hold, document a current exact wholesale fallback, a day60/day90 exit plan and fresh condition/quote checks."
+      ]
+    },
+    {
+      "brand": "Rolex",
+      "reference": "126300",
+      "configurationChecks": [
+        "Datejust41 smooth bezel; record exact dial, markers and actual bracelet. Reference alone does not establish a particular dial/bracelet or resale value.",
+        "Confirm exact generation,dial/bezel,bracelet/clasp and original versus service/replacement parts;do not pool adjacent references.",
+        "Separate production year from warranty/purchase dates;verify dial,bracelet,condition and completeness."
+      ],
+      "configurationSource": "https://assets.rolex.com/api/brochure/en-us/datejust/m126300-0006.pdf",
+      "configurationResearchStatus": "primary_reference_checked_listing_still_requires_review",
+      "ownerConfigurationScope": {},
+      "preliminaryOwnerAllInCeilingUSD": null,
+      "ceilingStatus": "pending_research",
+      "ceilingProvenance": "reused/config/acquisition-targets.json;not a fresh owner approval or resale value",
+      "legacyMinimumProfitUSD": 1000,
+      "minimumNetProfitUSD": 1000,
+      "validatedMarketBuyCeilingUSD": null,
+      "fullSetConsiderations": "Verify matching papers,box,links,buckle/straps and identity;full set wording alone is not proof.",
+      "watchOnlyConsiderations": "Use watch-only reviewed comps and document missing contents;no invented fixed discount or full-set premium.",
+      "conditionRisks": [
+        "For 126300, inspect bezel finish, case polishing and bracelet stretch; keep Datejust II/41 identities, dial and smooth/fluted configurations separate.",
+        "Polish,damage and bracelet wear",
+        "Inconsistent year/dial/configuration claims"
+      ],
+      "serviceRisks": [
+        "Datejust: test winding/date/time-setting and obtain actual service and water-resistance assessment; distinguish warranty date from service.",
+        "Unknown service/water resistance requires review or a documented reserve"
+      ],
+      "preferredSourcingChannels": [
+        "eBay current discovery only; ephemeral and not connected to pricing analysis",
+        "Chrono24 native search; software access request pending",
+        "Grailzee native auctions/Last Chance; software permission pending",
+        "WatchRecon native search to original Rolex forum posts; no integration grant inferred",
+        "Independently authorized direct listing exports after documented scope review"
+      ],
+      "likelyExitChannels": [
+        "Confirmed customer order after terms review",
+        "Current executable exact dealer/wholesale quote",
+        "Permitted private/retail sale supported by reviewed evidence"
+      ],
+      "evidencePolicy": {
+        "minimumExactReviewedSales": 3,
+        "maximumSaleAgeDays": 90,
+        "maximumListingReviewAgeHours": 24,
+        "maximumExitQuoteAgeHours": 72,
+        "quoteMustBeUnexpired": true,
+        "unknownNeverZero": true,
+        "modelEstimateIsNotSoldProof": true
+      },
+      "ownerNotes": "",
+      "lastOwnerReview": null,
+      "liquidityRequirements": [
+        "At least three exact reviewed settled sales under existing dated-evidence policy; asking prices never establish exits.",
+        "Record observed days-to-sale and sample coverage when independently available; unknown liquidity stays unknown.",
+        "For a 60-90 day wearable hold, document a current exact wholesale fallback, a day60/day90 exit plan and fresh condition/quote checks."
+      ]
+    },
+    {
+      "brand": "Rolex",
+      "reference": "116300",
+      "configurationChecks": [
+        "Confirm exact generation,dial/bezel,bracelet/clasp and original versus service/replacement parts;do not pool adjacent references.",
+        "Separate production year from warranty/purchase dates;verify dial,bracelet,condition and completeness.",
+        "Legacy reference: verify dated original specification/bracelet and actual parts before accepting current-generation comparables. Detailed historical variants remain pending primary-document research."
+      ],
+      "configurationSource": null,
+      "configurationResearchStatus": "specific_variant_research_pending",
+      "ownerConfigurationScope": {},
+      "preliminaryOwnerAllInCeilingUSD": null,
+      "ceilingStatus": "pending_research",
+      "ceilingProvenance": "reused/config/acquisition-targets.json;not a fresh owner approval or resale value",
+      "legacyMinimumProfitUSD": 1000,
+      "minimumNetProfitUSD": 1000,
+      "validatedMarketBuyCeilingUSD": null,
+      "fullSetConsiderations": "Verify matching papers,box,links,buckle/straps and identity;full set wording alone is not proof.",
+      "watchOnlyConsiderations": "Use watch-only reviewed comps and document missing contents;no invented fixed discount or full-set premium.",
+      "conditionRisks": [
+        "For 116300, inspect bezel finish, case polishing and bracelet stretch; keep Datejust II/41 identities, dial and smooth/fluted configurations separate.",
+        "Polish,damage and bracelet wear",
+        "Inconsistent year/dial/configuration claims"
+      ],
+      "serviceRisks": [
+        "Datejust: test winding/date/time-setting and obtain actual service and water-resistance assessment; distinguish warranty date from service.",
+        "Unknown service/water resistance requires review or a documented reserve"
+      ],
+      "preferredSourcingChannels": [
+        "eBay current discovery only; ephemeral and not connected to pricing analysis",
+        "Chrono24 native search; software access request pending",
+        "Grailzee native auctions/Last Chance; software permission pending",
+        "WatchRecon native search to original Rolex forum posts; no integration grant inferred",
+        "Independently authorized direct listing exports after documented scope review"
+      ],
+      "likelyExitChannels": [
+        "Confirmed customer order after terms review",
+        "Current executable exact dealer/wholesale quote",
+        "Permitted private/retail sale supported by reviewed evidence"
+      ],
+      "evidencePolicy": {
+        "minimumExactReviewedSales": 3,
+        "maximumSaleAgeDays": 90,
+        "maximumListingReviewAgeHours": 24,
+        "maximumExitQuoteAgeHours": 72,
+        "quoteMustBeUnexpired": true,
+        "unknownNeverZero": true,
+        "modelEstimateIsNotSoldProof": true
+      },
+      "ownerNotes": "",
+      "lastOwnerReview": null,
+      "liquidityRequirements": [
+        "At least three exact reviewed settled sales under existing dated-evidence policy; asking prices never establish exits.",
+        "Record observed days-to-sale and sample coverage when independently available; unknown liquidity stays unknown.",
+        "For a 60-90 day wearable hold, document a current exact wholesale fallback, a day60/day90 exit plan and fresh condition/quote checks."
+      ]
+    },
+    {
+      "brand": "Rolex",
+      "reference": "126334",
+      "configurationChecks": [
+        "Datejust41 steel/white-gold fluted bezel; record exact dial, markers and actual bracelet. Keep smooth-bezel126300 separate.",
+        "Confirm exact generation,dial/bezel,bracelet/clasp and original versus service/replacement parts;do not pool adjacent references.",
+        "Separate production year from warranty/purchase dates;verify dial,bracelet,condition and completeness."
+      ],
+      "configurationSource": "https://www.rolex.com/watches/datejust/m126334-0002",
+      "configurationResearchStatus": "primary_reference_checked_listing_still_requires_review",
+      "ownerConfigurationScope": {},
+      "preliminaryOwnerAllInCeilingUSD": null,
+      "ceilingStatus": "pending_research",
+      "ceilingProvenance": "reused/config/acquisition-targets.json;not a fresh owner approval or resale value",
+      "legacyMinimumProfitUSD": 1000,
+      "minimumNetProfitUSD": 1000,
+      "validatedMarketBuyCeilingUSD": null,
+      "fullSetConsiderations": "Verify matching papers,box,links,buckle/straps and identity;full set wording alone is not proof.",
+      "watchOnlyConsiderations": "Use watch-only reviewed comps and document missing contents;no invented fixed discount or full-set premium.",
+      "conditionRisks": [
+        "For 126334, inspect bezel finish, case polishing and bracelet stretch; keep Datejust II/41 identities, dial and smooth/fluted configurations separate.",
+        "Polish,damage and bracelet wear",
+        "Inconsistent year/dial/configuration claims"
+      ],
+      "serviceRisks": [
+        "Datejust: test winding/date/time-setting and obtain actual service and water-resistance assessment; distinguish warranty date from service.",
+        "Unknown service/water resistance requires review or a documented reserve"
+      ],
+      "preferredSourcingChannels": [
+        "eBay current discovery only; ephemeral and not connected to pricing analysis",
+        "Chrono24 native search; software access request pending",
+        "Grailzee native auctions/Last Chance; software permission pending",
+        "WatchRecon native search to original Rolex forum posts; no integration grant inferred",
+        "Independently authorized direct listing exports after documented scope review"
+      ],
+      "likelyExitChannels": [
+        "Confirmed customer order after terms review",
+        "Current executable exact dealer/wholesale quote",
+        "Permitted private/retail sale supported by reviewed evidence"
+      ],
+      "evidencePolicy": {
+        "minimumExactReviewedSales": 3,
+        "maximumSaleAgeDays": 90,
+        "maximumListingReviewAgeHours": 24,
+        "maximumExitQuoteAgeHours": 72,
+        "quoteMustBeUnexpired": true,
+        "unknownNeverZero": true,
+        "modelEstimateIsNotSoldProof": true
+      },
+      "ownerNotes": "",
+      "lastOwnerReview": null,
+      "liquidityRequirements": [
+        "At least three exact reviewed settled sales under existing dated-evidence policy; asking prices never establish exits.",
+        "Record observed days-to-sale and sample coverage when independently available; unknown liquidity stays unknown.",
+        "For a 60-90 day wearable hold, document a current exact wholesale fallback, a day60/day90 exit plan and fresh condition/quote checks."
+      ]
+    },
+    {
+      "brand": "Rolex",
+      "reference": "116334",
+      "configurationChecks": [
+        "Confirm exact generation,dial/bezel,bracelet/clasp and original versus service/replacement parts;do not pool adjacent references.",
+        "Separate production year from warranty/purchase dates;verify dial,bracelet,condition and completeness.",
+        "Legacy reference: verify dated original specification/bracelet and actual parts before accepting current-generation comparables. Detailed historical variants remain pending primary-document research."
+      ],
+      "configurationSource": null,
+      "configurationResearchStatus": "specific_variant_research_pending",
+      "ownerConfigurationScope": {},
+      "preliminaryOwnerAllInCeilingUSD": null,
+      "ceilingStatus": "pending_research",
+      "ceilingProvenance": "reused/config/acquisition-targets.json;not a fresh owner approval or resale value",
+      "legacyMinimumProfitUSD": 1000,
+      "minimumNetProfitUSD": 1000,
+      "validatedMarketBuyCeilingUSD": null,
+      "fullSetConsiderations": "Verify matching papers,box,links,buckle/straps and identity;full set wording alone is not proof.",
+      "watchOnlyConsiderations": "Use watch-only reviewed comps and document missing contents;no invented fixed discount or full-set premium.",
+      "conditionRisks": [
+        "For 116334, inspect bezel finish, case polishing and bracelet stretch; keep Datejust II/41 identities, dial and smooth/fluted configurations separate.",
+        "Polish,damage and bracelet wear",
+        "Inconsistent year/dial/configuration claims"
+      ],
+      "serviceRisks": [
+        "Datejust: test winding/date/time-setting and obtain actual service and water-resistance assessment; distinguish warranty date from service.",
+        "Unknown service/water resistance requires review or a documented reserve"
+      ],
+      "preferredSourcingChannels": [
+        "eBay current discovery only; ephemeral and not connected to pricing analysis",
+        "Chrono24 native search; software access request pending",
+        "Grailzee native auctions/Last Chance; software permission pending",
+        "WatchRecon native search to original Rolex forum posts; no integration grant inferred",
+        "Independently authorized direct listing exports after documented scope review"
+      ],
+      "likelyExitChannels": [
+        "Confirmed customer order after terms review",
+        "Current executable exact dealer/wholesale quote",
+        "Permitted private/retail sale supported by reviewed evidence"
+      ],
+      "evidencePolicy": {
+        "minimumExactReviewedSales": 3,
+        "maximumSaleAgeDays": 90,
+        "maximumListingReviewAgeHours": 24,
+        "maximumExitQuoteAgeHours": 72,
+        "quoteMustBeUnexpired": true,
+        "unknownNeverZero": true,
+        "modelEstimateIsNotSoldProof": true
+      },
+      "ownerNotes": "",
+      "lastOwnerReview": null,
+      "liquidityRequirements": [
+        "At least three exact reviewed settled sales under existing dated-evidence policy; asking prices never establish exits.",
+        "Record observed days-to-sale and sample coverage when independently available; unknown liquidity stays unknown.",
+        "For a 60-90 day wearable hold, document a current exact wholesale fallback, a day60/day90 exit plan and fresh condition/quote checks."
+      ]
+    },
+    {
+      "brand": "Tudor",
+      "reference": "79360N",
+      "configurationChecks": [
+        "Owner recorded Panda scope:verify opaline/black-counter dial versus black/silver-counter dial;year-specific bracelet/clasp/strap matters.",
+        "Separate production year from warranty/purchase dates;verify dial,bracelet,condition and completeness."
+      ],
+      "configurationSource": "https://media.tudorwatch.com/image/upload/fl_attachment/v1/tudorwatch/pressroom/products/black-bay-chrono/2025/pdf/T25RP_Black-Bay-Chrono_en.pdf",
+      "configurationResearchStatus": "primary_reference_checked_listing_still_requires_review",
+      "ownerConfigurationScope": {
+        "dial": "Panda"
+      },
+      "preliminaryOwnerAllInCeilingUSD": 3200,
+      "ceilingStatus": "recorded_preliminary_owner_target_not_market_validated",
+      "ceilingProvenance": "reused/config/acquisition-targets.json;not a fresh owner approval or resale value",
+      "legacyMinimumProfitUSD": 500,
+      "minimumNetProfitUSD": 1000,
+      "validatedMarketBuyCeilingUSD": null,
+      "fullSetConsiderations": "Verify matching papers,box,links,buckle/straps and identity;full set wording alone is not proof.",
+      "watchOnlyConsiderations": "Use watch-only reviewed comps and document missing contents;no invented fixed discount or full-set premium.",
+      "conditionRisks": [
+        "Verify 79360N original dial, hands, bezel and bracelet/strap; inspect chronograph pushers and case finish.",
+        "Polish,damage and bracelet wear",
+        "Inconsistent year/dial/configuration claims"
+      ],
+      "serviceRisks": [
+        "Chronograph: test start/stop/reset and subdial operation; obtain actual movement/service quote before assuming a generic service reserve.",
+        "Unknown service/water resistance requires review or a documented reserve"
+      ],
+      "preferredSourcingChannels": [
+        "eBay current discovery only; ephemeral and not connected to pricing analysis",
+        "Chrono24 native search; software access request pending",
+        "Grailzee native auctions/Last Chance; software permission pending",
+        "WatchRecon native search to original forum posts; no integration grant inferred",
+        "Independently authorized direct listing exports after documented scope review"
+      ],
+      "likelyExitChannels": [
+        "Confirmed customer order after terms review",
+        "Current executable exact dealer/wholesale quote",
+        "Permitted private/retail sale supported by reviewed evidence"
+      ],
+      "evidencePolicy": {
+        "minimumExactReviewedSales": 3,
+        "maximumSaleAgeDays": 90,
+        "maximumListingReviewAgeHours": 24,
+        "maximumExitQuoteAgeHours": 72,
+        "quoteMustBeUnexpired": true,
+        "unknownNeverZero": true,
+        "modelEstimateIsNotSoldProof": true
+      },
+      "ownerNotes": "",
+      "lastOwnerReview": null,
+      "liquidityRequirements": [
+        "At least three exact reviewed settled sales under existing dated-evidence policy; asking prices never establish exits.",
+        "Record observed days-to-sale and sample coverage when independently available; unknown liquidity stays unknown.",
+        "For a 60-90 day wearable hold, document a current exact wholesale fallback, a day60/day90 exit plan and fresh condition/quote checks."
+      ]
+    },
+    {
+      "brand": "Tudor",
+      "reference": "25407N",
+      "configurationChecks": [
+        "Verify titanium bracelet,original rubber/accessories and actual completeness separately.",
+        "Separate production year from warranty/purchase dates;verify dial,bracelet,condition and completeness."
+      ],
+      "configurationSource": "https://media.tudorwatch.com/image/upload/fl_attachment/v1/tudorwatch/pressroom/products/pelagos-39/pdf/tudor-pelagos39-pt.pdf",
+      "configurationResearchStatus": "primary_reference_checked_listing_still_requires_review",
+      "ownerConfigurationScope": {},
+      "preliminaryOwnerAllInCeilingUSD": 3000,
+      "ceilingStatus": "recorded_preliminary_owner_target_not_market_validated",
+      "ceilingProvenance": "reused/config/acquisition-targets.json;not a fresh owner approval or resale value",
+      "legacyMinimumProfitUSD": 500,
+      "minimumNetProfitUSD": 1000,
+      "validatedMarketBuyCeilingUSD": null,
+      "fullSetConsiderations": "Verify matching papers,box,links,buckle/straps and identity;full set wording alone is not proof.",
+      "watchOnlyConsiderations": "Use watch-only reviewed comps and document missing contents;no invented fixed discount or full-set premium.",
+      "conditionRisks": [
+        "Inspect 25407N original case finish, bezel, bracelet/clasp and correct links; do not assume replacement parts or mixed-reference accessories are original.",
+        "Polish,damage and bracelet wear",
+        "Inconsistent year/dial/configuration claims"
+      ],
+      "serviceRisks": [
+        "Test actual 25407N bezel, crown, winding/time-setting and date where fitted; require timing and water-resistance evidence plus documented repair costs.",
+        "Unknown service/water resistance requires review or a documented reserve"
+      ],
+      "preferredSourcingChannels": [
+        "eBay current discovery only; ephemeral and not connected to pricing analysis",
+        "Chrono24 native search; software access request pending",
+        "Grailzee native auctions/Last Chance; software permission pending",
+        "WatchRecon native search to original forum posts; no integration grant inferred",
+        "Independently authorized direct listing exports after documented scope review"
+      ],
+      "likelyExitChannels": [
+        "Confirmed customer order after terms review",
+        "Current executable exact dealer/wholesale quote",
+        "Permitted private/retail sale supported by reviewed evidence"
+      ],
+      "evidencePolicy": {
+        "minimumExactReviewedSales": 3,
+        "maximumSaleAgeDays": 90,
+        "maximumListingReviewAgeHours": 24,
+        "maximumExitQuoteAgeHours": 72,
+        "quoteMustBeUnexpired": true,
+        "unknownNeverZero": true,
+        "modelEstimateIsNotSoldProof": true
+      },
+      "ownerNotes": "",
+      "lastOwnerReview": null,
+      "liquidityRequirements": [
+        "At least three exact reviewed settled sales under existing dated-evidence policy; asking prices never establish exits.",
+        "Record observed days-to-sale and sample coverage when independently available; unknown liquidity stays unknown.",
+        "For a 60-90 day wearable hold, document a current exact wholesale fallback, a day60/day90 exit plan and fresh condition/quote checks."
+      ]
+    },
+    {
+      "brand": "Tudor",
+      "reference": "7939G1A0NRU",
+      "configurationChecks": [
+        "Confirm full suffix and steel-bracelet versus rubber configuration;do not pool with79830RB GMT.",
+        "Separate production year from warranty/purchase dates;verify dial,bracelet,condition and completeness."
+      ],
+      "configurationSource": "https://media.tudorwatch.com/image/upload/fl_attachment/v1/tudorwatch/pressroom/products/black-bay-58/2024/pdf/New-Watches-2024_Black-Bay-58-GMT-en.pdf",
+      "configurationResearchStatus": "primary_reference_checked_listing_still_requires_review",
+      "ownerConfigurationScope": {},
+      "preliminaryOwnerAllInCeilingUSD": 3000,
+      "ceilingStatus": "recorded_preliminary_owner_target_not_market_validated",
+      "ceilingProvenance": "reused/config/acquisition-targets.json;not a fresh owner approval or resale value",
+      "legacyMinimumProfitUSD": 500,
+      "minimumNetProfitUSD": 1000,
+      "validatedMarketBuyCeilingUSD": null,
+      "fullSetConsiderations": "Verify matching papers,box,links,buckle/straps and identity;full set wording alone is not proof.",
+      "watchOnlyConsiderations": "Use watch-only reviewed comps and document missing contents;no invented fixed discount or full-set premium.",
+      "conditionRisks": [
+        "Keep 7939G1A0NRU exact reference, bezel/dial, bracelet and completeness distinct; a GMT family match does not establish resale evidence.",
+        "Polish,damage and bracelet wear",
+        "Inconsistent year/dial/configuration claims"
+      ],
+      "serviceRisks": [
+        "GMT: test local-hour/24-hour/date functions against original instructions, crown and bezel; document service cost and original configuration.",
+        "Unknown service/water resistance requires review or a documented reserve"
+      ],
+      "preferredSourcingChannels": [
+        "eBay current discovery only; ephemeral and not connected to pricing analysis",
+        "Chrono24 native search; software access request pending",
+        "Grailzee native auctions/Last Chance; software permission pending",
+        "WatchRecon native search to original forum posts; no integration grant inferred",
+        "Independently authorized direct listing exports after documented scope review"
+      ],
+      "likelyExitChannels": [
+        "Confirmed customer order after terms review",
+        "Current executable exact dealer/wholesale quote",
+        "Permitted private/retail sale supported by reviewed evidence"
+      ],
+      "evidencePolicy": {
+        "minimumExactReviewedSales": 3,
+        "maximumSaleAgeDays": 90,
+        "maximumListingReviewAgeHours": 24,
+        "maximumExitQuoteAgeHours": 72,
+        "quoteMustBeUnexpired": true,
+        "unknownNeverZero": true,
+        "modelEstimateIsNotSoldProof": true
+      },
+      "ownerNotes": "",
+      "lastOwnerReview": null,
+      "liquidityRequirements": [
+        "At least three exact reviewed settled sales under existing dated-evidence policy; asking prices never establish exits.",
+        "Record observed days-to-sale and sample coverage when independently available; unknown liquidity stays unknown.",
+        "For a 60-90 day wearable hold, document a current exact wholesale fallback, a day60/day90 exit plan and fresh condition/quote checks."
+      ]
+    },
+    {
+      "brand": "Tudor",
+      "reference": "79830RB",
+      "configurationChecks": [
+        "Black versus opaline dial and bracelet/leather/fabric versions require separate comps;do not pool with58GMT.",
+        "Separate production year from warranty/purchase dates;verify dial,bracelet,condition and completeness."
+      ],
+      "configurationSource": "https://media.tudorwatch.com/image/upload/fl_attachment/v1/tudorwatch/pressroom/products/black-bay-gmt/pdf/t23rp-blackbaygmt-en.pdf",
+      "configurationResearchStatus": "primary_reference_checked_listing_still_requires_review",
+      "ownerConfigurationScope": {},
+      "preliminaryOwnerAllInCeilingUSD": 2200,
+      "ceilingStatus": "recorded_preliminary_owner_target_not_market_validated",
+      "ceilingProvenance": "reused/config/acquisition-targets.json;not a fresh owner approval or resale value",
+      "legacyMinimumProfitUSD": 500,
+      "minimumNetProfitUSD": 1000,
+      "validatedMarketBuyCeilingUSD": null,
+      "fullSetConsiderations": "Verify matching papers,box,links,buckle/straps and identity;full set wording alone is not proof.",
+      "watchOnlyConsiderations": "Use watch-only reviewed comps and document missing contents;no invented fixed discount or full-set premium.",
+      "conditionRisks": [
+        "Keep 79830RB exact reference, bezel/dial, bracelet and completeness distinct; a GMT family match does not establish resale evidence.",
+        "Polish,damage and bracelet wear",
+        "Inconsistent year/dial/configuration claims"
+      ],
+      "serviceRisks": [
+        "GMT: test local-hour/24-hour/date functions against original instructions, crown and bezel; document service cost and original configuration.",
+        "Unknown service/water resistance requires review or a documented reserve"
+      ],
+      "preferredSourcingChannels": [
+        "eBay current discovery only; ephemeral and not connected to pricing analysis",
+        "Chrono24 native search; software access request pending",
+        "Grailzee native auctions/Last Chance; software permission pending",
+        "WatchRecon native search to original forum posts; no integration grant inferred",
+        "Independently authorized direct listing exports after documented scope review"
+      ],
+      "likelyExitChannels": [
+        "Confirmed customer order after terms review",
+        "Current executable exact dealer/wholesale quote",
+        "Permitted private/retail sale supported by reviewed evidence"
+      ],
+      "evidencePolicy": {
+        "minimumExactReviewedSales": 3,
+        "maximumSaleAgeDays": 90,
+        "maximumListingReviewAgeHours": 24,
+        "maximumExitQuoteAgeHours": 72,
+        "quoteMustBeUnexpired": true,
+        "unknownNeverZero": true,
+        "modelEstimateIsNotSoldProof": true
+      },
+      "ownerNotes": "",
+      "lastOwnerReview": null,
+      "liquidityRequirements": [
+        "At least three exact reviewed settled sales under existing dated-evidence policy; asking prices never establish exits.",
+        "Record observed days-to-sale and sample coverage when independently available; unknown liquidity stays unknown.",
+        "For a 60-90 day wearable hold, document a current exact wholesale fallback, a day60/day90 exit plan and fresh condition/quote checks."
+      ]
+    },
+    {
+      "brand": "Tudor",
+      "reference": "79030N",
+      "configurationChecks": [
+        "Confirm exact39mm reference and bracelet versus leather/fabric set;do not substitute adjacent58references.",
+        "Separate production year from warranty/purchase dates;verify dial,bracelet,condition and completeness."
+      ],
+      "configurationSource": "https://media.tudorwatch.com/image/upload/fl_attachment/v1/tudorwatch/pressroom/products/black-bay-58/pdf/bw18-tudor-black-bay-fifty-eight-es.pdf",
+      "configurationResearchStatus": "primary_reference_checked_listing_still_requires_review",
+      "ownerConfigurationScope": {},
+      "preliminaryOwnerAllInCeilingUSD": 2200,
+      "ceilingStatus": "recorded_preliminary_owner_target_not_market_validated",
+      "ceilingProvenance": "reused/config/acquisition-targets.json;not a fresh owner approval or resale value",
+      "legacyMinimumProfitUSD": 500,
+      "minimumNetProfitUSD": 1000,
+      "validatedMarketBuyCeilingUSD": null,
+      "fullSetConsiderations": "Verify matching papers,box,links,buckle/straps and identity;full set wording alone is not proof.",
+      "watchOnlyConsiderations": "Use watch-only reviewed comps and document missing contents;no invented fixed discount or full-set premium.",
+      "conditionRisks": [
+        "Inspect 79030N original case finish, bezel, bracelet/clasp and correct links; do not assume replacement parts or mixed-reference accessories are original.",
+        "Polish,damage and bracelet wear",
+        "Inconsistent year/dial/configuration claims"
+      ],
+      "serviceRisks": [
+        "Test actual 79030N bezel, crown, winding/time-setting and date where fitted; require timing and water-resistance evidence plus documented repair costs.",
+        "Unknown service/water resistance requires review or a documented reserve"
+      ],
+      "preferredSourcingChannels": [
+        "eBay current discovery only; ephemeral and not connected to pricing analysis",
+        "Chrono24 native search; software access request pending",
+        "Grailzee native auctions/Last Chance; software permission pending",
+        "WatchRecon native search to original forum posts; no integration grant inferred",
+        "Independently authorized direct listing exports after documented scope review"
+      ],
+      "likelyExitChannels": [
+        "Confirmed customer order after terms review",
+        "Current executable exact dealer/wholesale quote",
+        "Permitted private/retail sale supported by reviewed evidence"
+      ],
+      "evidencePolicy": {
+        "minimumExactReviewedSales": 3,
+        "maximumSaleAgeDays": 90,
+        "maximumListingReviewAgeHours": 24,
+        "maximumExitQuoteAgeHours": 72,
+        "quoteMustBeUnexpired": true,
+        "unknownNeverZero": true,
+        "modelEstimateIsNotSoldProof": true
+      },
+      "ownerNotes": "",
+      "lastOwnerReview": null,
+      "liquidityRequirements": [
+        "At least three exact reviewed settled sales under existing dated-evidence policy; asking prices never establish exits.",
+        "Record observed days-to-sale and sample coverage when independently available; unknown liquidity stays unknown.",
+        "For a 60-90 day wearable hold, document a current exact wholesale fallback, a day60/day90 exit plan and fresh condition/quote checks."
+      ]
+    },
+    {
+      "brand": "Tudor",
+      "reference": "7941A1A0NU",
+      "configurationChecks": [
+        "Confirm exact NU suffix,black dial/bezel and bracelet/rubber configuration against original documents.",
+        "Separate production year from warranty/purchase dates;verify dial,bracelet,condition and completeness."
+      ],
+      "configurationSource": "https://media.tudorwatch.com/image/upload/fl_attachment/v1/tudorwatch/pressroom/products/black-bay/2024/pdf/New-Watches-2024_Black-Bay-pt.pdf",
+      "configurationResearchStatus": "primary_reference_checked_listing_still_requires_review",
+      "ownerConfigurationScope": {},
+      "preliminaryOwnerAllInCeilingUSD": 2800,
+      "ceilingStatus": "recorded_preliminary_owner_target_not_market_validated",
+      "ceilingProvenance": "reused/config/acquisition-targets.json;not a fresh owner approval or resale value",
+      "legacyMinimumProfitUSD": 500,
+      "minimumNetProfitUSD": 1000,
+      "validatedMarketBuyCeilingUSD": null,
+      "fullSetConsiderations": "Verify matching papers,box,links,buckle/straps and identity;full set wording alone is not proof.",
+      "watchOnlyConsiderations": "Use watch-only reviewed comps and document missing contents;no invented fixed discount or full-set premium.",
+      "conditionRisks": [
+        "Inspect 7941A1A0NU original case finish, bezel, bracelet/clasp and correct links; do not assume replacement parts or mixed-reference accessories are original.",
+        "Polish,damage and bracelet wear",
+        "Inconsistent year/dial/configuration claims"
+      ],
+      "serviceRisks": [
+        "Test actual 7941A1A0NU bezel, crown, winding/time-setting and date where fitted; require timing and water-resistance evidence plus documented repair costs.",
+        "Unknown service/water resistance requires review or a documented reserve"
+      ],
+      "preferredSourcingChannels": [
+        "eBay current discovery only; ephemeral and not connected to pricing analysis",
+        "Chrono24 native search; software access request pending",
+        "Grailzee native auctions/Last Chance; software permission pending",
+        "WatchRecon native search to original forum posts; no integration grant inferred",
+        "Independently authorized direct listing exports after documented scope review"
+      ],
+      "likelyExitChannels": [
+        "Confirmed customer order after terms review",
+        "Current executable exact dealer/wholesale quote",
+        "Permitted private/retail sale supported by reviewed evidence"
+      ],
+      "evidencePolicy": {
+        "minimumExactReviewedSales": 3,
+        "maximumSaleAgeDays": 90,
+        "maximumListingReviewAgeHours": 24,
+        "maximumExitQuoteAgeHours": 72,
+        "quoteMustBeUnexpired": true,
+        "unknownNeverZero": true,
+        "modelEstimateIsNotSoldProof": true
+      },
+      "ownerNotes": "",
+      "lastOwnerReview": null,
+      "liquidityRequirements": [
+        "At least three exact reviewed settled sales under existing dated-evidence policy; asking prices never establish exits.",
+        "Record observed days-to-sale and sample coverage when independently available; unknown liquidity stays unknown.",
+        "For a 60-90 day wearable hold, document a current exact wholesale fallback, a day60/day90 exit plan and fresh condition/quote checks."
+      ]
+    },
+    {
+      "brand": "Tudor",
+      "reference": "25600TB",
+      "configurationChecks": [
+        "42mm Pelagos, blue dial/bezel, titanium bracelet; inspect clasp and extra blue rubber strap/extension if claimed. Do not substitute black25600TN, LHD or39mm models.",
+        "Confirm complete reference suffix,dial/bezel colour and bracelet/strap;TB/TN and other reference variants must remain distinct.",
+        "Separate production year from warranty/purchase dates;verify dial,bracelet,condition and completeness."
+      ],
+      "configurationSource": "https://www.tudorwatch.com/en/watches/pelagos/m25600tb-0001",
+      "configurationResearchStatus": "primary_reference_checked_listing_still_requires_review",
+      "ownerConfigurationScope": {},
+      "preliminaryOwnerAllInCeilingUSD": 2700,
+      "ceilingStatus": "recorded_preliminary_owner_target_not_market_validated",
+      "ceilingProvenance": "reused/config/acquisition-targets.json;not a fresh owner approval or resale value",
+      "legacyMinimumProfitUSD": 500,
+      "minimumNetProfitUSD": 1000,
+      "validatedMarketBuyCeilingUSD": null,
+      "fullSetConsiderations": "Verify matching papers,box,links,buckle/straps and identity;full set wording alone is not proof.",
+      "watchOnlyConsiderations": "Use watch-only reviewed comps and document missing contents;no invented fixed discount or full-set premium.",
+      "conditionRisks": [
+        "Inspect 25600TB original case finish, bezel, bracelet/clasp and correct links; do not assume replacement parts or mixed-reference accessories are original.",
+        "Polish,damage and bracelet wear",
+        "Inconsistent year/dial/configuration claims"
+      ],
+      "serviceRisks": [
+        "Test actual 25600TB bezel, crown, winding/time-setting and date where fitted; require timing and water-resistance evidence plus documented repair costs.",
+        "Unknown service/water resistance requires review or a documented reserve"
+      ],
+      "preferredSourcingChannels": [
+        "eBay current discovery only; ephemeral and not connected to pricing analysis",
+        "Chrono24 native search; software access request pending",
+        "Grailzee native auctions/Last Chance; software permission pending",
+        "WatchRecon native search to original forum posts; no integration grant inferred",
+        "Independently authorized direct listing exports after documented scope review"
+      ],
+      "likelyExitChannels": [
+        "Confirmed customer order after terms review",
+        "Current executable exact dealer/wholesale quote",
+        "Permitted private/retail sale supported by reviewed evidence"
+      ],
+      "evidencePolicy": {
+        "minimumExactReviewedSales": 3,
+        "maximumSaleAgeDays": 90,
+        "maximumListingReviewAgeHours": 24,
+        "maximumExitQuoteAgeHours": 72,
+        "quoteMustBeUnexpired": true,
+        "unknownNeverZero": true,
+        "modelEstimateIsNotSoldProof": true
+      },
+      "ownerNotes": "",
+      "lastOwnerReview": null,
+      "liquidityRequirements": [
+        "At least three exact reviewed settled sales under existing dated-evidence policy; asking prices never establish exits.",
+        "Record observed days-to-sale and sample coverage when independently available; unknown liquidity stays unknown.",
+        "For a 60-90 day wearable hold, document a current exact wholesale fallback, a day60/day90 exit plan and fresh condition/quote checks."
+      ]
+    },
+    {
+      "brand": "Tudor",
+      "reference": "25600TN",
+      "configurationChecks": [
+        "42mm Pelagos, black dial/bezel, titanium bracelet; inspect clasp and extra rubber strap/extension if claimed. Separate blueTB, LHD and39mm models.",
+        "Confirm complete reference suffix,dial/bezel colour and bracelet/strap;TB/TN and other reference variants must remain distinct.",
+        "Separate production year from warranty/purchase dates;verify dial,bracelet,condition and completeness."
+      ],
+      "configurationSource": "https://media.tudorwatch.com/image/upload/fl_attachment/v1/tudorwatch/pressroom/products/pelagos/pdf/dossierpresse-bw15-pelagos-en.pdf",
+      "configurationResearchStatus": "primary_reference_checked_listing_still_requires_review",
+      "ownerConfigurationScope": {},
+      "preliminaryOwnerAllInCeilingUSD": 2300,
+      "ceilingStatus": "recorded_preliminary_owner_target_not_market_validated",
+      "ceilingProvenance": "reused/config/acquisition-targets.json;not a fresh owner approval or resale value",
+      "legacyMinimumProfitUSD": 500,
+      "minimumNetProfitUSD": 1000,
+      "validatedMarketBuyCeilingUSD": null,
+      "fullSetConsiderations": "Verify matching papers,box,links,buckle/straps and identity;full set wording alone is not proof.",
+      "watchOnlyConsiderations": "Use watch-only reviewed comps and document missing contents;no invented fixed discount or full-set premium.",
+      "conditionRisks": [
+        "Inspect 25600TN original case finish, bezel, bracelet/clasp and correct links; do not assume replacement parts or mixed-reference accessories are original.",
+        "Polish,damage and bracelet wear",
+        "Inconsistent year/dial/configuration claims"
+      ],
+      "serviceRisks": [
+        "Test actual 25600TN bezel, crown, winding/time-setting and date where fitted; require timing and water-resistance evidence plus documented repair costs.",
+        "Unknown service/water resistance requires review or a documented reserve"
+      ],
+      "preferredSourcingChannels": [
+        "eBay current discovery only; ephemeral and not connected to pricing analysis",
+        "Chrono24 native search; software access request pending",
+        "Grailzee native auctions/Last Chance; software permission pending",
+        "WatchRecon native search to original forum posts; no integration grant inferred",
+        "Independently authorized direct listing exports after documented scope review"
+      ],
+      "likelyExitChannels": [
+        "Confirmed customer order after terms review",
+        "Current executable exact dealer/wholesale quote",
+        "Permitted private/retail sale supported by reviewed evidence"
+      ],
+      "evidencePolicy": {
+        "minimumExactReviewedSales": 3,
+        "maximumSaleAgeDays": 90,
+        "maximumListingReviewAgeHours": 24,
+        "maximumExitQuoteAgeHours": 72,
+        "quoteMustBeUnexpired": true,
+        "unknownNeverZero": true,
+        "modelEstimateIsNotSoldProof": true
+      },
+      "ownerNotes": "",
+      "lastOwnerReview": null,
+      "liquidityRequirements": [
+        "At least three exact reviewed settled sales under existing dated-evidence policy; asking prices never establish exits.",
+        "Record observed days-to-sale and sample coverage when independently available; unknown liquidity stays unknown.",
+        "For a 60-90 day wearable hold, document a current exact wholesale fallback, a day60/day90 exit plan and fresh condition/quote checks."
+      ]
+    },
+    {
+      "brand": "Omega",
+      "reference": "310.30.42.50.01.002",
+      "configurationChecks": [
+        "Confirm full dotted reference,crystal/caseback,movement generation and bracelet/clasp using original documentation;do not pool the two target references.",
+        "Separate production year from warranty/purchase dates;verify dial,bracelet,condition and completeness.",
+        "Check exact dotted reference, movement generation, crystal/caseback and original bracelet against original documents. Manufacturer-page access was blocked in research; do not infer these fields from a Speedmaster family name."
+      ],
+      "configurationSource": null,
+      "configurationResearchStatus": "specific_variant_research_pending",
+      "ownerConfigurationScope": {},
+      "preliminaryOwnerAllInCeilingUSD": null,
+      "ceilingStatus": "pending_research",
+      "ceilingProvenance": "reused/config/acquisition-targets.json;not a fresh owner approval or resale value",
+      "legacyMinimumProfitUSD": null,
+      "minimumNetProfitUSD": 1000,
+      "validatedMarketBuyCeilingUSD": null,
+      "fullSetConsiderations": "Verify matching papers,box,links,buckle/straps and identity;full set wording alone is not proof.",
+      "watchOnlyConsiderations": "Use watch-only reviewed comps and document missing contents;no invented fixed discount or full-set premium.",
+      "conditionRisks": [
+        "Aftermarket/modified parts",
+        "Polish,damage and bracelet wear",
+        "Inconsistent year/dial/configuration claims"
+      ],
+      "serviceRisks": [
+        "Test chronograph/reset and obtain documented service assessment",
+        "Do not assume a generic service reserve covers unknown movement damage"
+      ],
+      "preferredSourcingChannels": [
+        "eBay current discovery only; ephemeral and not connected to pricing analysis",
+        "Chrono24 native search; software access request pending",
+        "Grailzee native auctions/Last Chance; software permission pending",
+        "WatchRecon native search to original forum posts; no integration grant inferred",
+        "Independently authorized direct listing exports after documented scope review"
+      ],
+      "likelyExitChannels": [
+        "Confirmed customer order after terms review",
+        "Current executable exact dealer/wholesale quote",
+        "Permitted private/retail sale supported by reviewed evidence"
+      ],
+      "evidencePolicy": {
+        "minimumExactReviewedSales": 3,
+        "maximumSaleAgeDays": 90,
+        "maximumListingReviewAgeHours": 24,
+        "maximumExitQuoteAgeHours": 72,
+        "quoteMustBeUnexpired": true,
+        "unknownNeverZero": true,
+        "modelEstimateIsNotSoldProof": true
+      },
+      "ownerNotes": "",
+      "lastOwnerReview": null,
+      "liquidityRequirements": [
+        "At least three exact reviewed settled sales under existing dated-evidence policy; asking prices never establish exits.",
+        "Record observed days-to-sale and sample coverage when independently available; unknown liquidity stays unknown.",
+        "For a 60-90 day wearable hold, document a current exact wholesale fallback, a day60/day90 exit plan and fresh condition/quote checks."
+      ]
+    },
+    {
+      "brand": "Omega",
+      "reference": "311.30.42.30.01.006",
+      "configurationChecks": [
+        "Confirm full dotted reference,crystal/caseback,movement generation and bracelet/clasp using original documentation;do not pool the two target references.",
+        "Separate production year from warranty/purchase dates;verify dial,bracelet,condition and completeness.",
+        "Primary model page: 42 mm steel case and bracelet, black dial, sapphire crystal and transparent back, manually wound calibre 1863. Verify actual movement/reference; do not pool with target 310.30.42.50.01.002 or another Moonwatch generation."
+      ],
+      "configurationSource": "https://www.omegawatches.com.hk/en-hk/watch-omega-speedmaster-moonwatch-professional-chronograph-42-mm-31130423001006",
+      "configurationResearchStatus": "primary_reference_checked_listing_still_requires_review",
+      "ownerConfigurationScope": {},
+      "preliminaryOwnerAllInCeilingUSD": null,
+      "ceilingStatus": "pending_research",
+      "ceilingProvenance": "reused/config/acquisition-targets.json;not a fresh owner approval or resale value",
+      "legacyMinimumProfitUSD": null,
+      "minimumNetProfitUSD": 1000,
+      "validatedMarketBuyCeilingUSD": null,
+      "fullSetConsiderations": "Check matching papers, steel bracelet/links and the original presentation kit, including extra straps, changing tool and book where documented for the actual sale. The manufacturer describes these accessories; missing pieces require disclosure and comparable evidence, not an invented deduction.",
+      "watchOnlyConsiderations": "Use watch-only reviewed comps and document missing contents;no invented fixed discount or full-set premium.",
+      "conditionRisks": [
+        "Aftermarket/modified parts",
+        "Polish,damage and bracelet wear",
+        "Inconsistent year/dial/configuration claims"
+      ],
+      "serviceRisks": [
+        "Test chronograph/reset and obtain documented service assessment",
+        "Do not assume a generic service reserve covers unknown movement damage"
+      ],
+      "preferredSourcingChannels": [
+        "eBay current discovery only; ephemeral and not connected to pricing analysis",
+        "Chrono24 native search; software access request pending",
+        "Grailzee native auctions/Last Chance; software permission pending",
+        "WatchRecon native search to original forum posts; no integration grant inferred",
+        "Independently authorized direct listing exports after documented scope review"
+      ],
+      "likelyExitChannels": [
+        "Confirmed customer order after terms review",
+        "Current executable exact dealer/wholesale quote",
+        "Permitted private/retail sale supported by reviewed evidence"
+      ],
+      "evidencePolicy": {
+        "minimumExactReviewedSales": 3,
+        "maximumSaleAgeDays": 90,
+        "maximumListingReviewAgeHours": 24,
+        "maximumExitQuoteAgeHours": 72,
+        "quoteMustBeUnexpired": true,
+        "unknownNeverZero": true,
+        "modelEstimateIsNotSoldProof": true
+      },
+      "ownerNotes": "",
+      "lastOwnerReview": null,
+      "liquidityRequirements": [
+        "At least three exact reviewed settled sales under existing dated-evidence policy; asking prices never establish exits.",
+        "Record observed days-to-sale and sample coverage when independently available; unknown liquidity stays unknown.",
+        "For a 60-90 day wearable hold, document a current exact wholesale fallback, a day60/day90 exit plan and fresh condition/quote checks."
+      ]
+    },
+    {
+      "brand": "Cartier",
+      "reference": "WSSA0018",
+      "configurationChecks": [
+        "Confirm exact reference,size,dial,bracelet/strap,links and buckle;do not pool adjacent Santos-family references.",
+        "Separate production year from warranty/purchase dates;verify dial,bracelet,condition and completeness.",
+        "Manufacturer identifies the large steel Santos, 39.8 mm case width, silvered opaline dial and automatic calibre 1847 MC. Confirm the exact reference and actual dial; do not substitute Santos100 W20073X8 or a different size.",
+        "Verify the steel bracelet SmartLink adjustment, QuickSwitch interchange system, extra calfskin strap and interchangeable steel folding buckle where supplied. An extra leather strap does not mean the mounted bracelet is leather."
+      ],
+      "configurationSource": "https://www.cartier.cn/creation/WSSA0018",
+      "configurationResearchStatus": "primary_reference_checked_listing_still_requires_review",
+      "ownerConfigurationScope": {},
+      "preliminaryOwnerAllInCeilingUSD": null,
+      "ceilingStatus": "pending_research",
+      "ceilingProvenance": "reused/config/acquisition-targets.json;not a fresh owner approval or resale value",
+      "legacyMinimumProfitUSD": null,
+      "minimumNetProfitUSD": 1000,
+      "validatedMarketBuyCeilingUSD": null,
+      "fullSetConsiderations": "Verify matching papers, bracelet links, included calfskin strap and interchangeable folding buckle against the actual delivery contents; manufacturer specification is not proof that a used listing includes them. No automatic full-set premium.",
+      "watchOnlyConsiderations": "Use watch-only reviewed comps and document missing contents;no invented fixed discount or full-set premium.",
+      "conditionRisks": [
+        "Aftermarket/modified parts",
+        "Polish,damage and bracelet wear",
+        "Inconsistent year/dial/configuration claims"
+      ],
+      "serviceRisks": [
+        "Review case geometry,screws,crown,strap/buckle and service assessment",
+        "Document replacement parts and repair quote"
+      ],
+      "preferredSourcingChannels": [
+        "eBay current discovery only; ephemeral and not connected to pricing analysis",
+        "Chrono24 native search; software access request pending",
+        "Grailzee native auctions/Last Chance; software permission pending",
+        "WatchRecon native search to original forum posts; no integration grant inferred",
+        "Independently authorized direct listing exports after documented scope review"
+      ],
+      "likelyExitChannels": [
+        "Confirmed customer order after terms review",
+        "Current executable exact dealer/wholesale quote",
+        "Permitted private/retail sale supported by reviewed evidence"
+      ],
+      "evidencePolicy": {
+        "minimumExactReviewedSales": 3,
+        "maximumSaleAgeDays": 90,
+        "maximumListingReviewAgeHours": 24,
+        "maximumExitQuoteAgeHours": 72,
+        "quoteMustBeUnexpired": true,
+        "unknownNeverZero": true,
+        "modelEstimateIsNotSoldProof": true
+      },
+      "ownerNotes": "",
+      "lastOwnerReview": null,
+      "liquidityRequirements": [
+        "At least three exact reviewed settled sales under existing dated-evidence policy; asking prices never establish exits.",
+        "Record observed days-to-sale and sample coverage when independently available; unknown liquidity stays unknown.",
+        "For a 60-90 day wearable hold, document a current exact wholesale fallback, a day60/day90 exit plan and fresh condition/quote checks."
+      ]
+    },
+    {
+      "brand": "Cartier",
+      "reference": "W20073X8",
+      "configurationChecks": [
+        "Confirm original reference/size against Cartier guide,strap/buckle contents and case condition;not interchangeable withWSSA0018.",
+        "Separate production year from warranty/purchase dates;verify dial,bracelet,condition and completeness."
+      ],
+      "configurationSource": "https://www.userguide.cartier.com/W20073X8.html",
+      "configurationResearchStatus": "primary_reference_checked_listing_still_requires_review",
+      "ownerConfigurationScope": {},
+      "preliminaryOwnerAllInCeilingUSD": null,
+      "ceilingStatus": "pending_research",
+      "ceilingProvenance": "reused/config/acquisition-targets.json;not a fresh owner approval or resale value",
+      "legacyMinimumProfitUSD": null,
+      "minimumNetProfitUSD": 1000,
+      "validatedMarketBuyCeilingUSD": null,
+      "fullSetConsiderations": "Verify matching papers,box,links,buckle/straps and identity;full set wording alone is not proof.",
+      "watchOnlyConsiderations": "Use watch-only reviewed comps and document missing contents;no invented fixed discount or full-set premium.",
+      "conditionRisks": [
+        "Aftermarket/modified parts",
+        "Polish,damage and bracelet wear",
+        "Inconsistent year/dial/configuration claims"
+      ],
+      "serviceRisks": [
+        "Review case geometry,screws,crown,strap/buckle and service assessment",
+        "Document replacement parts and repair quote"
+      ],
+      "preferredSourcingChannels": [
+        "eBay current discovery only; ephemeral and not connected to pricing analysis",
+        "Chrono24 native search; software access request pending",
+        "Grailzee native auctions/Last Chance; software permission pending",
+        "WatchRecon native search to original forum posts; no integration grant inferred",
+        "Independently authorized direct listing exports after documented scope review"
+      ],
+      "likelyExitChannels": [
+        "Confirmed customer order after terms review",
+        "Current executable exact dealer/wholesale quote",
+        "Permitted private/retail sale supported by reviewed evidence"
+      ],
+      "evidencePolicy": {
+        "minimumExactReviewedSales": 3,
+        "maximumSaleAgeDays": 90,
+        "maximumListingReviewAgeHours": 24,
+        "maximumExitQuoteAgeHours": 72,
+        "quoteMustBeUnexpired": true,
+        "unknownNeverZero": true,
+        "modelEstimateIsNotSoldProof": true
+      },
+      "ownerNotes": "",
+      "lastOwnerReview": null,
+      "liquidityRequirements": [
+        "At least three exact reviewed settled sales under existing dated-evidence policy; asking prices never establish exits.",
+        "Record observed days-to-sale and sample coverage when independently available; unknown liquidity stays unknown.",
+        "For a 60-90 day wearable hold, document a current exact wholesale fallback, a day60/day90 exit plan and fresh condition/quote checks."
+      ]
+    }
+  ]
+}
