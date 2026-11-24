@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Buyer Desk · North Star Time Co.</title>
+<style>
+:root { color-scheme: dark; font: 16px system-ui; background: #10201b; color: #f7f3e8; }
+body { max-width: 64rem; margin: auto; padding: 1.5rem; }
+h1 { margin: .25rem 0; font: 3rem Georgia, serif; }
+p { line-height: 1.5; }
+form, article { background: #192d25; padding: 1rem; border-radius: .75rem; margin: 1rem 0; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: .8rem; }
+label { display: block; }
+input, select, textarea, button { font: inherit; padding: .55rem; border-radius: .35rem; border: 1px solid #758b7a; }
+input, select, textarea { display: block; width: 100%; box-sizing: border-box; margin-top: .3rem; }
+button { background: #edce8c; color: #10201b; cursor: pointer; margin: .75rem .5rem 0 0; }
+a { color: #ffdf99; }
+small { color: #d6e2d8; }
+</style>
+<header><small>North Star Time Co.</small><h1>Buyer Desk</h1><p>Qualify a request, price the deal and confirm the exit before buying.</p></header>
+<main>
+<form id="lead">
+  <h2 id="editor-title">Add a request</h2>
+  <div class="grid">
+    <label>Buyer or handle<input name="buyer" required></label>
+    <label>Watch or reference<input name="reference" required></label>
+    <label>Buyer type<select name="kind"><option>Unverified</option><option>Retail client</option><option>Dealer with retail request</option><option>Wholesale</option></select></label>
+    <label>Stage<select name="stage"><option>New</option><option>Qualified</option><option>Sourcing</option><option>Quoted</option><option>Won</option><option>Closed</option></select></label>
+    <label>Contact channel<input name="contact" placeholder="Referral, Reddit, WhatsApp…"></label>
+    <label>Original post URL<input name="url" type="url"></label>
+    <label>Buy-by date<input name="date" type="date"></label>
+    <label>Expected sale price ($)<input name="sale" type="number" min="0" step=".01"></label>
+    <label>Selling costs ($)<input name="costs" type="number" min="0" step=".01" placeholder="Fees, shipping, authentication"></label>
+    <label>Target profit ($)<input name="profit" type="number" min="0" step=".01" value="1000"></label>
+    <label>All-in acquisition offer ($)<input name="offer" type="number" min="0" step=".01"></label>
+    <label>Backup exit and price<input name="exit" placeholder="Channel, net proceeds and evidence"></label>
+  </div>
+  <label>Requirements and next step<textarea name="notes" rows="3" placeholder="Dial, year, condition, box/papers, timing and next action"></textarea></label>
+  <output id="estimate"></output><br>
+  <button>Save request</button><button type="button" id="reset">Clear editor</button>
+</form>
+<section>
+  <h2>Requests</h2>
+  <p>Requests are saved in this browser. Export a backup before switching devices or clearing browser data.</p>
+  <label>Import scanner WTB export or Buyer Desk backup<input type="file" id="import" accept=".json,application/json"></label>
+  <button type="button" id="export">Export backup</button>
+  <p id="status" role="status"></p>
+  <div id="requests"></div>
+</section>
+</main>
+<script type="module" src="./desk.js"></script>
+</html>
