@@ -29,13 +29,15 @@ small { color: #d6e2d8; }
     <label>Contact channel<input name="contact" placeholder="Referral, Reddit, WhatsApp…"></label>
     <label>Original post URL<input name="url" type="url"></label>
     <label>Buy-by date<input name="date" type="date"></label>
-    <label>Expected sale price ($)<input name="sale" type="number" min="0" step=".01"></label>
-    <label>Selling costs ($)<input name="costs" type="number" min="0" step=".01" placeholder="Fees, shipping, authentication"></label>
+    <label>Buyer budget or agreed retail price ($)<input name="sale" type="number" min="0" step=".01"></label>
+    <label>Retail selling costs ($)<input name="costs" type="number" min="0" step=".01" placeholder="Fees, shipping, authentication"></label>
     <label>Target profit ($)<input name="profit" type="number" min="0" step=".01" value="1000"></label>
     <label>All-in acquisition offer ($)<input name="offer" type="number" min="0" step=".01"></label>
-    <label>Backup exit and price<input name="exit" placeholder="Channel, net proceeds and evidence"></label>
+    <label>Verified dealer exit, net ($)<input name="dealerNet" type="number" min="0" step=".01"></label>
+    <label>Dealer exit evidence<input name="exit" placeholder="Dealer offer or verified comparable sales"></label>
+    <label>Next action<input name="nextAction" placeholder="Confirm budget, request photos…"></label>
   </div>
-  <label>Requirements and next step<textarea name="notes" rows="3" placeholder="Dial, year, condition, box/papers, timing and next action"></textarea></label>
+  <label>Requirements and next step<textarea name="notes" rows="3" placeholder="Dial, year, condition, box/papers, and timing"></textarea></label>
   <output id="estimate"></output><br>
   <button>Save request</button><button type="button" id="reset">Clear editor</button>
 </form>

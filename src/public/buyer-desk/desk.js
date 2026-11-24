@@ -15,14 +15,39 @@ try {
   status.textContent = "Saved requests could not be read. Restore a backup before adding requests.";
 }
 
+function parseAmount(value) {
+  if (typeof value !== "string" || value.trim() === "") return null;
+  const amount = Number(value);
+  return Number.isFinite(amount) && amount >= 0 ? amount : null;
+}
+
 function estimate(lead) {
-  if (!lead.sale || lead.costs === "" || lead.profit === "") {
-    return "Enter sale price, selling costs and target profit to see your buy ceiling.";
-  }
-  const netProceeds = Number(lead.sale) - Number(lead.costs);
-  const ceiling = netProceeds - Number(lead.profit);
-  const result = ceiling < 0 ? "Target profit exceeds net proceeds." : `Max all-in buy: ${money.format(ceiling)}.`;
-  return lead.offer === "" ? result : `${result} Expected profit: ${money.format(netProceeds - Number(lead.offer))}.`;
+  const sale = parseAmount(lead.sale);
+  const costs = parseAmount(lead.costs);
+  const target = parseAmount(lead.profit);
+  const offer = parseAmount(lead.offer);
+  const dealerNet = lead.exit?.trim() ? parseAmount(lead.dealerNet) : null;
+  const retailNet = sale === null || costs === null ? null : sale - costs;
+  const lines = [
+    ["Retail", retailNet],
+    ["Dealer-backed", dealerNet],
+  ].filter(([, net]) => net !== null && target !== null).map(([label, net]) => {
+    const ceiling = net - target;
+    const buy = ceiling < 0 ? "target profit exceeds net proceeds" : `max all-in buy ${money.format(ceiling)}`;
+    const expected = offer === null ? "" : `, expected profit ${money.format(net - offer)}`;
+    return `${label}: ${buy}${expected}.`;
+  });
+  if (!lines.length) lines.push("Enter retail price and costs or a verified net dealer exit to calculate a buy ceiling.");
+  if (dealerNet === null) lines.push("Dealer exit unverified.");
+  return lines.join(" ");
+}
+
+function reachable(lead) {
+  return Boolean(lead.contact?.trim() || originalUrl(lead.url));
+}
+
+function capturedTime(lead) {
+  return Date.parse(lead.capturedAt) || 0;
 }
 
 function save(next) {
@@ -63,8 +88,10 @@ function render() {
   if (!requests.length) list.textContent = "No requests yet.";
   const sorted = [...requests].sort((a, b) =>
     Number(["Won", "Closed"].includes(a.stage)) - Number(["Won", "Closed"].includes(b.stage)) ||
+    Number(reachable(b)) - Number(reachable(a)) ||
     retailPriority.indexOf(a.kind) - retailPriority.indexOf(b.kind) ||
-    (a.date || "9999").localeCompare(b.date || "9999")
+    (a.date || "9999").localeCompare(b.date || "9999") ||
+    capturedTime(b) - capturedTime(a)
   );
   for (const lead of sorted) {
     const card = document.createElement("article");
@@ -76,7 +103,8 @@ function render() {
       lead.capturedAt && `Captured ${lead.capturedAt}`,
       lead.notes,
       estimate(lead),
-      lead.exit && `Backup exit: ${lead.exit}`,
+      lead.exit && `Exit evidence: ${lead.exit}`,
+      lead.nextAction && `Next action: ${lead.nextAction}`,
     ].filter(Boolean)) {
       const detail = document.createElement("p");
       detail.textContent = line;
@@ -95,7 +123,7 @@ function render() {
     edit.textContent = "Edit request";
     edit.addEventListener("click", () => {
       editingId = lead.id;
-      for (const key of fields) form.elements.namedItem(key).value = lead[key];
+      for (const key of fields) form.elements.namedItem(key).value = lead[key] ?? "";
       document.querySelector("#editor-title").textContent = "Edit request";
       updateEstimate();
       form.scrollIntoView();
@@ -110,7 +138,7 @@ form.addEventListener("input", updateEstimate);
 form.addEventListener("submit", (event) => {
   event.preventDefault();
   const existing = requests.find((lead) => lead.id === editingId);
-  const lead = { ...existing, ...Object.fromEntries(new FormData(form)), id: editingId ?? crypto.randomUUID() };
+  const lead = { ...existing, ...Object.fromEntries(new FormData(form)), id: editingId ?? crypto.randomUUID(), capturedAt: existing?.capturedAt ?? new Date().toISOString() };
   if (save([...requests.filter((item) => item.id !== lead.id), lead])) {
     status.textContent = "Request saved.";
     reset();
