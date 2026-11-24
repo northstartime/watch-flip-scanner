@@ -67,6 +67,7 @@ app.use((req, res, next) => {
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json({ limit: "25mb" }));
+app.use("/buyer-desk", express.static(path.join(__dirname, "public", "buyer-desk")));
 
 app.get("/", (req, res) => {
   res.send(`
@@ -133,6 +134,7 @@ a {
 </head>
 
 <body>
+<a href="/buyer-desk/">Buyer Desk</a>
 <div class="wrap">
   <h1>⭐ North Star Scanner</h1>
   <p class="sub">Current watch opportunities</p>
