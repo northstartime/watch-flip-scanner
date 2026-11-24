@@ -166,13 +166,17 @@ async function loadOpportunities() {
         </div>
 
         <div class="meta">
-          Market: $\${Number(o.marketValue || 0).toLocaleString()}
+          Estimated resale: \${o.marketValue == null ? "Unknown" : "$" + Number(o.marketValue).toLocaleString()}
         </div>
 
         <div class="meta">
           Projected Profit:
-          $\${Number(o.projectedProfit || 0).toLocaleString()}
+          \${o.projectedProfit == null ? "Unknown" : "$" + Number(o.projectedProfit).toLocaleString()}
         </div>
+
+        \${o.maximumBid == null ? "" : \`<div class="meta">Max seller price for $1,000 projected profit: $\${Number(o.maximumBid).toLocaleString()}</div>\`}
+
+        \${o.decision === "🟢 BUY CANDIDATE (PROJECTED)" ? '<div class="meta">Projected buy candidate</div>' : ""}
 
         <div class="score">
           North Star Score: \${o.score || 0}/100

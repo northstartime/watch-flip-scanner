@@ -258,6 +258,7 @@ const auction = evaluateAuction({
           ...evaluation,
           auction,
           hiddenGem:
+            evaluation.decision.includes("BUY CANDIDATE") &&
             number(evaluation.profit) >= 2500 &&
             number(evaluation.roi) >= 20 &&
             number(evaluation.score) >= 60,
@@ -368,7 +369,7 @@ const mobileResults = [
   ),
 ];
   const mobileOpportunities = mobileResults.map(
-({ watch, profit, score, decision, roi }) => ({
+({ watch, profit, score, decision, roi, maximumBid }) => ({
     id: watch.id || Date.now() + Math.random(),
 
     brand: watch.brand,
@@ -379,9 +380,8 @@ originalListing: watch.originalListing ?? null,
 price: watch.buyPrice ?? watch.price ?? null,
 marketValue: watch.marketValue > 0 ? watch.marketValue : null,
 projectedProfit:
-  watch.marketValue > 0 && (watch.buyPrice ?? watch.price) > 0
-    ? Math.round(profit)
-    : null,
+  profit == null ? null : Math.round(profit),
+maximumBid: maximumBid ?? null,
     score,
     decision,
 
@@ -395,9 +395,7 @@ requiresManualReview: watch.requiresManualReview,
 currentBid: watch.currentBid,
 
 roi:
-  watch.marketValue > 0 && (watch.buyPrice ?? watch.price) > 0
-    ? Math.round(roi)
-    : null,
+  roi == null ? null : Math.round(roi),
   })
 );
 

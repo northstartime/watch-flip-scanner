@@ -11,7 +11,13 @@ function includesAny(text, terms) {
   return terms.some((term) => text.includes(term));
 }
 
+const desiredProfit = 1000;
+
 export function evaluateWatch(watch) {
+  const isAuction =
+    normalized(watch.buyingOption).includes("auction") ||
+    normalized(watch.auctionType) === "auction";
+  const purchaseCosts = number(watch.fees) + number(watch.shipping) + number(watch.importDuty);
     const hasValidBuyPrice =
     watch.buyPrice !== null &&
     watch.buyPrice !== undefined &&
@@ -41,26 +47,17 @@ export function evaluateWatch(watch) {
         ? Math.max(
             0,
             Number(watch.marketValue) -
-              Number(watch.fees || 0) -
-              Number(watch.shipping || 0) -
-              1000
+              purchaseCosts -
+              desiredProfit
           )
         : null,
     };
   }
   const buyPrice = number(watch.buyPrice);
   const marketValue = number(watch.marketValue);
-  const fees = number(watch.fees);
-  const shipping = number(watch.shipping);
-
-  const profit = marketValue - buyPrice - fees - shipping;
-  const roi = buyPrice > 0 ? (profit / buyPrice) * 100 : 0;
-
-  const desiredProfit = 1000;
-  const maximumBid = Math.max(
-    0,
-    marketValue - fees - shipping - desiredProfit
-  );
+  const profit = marketValue - buyPrice - purchaseCosts;
+  const roi = (profit / buyPrice) * 100;
+  const maximumBid = Math.max(0, marketValue - purchaseCosts - desiredProfit);
 
   let score = 0;
   const reasons = [];
@@ -253,19 +250,10 @@ if (integrityScore < 60) score -= 12;
    */
 let decision = "🔴 PASS";
 
-if (
-  profit >= 1500 &&
-  roi >= 12 &&
-  score >= 72 &&
-  watch.hasBoxAndPapers
-) {
-  decision = "🟢 BUY NOW";
-} else if (
-  profit >= 1000 &&
-  roi >= 10 &&
-  score >= 60
-) {
-  decision = "🟡 STRONG WATCH";
+if (isAuction || watch.requiresManualReview || watch.listingConflict || watch.stockPhoto) {
+  decision = "🟠 REVIEW";
+} else if (profit >= desiredProfit) {
+  decision = "🟢 BUY CANDIDATE (PROJECTED)";
 } else if (
   profit >= 600 &&
   roi >= 12 &&
@@ -287,9 +275,9 @@ if (
 }
 
 return {
-  profit,
-  roi,
-  score,
+  profit: isAuction ? null : profit,
+  roi: isAuction ? null : roi,
+  score: isAuction ? 0 : score,
   integrityScore,
   integrityIssues,
   reasons: [...reasons, ...warnings],
