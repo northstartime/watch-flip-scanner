@@ -26,19 +26,22 @@ function estimate(lead) {
   const costs = parseAmount(lead.costs);
   const target = parseAmount(lead.profit);
   const offer = parseAmount(lead.offer);
-  const dealerNet = lead.exit?.trim() ? parseAmount(lead.dealerNet) : null;
+  const hasDealerEvidence = Boolean(lead.exit?.trim());
+  const dealerNet = hasDealerEvidence ? parseAmount(lead.dealerNet) : null;
+  const firmDealerOffer = dealerNet !== null && lead.dealerBasis === "offer";
   const retailNet = sale === null || costs === null ? null : sale - costs;
   const lines = [
-    ["Retail", retailNet],
-    ["Dealer-backed", dealerNet],
+    ["Retail scenario", retailNet],
+    [firmDealerOffer ? "Firm dealer offer" : "Estimated dealer exit", dealerNet],
   ].filter(([, net]) => net !== null && target !== null).map(([label, net]) => {
     const ceiling = net - target;
     const buy = ceiling < 0 ? "target profit exceeds net proceeds" : `max all-in buy ${money.format(ceiling)}`;
     const expected = offer === null ? "" : `, expected profit ${money.format(net - offer)}`;
     return `${label}: ${buy}${expected}.`;
   });
-  if (!lines.length) lines.push("Enter retail price and costs or a verified net dealer exit to calculate a buy ceiling.");
-  if (dealerNet === null) lines.push("Dealer exit unverified.");
+  if (!lines.length) lines.push("Enter retail price and costs or net dealer proceeds with supporting evidence to calculate a buy ceiling.");
+  if (dealerNet === null) lines.push("Dealer exit unknown.");
+  else if (!firmDealerOffer) lines.push("Dealer proceeds are projected.");
   return lines.join(" ");
 }
 

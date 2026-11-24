@@ -17,7 +17,7 @@ button { background: #edce8c; color: #10201b; cursor: pointer; margin: .75rem .5
 a { color: #ffdf99; }
 small { color: #d6e2d8; }
 </style>
-<header><small>North Star Time Co.</small><h1>Buyer Desk</h1><p>Qualify a request, price the deal and confirm the exit before buying.</p></header>
+<header><small>North Star Time Co.</small><h1>Buyer Desk</h1><p>Qualify a request and set a buy ceiling using comparable sales or a firm offer.</p></header>
 <main>
 <form id="lead">
   <h2 id="editor-title">Add a request</h2>
@@ -33,8 +33,9 @@ small { color: #d6e2d8; }
     <label>Retail selling costs ($)<input name="costs" type="number" min="0" step=".01" placeholder="Fees, shipping, authentication"></label>
     <label>Target profit ($)<input name="profit" type="number" min="0" step=".01" value="1000"></label>
     <label>All-in acquisition offer ($)<input name="offer" type="number" min="0" step=".01"></label>
-    <label>Verified dealer exit, net ($)<input name="dealerNet" type="number" min="0" step=".01"></label>
-    <label>Dealer exit evidence<input name="exit" placeholder="Dealer offer or verified comparable sales"></label>
+    <label>Estimated or offered dealer proceeds, net ($)<input name="dealerNet" type="number" min="0" step=".01"></label>
+    <label>Dealer exit basis<select name="dealerBasis"><option value="">Unknown</option><option value="comps">Comparable sold watches</option><option value="offer">Firm dealer offer</option></select></label>
+    <label>Dealer exit evidence<input name="exit" placeholder="Comparable sold watches or dealer offer details"></label>
     <label>Next action<input name="nextAction" placeholder="Confirm budget, request photos…"></label>
   </div>
   <label>Requirements and next step<textarea name="notes" rows="3" placeholder="Dial, year, condition, box/papers, and timing"></textarea></label>
